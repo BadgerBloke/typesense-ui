@@ -1,0 +1,63 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo '🏗️👷 Styling, testing and building your project before committing'
+
+# Check ESLint Standards
+pnpm lint --fix
+pnpm lint-staged ||
+(
+    echo '🔨❌ Yoo, you have a problem in your code. Check linter 🔨❌
+     Run pnpm lint, add changes and try commit again.
+     '
+    false
+)
+
+# Check Prettier standards
+pnpm format
+git add .
+pnpm check-format ||
+(
+    echo '🤢🤮🤢🤮 Its F**KING RAW - Your styling looks disgusting. 🤢🤮🤢🤮
+            Prettier Check Failed. Run pnpm format, add changes and try commit again.';
+    false;
+)
+
+# Check ESLint Standards
+pnpm check-lint ||
+(
+    echo '😤🏀👋😤 Get that weak s**t out of here! 😤🏀👋😤 
+            ESLint Check Failed. Make the required changes listed above, add changes and try to commit again.'
+    false; 
+)
+
+# Check tsconfig standards
+pnpm check-types ||
+(
+    echo '🤡😂❌🤡 Failed Type check. 🤡😂❌🤡
+            Are you seriously trying to write that? Make the changes required above.'
+    false;
+)
+
+# # Check commit message
+# pnpm commitlint -e $HUSKY_GIT_PARAMS ||
+# (
+#     echo '🧐📝🧐📝 Commit message is not following the standard 🧐📝🧐📝
+#             Please follow conventional commit message format. See error message above.';
+#     false;
+# )
+
+# If everything passes... Now we can commit
+echo '🤔🤔🤔🤔... Alright... Code looks good to me... Trying to build now. 🤔🤔🤔🤔'
+
+pnpm build ||
+(
+    echo '❌👷🔨❌ Better call Bob... Because your build failed ❌👷🔨❌
+            Next build failed: View the errors above to see why. 
+    '
+    false;
+)
+
+# If everything passes... Now we can commit
+echo '⌛️⌛️⌛️ You win this time... I am committing this now. ⌛️⌛️⌛️'
+
