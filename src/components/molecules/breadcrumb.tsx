@@ -12,10 +12,11 @@ import { buttonVariants } from '../ui/button';
 export interface BreadcrumbProps {
     items?: BreadcrumbItemType;
     pathname?: string;
+    collectionId?: string;
 }
 
-const Breadcrumb: React.FC<BreadcrumbProps> = ({ items, pathname }) => {
-    const itemsArray = pathname ? generateItems(pathname) : items;
+const Breadcrumb: React.FC<BreadcrumbProps> = ({ items, pathname, collectionId = 'collection' }) => {
+    const itemsArray = pathname ? generateItems({ pathname, collectionId }) : items;
     return (
         <div className="flex w-full flex-wrap items-center gap-2">
             {itemsArray?.map((item, index) =>

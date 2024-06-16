@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import Typography from '~/components/atoms/typography';
+import Logo from '~/components/molecules/logo';
 import { buttonVariants } from '~/components/ui/button';
 import { ScrollArea } from '~/components/ui/scroll-area';
 import { Separator } from '~/components/ui/separator';
@@ -26,7 +26,7 @@ const SheetSide = ({
             <SheetContent side="left" className="p-4">
                 <div className="mb-4 flex w-full items-center justify-between">
                     <Link href="/" className="flex items-center gap-2" onClick={onClick}>
-                        <Typography variant="large">MKSingh</Typography>
+                        <Logo />
                     </Link>
                     <SheetClose asChild>{trigger}</SheetClose>
                 </div>
@@ -34,7 +34,7 @@ const SheetSide = ({
                     {children}
                     <Separator className="my-1" />
                     <div className="my-5 ml-4 flex flex-wrap items-center gap-5">
-                        <Link className={buttonVariants()} href="/login">
+                        <Link className={buttonVariants()} href="/sign-in">
                             Log in
                         </Link>
                     </div>

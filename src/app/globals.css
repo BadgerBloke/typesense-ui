@@ -4,6 +4,8 @@
 
 @layer base {
     :root {
+        --gradient: linear-gradient(to top left, #fc4a1a, #f7b733);
+
         --background: 0 0% 100%;
         --foreground: 240 10% 3.9%;
 
@@ -36,33 +38,37 @@
     }
 
     .dark {
-        --background: 240 10% 3.9%;
-        --foreground: 0 0% 98%;
+        --gradient: linear-gradient(to top left, #fc4a1a, #f7b733);
 
-        --card: 240 10% 3.9%;
-        --card-foreground: 0 0% 98%;
+        --background: 31 65% 4.16%;
+        --foreground: 31 10% 97.6%;
 
-        --popover: 240 10% 3.9%;
-        --popover-foreground: 0 0% 98%;
+        --muted: 31 50% 15.600000000000001%;
+        --muted-foreground: 31 10% 55.2%;
 
-        --primary: 0 0% 98%;
-        --primary-foreground: 240 5.9% 10%;
+        --popover: 31 45% 6.76%;
+        --popover-foreground: 31 10% 97.6%;
 
-        --secondary: 240 3.7% 15.9%;
-        --secondary-foreground: 0 0% 98%;
+        --card: 31 45% 6.76%;
+        --card-foreground: 31 10% 97.6%;
 
-        --muted: 240 3.7% 15.9%;
-        --muted-foreground: 240 5% 64.9%;
+        --border: 31 50% 15.600000000000001%;
+        --input: 31 50% 15.600000000000001%;
 
-        --accent: 240 3.7% 15.9%;
-        --accent-foreground: 0 0% 98%;
+        --primary: 31 100% 52%;
+        --primary-foreground: 31 10% 5.2%;
+
+        --secondary: 31 50% 15.600000000000001%;
+        --secondary-foreground: 31 10% 97.6%;
+
+        --accent: 31 50% 15.600000000000001%;
+        --accent-foreground: 31 10% 97.6%;
 
         --destructive: 0 62.8% 30.6%;
-        --destructive-foreground: 0 0% 98%;
+        --destructive-foreground: 31 10% 97.6%;
 
-        --border: 240 3.7% 15.9%;
-        --input: 240 3.7% 15.9%;
-        --ring: 240 4.9% 83.9%;
+        --ring: 31 100% 52%;
+        --radius: 0.5rem;
     }
 }
 
@@ -108,5 +114,11 @@
         .nav-link-shadow {
             position: relative;
         }
+    }
+}
+
+@layer utilities {
+    .gradient-bg {
+        background: var(--gradient);
     }
 }

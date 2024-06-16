@@ -15,35 +15,35 @@ export type HeaderMenuType = MenuType & {
 };
 
 const HEADER_MENUS: Array<HeaderMenuType> = [
-    {
-        href: '/',
-        text: 'Home',
-        icon: IconHome2 as Icon,
-        havePage: true,
-    },
-    {
-        href: '/', // Don't leave href as blank string otherwise accordion will not work.
-        text: 'Dropdown',
-        icon: IconArticleFilled as Icon,
-        havePage: false,
-        children: [
-            {
-                href: '/dropdown/item-1',
-                text: 'Item 1',
-                havePage: true,
-            },
-            {
-                href: '/dropdown/item-2',
-                text: 'Item 2',
-                havePage: true,
-            },
-            {
-                href: '/dropdown/item-3',
-                text: 'Item 3',
-                havePage: true,
-            },
-        ],
-    },
+    // {
+    //     href: '/',
+    //     text: 'Home',
+    //     icon: IconHome2 as Icon,
+    //     havePage: true,
+    // },
+    // {
+    //     href: '/', // Don't leave href as blank string otherwise accordion will not work.
+    //     text: 'Dropdown',
+    //     icon: IconArticleFilled as Icon,
+    //     havePage: false,
+    //     children: [
+    //         {
+    //             href: '/dropdown/item-1',
+    //             text: 'Item 1',
+    //             havePage: true,
+    //         },
+    //         {
+    //             href: '/dropdown/item-2',
+    //             text: 'Item 2',
+    //             havePage: true,
+    //         },
+    //         {
+    //             href: '/dropdown/item-3',
+    //             text: 'Item 3',
+    //             havePage: true,
+    //         },
+    //     ],
+    // },
 ];
 
 export const headerMenu = (orgId?: string) => {

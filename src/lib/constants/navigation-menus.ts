@@ -1,4 +1,4 @@
-import { Icon, IconDropletDown, IconLayoutDashboard, IconSettings } from '@tabler/icons-react';
+import { Icon, IconLayoutDashboard, IconTable, IconTablePlus } from '@tabler/icons-react';
 
 type MenuType = {
     href: string;
@@ -6,6 +6,7 @@ type MenuType = {
     icon: Icon;
     name?: string;
     path?: string;
+    defaultState?: 'open' | 'close';
     havePage: boolean;
 };
 
@@ -15,50 +16,57 @@ export type SideNavMenuType = MenuType & {
 
 const SIDE_NAV_MENUS: Array<SideNavMenuType> = [
     {
-        href: '/users/{{userId}}',
+        href: '/',
         text: 'Dashboard',
         icon: IconLayoutDashboard as Icon,
-        name: 'user',
-        path: 'user',
+        name: 'Dashboard',
+        path: '/',
         havePage: true,
     },
     {
-        href: '/users/{{userId}}/settings',
-        text: 'Settings',
-        icon: IconSettings as Icon,
-        path: 'settings',
+        href: '/collections/add',
+        text: 'New Collection',
+        icon: IconTablePlus as Icon,
+        path: 'add',
         havePage: true,
     },
     {
-        href: '/users/{{userId}}/',
-        text: 'Dropdown',
-        icon: IconDropletDown as Icon,
-        path: 'dropdown',
-        havePage: false,
+        href: '/collections',
+        text: 'Collections',
+        icon: IconTable as Icon,
+        path: 'collections',
+        defaultState: 'open',
+        havePage: true,
         children: [
             {
-                href: '/users/{{userId}}/dropdown/item-1',
-                text: 'Item 1',
-                path: 'item-1',
+                href: '/collections/{{collectionId}}/synonyms',
+                text: 'Synonyms',
+                path: 'synonyms',
+                havePage: true,
+            },
+            {
+                href: '/collections/{{collectionId}}/curation',
+                text: 'Curation',
+                path: 'curation',
                 havePage: true,
             },
         ],
     },
 ];
 
-export const sideNavMenu = (userId: string) => {
+export const sideNavMenu = ({ collectionId }: { collectionId: string }) => {
     return SIDE_NAV_MENUS.map(menu => {
-        return { ...menu, href: menu.href.replace('{{userId}}', userId) };
+        return { ...menu, href: menu.href.replace('{{collectionId}}', collectionId) };
     });
 };
 
 export type BreadcrumbItemType = { label: string; href?: string; havePage: boolean }[];
-export const generateItems = (pathname: string) => {
-    const routes = pathname.split('/'); // .filter(e => !e.startsWith('{{'));
+export const generateItems = ({ pathname, collectionId }: { pathname: string; collectionId: string }) => {
+    const routes = pathname.split('/').filter(e => e !== collectionId);
     const items: BreadcrumbItemType = [];
     routes.forEach(route => {
         if (route) {
-            const obj = findItemByPath(SIDE_NAV_MENUS, route);
+            const obj = findItemByPath(sideNavMenu({ collectionId }), route);
 
             if (obj) {
                 items.push({ label: obj.name || obj.text, href: obj.href, havePage: obj.havePage });

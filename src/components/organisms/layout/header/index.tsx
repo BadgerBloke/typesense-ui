@@ -8,6 +8,7 @@ import { v4 as uuid } from 'uuid';
 import { Cross1Icon, HamburgerMenuIcon } from '@radix-ui/react-icons';
 
 import Typography from '~/components/atoms/typography';
+import Logo from '~/components/molecules/logo';
 import ModeToggle from '~/components/molecules/mode-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar';
 import { Button, buttonVariants } from '~/components/ui/button';
@@ -36,7 +37,7 @@ const Header = ({ userData, channelId, className }: { userData?: UserData; chann
     return (
         <header className={cn('mx-auto flex h-[4.5rem] w-full max-w-[1344px] items-center px-5 sm:px-10', className)}>
             <Link href="/" className="flex items-center gap-2 lg:min-w-48 px-2" onClick={() => setOpen(false)}>
-                <Typography variant="large">MKSingh</Typography>
+                <Logo />
             </Link>
             <div className="ml-auto flex items-center gap-3 xl:hidden">
                 <ModeToggle />
@@ -94,7 +95,7 @@ const Header = ({ userData, channelId, className }: { userData?: UserData; chann
                             </DropdownMenuContent>
                         </DropdownMenu>
                     ) : (
-                        <Link className={buttonVariants()} href={`${IAM.baseUrl}/login?callback=${pathname}`}>
+                        <Link className={buttonVariants()} href={`/sign-in?callback=${pathname}`}>
                             Log in
                         </Link>
                     )}

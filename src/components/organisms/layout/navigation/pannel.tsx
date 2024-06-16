@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import Typography from '~/components/atoms/typography';
+import Logo from '~/components/molecules/logo';
 import { ScrollArea } from '~/components/ui/scroll-area';
 import { Sheet, SheetClose, SheetContent } from '~/components/ui/sheet';
 
@@ -24,7 +24,7 @@ const SheetSide = ({
             <SheetContent side="left" className="p-0">
                 <div className="mb-4 flex w-full items-center justify-between p-4">
                     <Link href="/" className="flex items-center gap-2" onClick={onClick}>
-                        <Typography variant="large">MKSingh</Typography>
+                        <Logo />
                     </Link>
                     <SheetClose asChild>{trigger}</SheetClose>
                 </div>

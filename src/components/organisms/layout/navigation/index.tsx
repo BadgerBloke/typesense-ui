@@ -19,8 +19,8 @@ import Pannel from './pannel';
 
 const Navigation: React.FC<{
     children: React.ReactNode;
-    orgId: string;
-}> = ({ children, orgId }) => {
+    collectionId: string;
+}> = ({ children, collectionId }) => {
     const [open, setOpen] = useState(false);
     const pathname = usePathname();
     return (
@@ -29,7 +29,7 @@ const Navigation: React.FC<{
                 {/* Desktop Navigation Bar */}
                 <ScrollArea className="hidden h-[calc(100dvh-4.75rem)] mt-1 px-2 lg:block">
                     <div className="flex flex-col gap-2">
-                        {sideNavMenu(orgId).map(menu =>
+                        {sideNavMenu({ collectionId }).map(menu =>
                             menu.children ? (
                                 <NavAccordion key={uuid()} item={menu} pathname={pathname} onClick={() => setOpen(false)} />
                             ) : (
@@ -63,7 +63,7 @@ const Navigation: React.FC<{
                     }
                 >
                     <div className="flex flex-col gap-2">
-                        {sideNavMenu(orgId).map(menu =>
+                        {sideNavMenu({ collectionId }).map(menu =>
                             menu.children ? (
                                 <NavAccordion key={uuid()} item={menu} pathname={pathname} onClick={() => setOpen(false)} />
                             ) : (
