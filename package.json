@@ -49,7 +49,7 @@
         "@commitlint/cli": "^19.3.0",
         "@commitlint/config-conventional": "^19.2.2",
         "@commitlint/format": "^19.3.0",
-        "@next/eslint-plugin-next": "^14.2.3",
+        "@next/eslint-plugin-next": "^14.2.4",
         "@tabler/icons-react": "^3.5.0",
         "@types/node": "20.14.2",
         "@types/react": "18.3.3",
