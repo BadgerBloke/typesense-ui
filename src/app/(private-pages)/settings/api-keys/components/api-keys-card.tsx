@@ -12,6 +12,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~
 import { client } from '~/lib/services/typesense';
 import { cn } from '~/lib/utils';
 
+import ApiKeyDeleteButton from './api-key-delete-button';
+
 interface ExtendedKeySchema extends KeySchema {
     autodelete: boolean;
 }
@@ -44,6 +46,7 @@ const ApiKeysCard = async () => {
                             <TableHead className="hidden sm:table-cell">Collections</TableHead>
                             <TableHead className="hidden sm:table-cell">Actions</TableHead>
                             <TableHead className="hidden md:table-cell">Expires at</TableHead>
+                            <TableHead />
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -89,6 +92,9 @@ const ApiKeysCard = async () => {
                                 </TableCell>
                                 <TableCell className="hidden md:table-cell">
                                     {key.expires_at ? format(key.expires_at, 'PPP') : 'No expiry'}
+                                </TableCell>
+                                <TableCell>
+                                    <ApiKeyDeleteButton apiKeyId={key.id} />
                                 </TableCell>
                             </TableRow>
                         ))}

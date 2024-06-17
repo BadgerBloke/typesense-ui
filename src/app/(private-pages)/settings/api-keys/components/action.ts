@@ -1,4 +1,6 @@
 'use server';
+
+import { revalidatePath } from 'next/cache';
 import { KeySchema } from 'typesense/lib/Typesense/Key';
 
 import { client } from '~/lib/services/typesense';
@@ -29,8 +31,27 @@ export const createAPIKey = async (state: State, formData: FormData) => {
     const validationResult = APIKeySchema.safeParse(formObject);
 
     if (!validationResult.success)
-        return { error: validationResult.error.flatten().fieldErrors, pathname: state.pathname, isResponse: true };
+        return {
+            error: validationResult.error.flatten().fieldErrors,
+            pathname: state.pathname,
+            isResponse: true,
+        };
 
     const keys = await client.keys().create(validationResult.data);
     return { data: keys, pathname: state.pathname, error: {}, isResponse: true };
+};
+
+export const deleteAPIKey = async (state: {
+    isResponse: boolean;
+    apiKeyId?: number;
+    error: { message?: string };
+    success?: boolean;
+}) => {
+    if (isNaN(state.apiKeyId as number))
+        return { error: { message: 'API Key ID is required' }, isResponse: true, success: false };
+
+    await client.keys(state.apiKeyId as number).delete();
+
+    revalidatePath('/settings/api-keys');
+    return { isResponse: true, success: true, error: {}, apiKeyId: state.apiKeyId };
 };

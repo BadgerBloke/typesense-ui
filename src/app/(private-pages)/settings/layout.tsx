@@ -17,11 +17,11 @@ const SettingsLayout = ({ children }: { children: React.ReactNode }) => {
                         <Link href="#api-keys" className="font-semibold text-primary">
                             API Keys
                         </Link>
-                        <Link href="#">Security</Link>
+                        {/* <Link href="#">Security</Link>
                         <Link href="#">Integrations</Link>
                         <Link href="#">Support</Link>
                         <Link href="#">Organizations</Link>
-                        <Link href="#">Advanced</Link>
+                        <Link href="#">Advanced</Link> */}
                     </nav>
                     <div className="grid gap-10">{children}</div>
                 </div>
