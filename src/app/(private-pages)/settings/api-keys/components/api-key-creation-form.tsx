@@ -3,10 +3,10 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { format } from 'date-fns';
-import { useFormStatus } from 'react-dom';
+import { useFormState, useFormStatus } from 'react-dom';
 import { CollectionSchema } from 'typesense/lib/Typesense/Collection';
 
-import { CalendarIcon } from '@radix-ui/react-icons';
+import { CalendarIcon, CopyIcon, ListBulletIcon } from '@radix-ui/react-icons';
 
 import Typography from '~/components/atoms/typography';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '~/components/ui/accordion';
@@ -17,44 +17,73 @@ import { Checkbox } from '~/components/ui/checkbox';
 import { Input } from '~/components/ui/input';
 import { Label } from '~/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '~/components/ui/popover';
+import { Switch } from '~/components/ui/switch';
 import { API_ACTIONS } from '~/lib/constants/api-actions';
 import { cn, slugify } from '~/lib/utils';
+import { dispatchToast } from '~/lib/utils/message-handler';
 
-import { createAPIKey } from './action';
+import { createAPIKey, State } from './action';
 
 const ApiKeyCreationCard = ({ collections }: { collections: CollectionSchema[] }) => {
     const [expiresAt, setExpiresAt] = useState<Date>();
     const pathname = usePathname();
-    const createAPIKeyFunction = createAPIKey.bind(null, pathname);
+    const [state, formAction] = useFormState(createAPIKey, { error: {}, pathname, isResponse: false });
+
+    if (state.isResponse) {
+        if (state.data) {
+            dispatchToast({ type: 'success', message: 'API Key successfully created!' });
+        } else {
+            dispatchToast({ type: 'error', message: 'Failed to create API Key. Please resolve the errors and try again!' });
+        }
+    }
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Create API Key</CardTitle>
-                <div className="max-w-2xl flex flex-col gap-4">
-                    <Typography variant="muted">
-                        Typesense allows you to create API Keys with fine-grained access control. You can restrict access on
-                        a per-collection, per-action, per-record or even per-field level or a mixture of these.
-                    </Typography>
-                    <Typography variant="muted">
-                        Read more about how to manage access to data in Typesense in this{' '}
-                        <a
-                            target="_blank"
-                            href="https://typesense.org/docs/guide/data-access-control.html"
-                            rel="noreferrer"
-                            className="text-primary"
-                        >
-                            dedicated guide article
-                        </a>
-                        .
-                    </Typography>
+                <div className="flex gap-3 flex-wrap-reverse md:flex-nowrap">
+                    <div className="flex flex-col gap-4">
+                        <CardTitle>Create API Key</CardTitle>
+                        <div className="max-w-2xl flex flex-col gap-4">
+                            <Typography variant="muted">
+                                Typesense allows you to create API Keys with fine-grained access control. You can restrict
+                                access on a per-collection, per-action, per-record or even per-field level or a mixture of
+                                these.
+                            </Typography>
+                            <Typography variant="muted">
+                                Read more about how to manage access to data in Typesense in this{' '}
+                                <a
+                                    target="_blank"
+                                    href="https://typesense.org/docs/guide/data-access-control.html"
+                                    rel="noreferrer"
+                                    className="text-primary"
+                                >
+                                    dedicated guide article
+                                </a>
+                                .
+                            </Typography>
+                        </div>
+                    </div>
+                    <Link href="/settings/api-keys" className={cn(buttonVariants(), 'w-fit ml-auto')}>
+                        <ListBulletIcon className="h-4 w-4 mr-2" /> View API Keys
+                    </Link>
                 </div>
             </CardHeader>
-            <form action={createAPIKeyFunction}>
+            <form action={formAction}>
                 <CardContent className="space-y-8 my-5">
                     <div className="flex flex-col md:flex-row items-start justify-start gap-8">
                         <div className="flex flex-col gap-3 w-full">
                             <Label htmlFor="description">Key description</Label>
                             <Input placeholder="Search for companies from mobile app." name="description" id="description" />
+                            {(state as State).error.description ? (
+                                <Typography variant="small" className="text-rose-500">
+                                    {(state as State).error.description}
+                                </Typography>
+                            ) : null}
+                        </div>
+                        <div className="flex flex-col gap-3 items-center w-fit">
+                            <Label htmlFor="auto-delete" className="whitespace-nowrap">
+                                Auto delete
+                            </Label>
+                            <Switch name="autodelete" id="auto-delete" />
                         </div>
                         <div className="flex flex-col gap-3">
                             <Label htmlFor="expires_at">Key validity</Label>
@@ -62,6 +91,7 @@ const ApiKeyCreationCard = ({ collections }: { collections: CollectionSchema[] }
                             <Popover>
                                 <PopoverTrigger asChild>
                                     <Button
+                                        type="button"
                                         id="expires_at"
                                         variant={'outline'}
                                         className={cn(
@@ -82,12 +112,22 @@ const ApiKeyCreationCard = ({ collections }: { collections: CollectionSchema[] }
                                     />
                                 </PopoverContent>
                             </Popover>
+                            {(state as State).error.expires_at ? (
+                                <Typography variant="small" className="text-rose-500">
+                                    {(state as State).error.expires_at}
+                                </Typography>
+                            ) : null}
                         </div>
                     </div>
                     <div className="flex flex-col gap-3">
                         <Typography variant="small">
                             Select <Typography variant="code">collections</Typography> scope
                         </Typography>
+                        {(state as State).error.collections ? (
+                            <Typography variant="small" className="text-rose-500">
+                                {(state as State).error.collections}
+                            </Typography>
+                        ) : null}
 
                         <Accordion
                             type="multiple"
@@ -126,6 +166,11 @@ const ApiKeyCreationCard = ({ collections }: { collections: CollectionSchema[] }
                         <Typography variant="small">
                             Select <Typography variant="code">actions</Typography> scope
                         </Typography>
+                        {(state as State).error.actions ? (
+                            <Typography variant="small" className="text-rose-500">
+                                {(state as State).error.actions}
+                            </Typography>
+                        ) : null}
                         <Accordion
                             type="multiple"
                             className="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 bg-muted/50 rounded-lg"
@@ -153,7 +198,34 @@ const ApiKeyCreationCard = ({ collections }: { collections: CollectionSchema[] }
                         </Accordion>
                     </div>
                 </CardContent>
-                <CardFooter className="border-t px-6 py-4">
+                <CardFooter className="border-t px-6 py-4 space-y-6 flex-col items-start">
+                    {state.data ? (
+                        <div className="flex flex-col gap-4 rounded-lg py-4 bg-muted w-full items-center">
+                            <Typography variant="small">Description: {state.data.description}</Typography>
+                            <Typography variant="small">
+                                Expires at: {state.data.expires_at ? format(state.data.expires_at, 'PPP') : 'No expiry'}
+                            </Typography>
+                            <div className="flex flex-col gap-3">
+                                <div className="flex gap-3 items-center">
+                                    API Key: <Typography variant="code">{state.data.value}</Typography>
+                                    <Button
+                                        type="button"
+                                        size="icon"
+                                        variant="secondary"
+                                        onClick={() => {
+                                            navigator.clipboard.writeText(state.data.value || '');
+                                            dispatchToast({ type: 'success', message: 'Key copied to clipboard' });
+                                        }}
+                                    >
+                                        <CopyIcon className="h-4 w-4" />
+                                    </Button>
+                                </div>
+                                <Typography variant="small" className="bg-rose-200 rounded-md py-1 px-2 text-rose-500">
+                                    Warning: This key will not be shown again.
+                                </Typography>
+                            </div>
+                        </div>
+                    ) : null}
                     <SubmitButton />
                 </CardFooter>
             </form>

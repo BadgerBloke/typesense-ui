@@ -16,6 +16,7 @@ export const APIKeySchema = z.object({
     expires_at: z.number().refine(timestamp => timestamp > Math.floor(Date.now() / 1000), {
         message: 'Expiration date must be in the future.',
     }),
+    autodelete: z.union([z.enum(['on']), z.boolean()]),
 });
 
 export type APIKeySchemaType = z.infer<typeof APIKeySchema>;

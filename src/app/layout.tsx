@@ -19,7 +19,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <html lang="en" className="dark" style={{ colorScheme: 'dark' }}>
             <body className={cn(inter.className, 'flex flex-col min-h-svh antialiased')}>
                 <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-                    <Toaster />
+                    <Toaster richColors />
                     {children}
                 </ThemeProvider>
             </body>

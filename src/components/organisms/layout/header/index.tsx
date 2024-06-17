@@ -35,7 +35,7 @@ const Header = ({ userData, channelId, className }: { userData?: UserData; chann
     const [open, setOpen] = useState(false);
     const pathname = usePathname();
     return (
-        <header className={cn('mx-auto flex h-[4.5rem] w-full max-w-[1344px] items-center px-5 sm:px-10', className)}>
+        <header className={cn('mx-auto z-10 flex h-[4.5rem] w-full max-w-[1344px] items-center px-5 sm:px-10', className)}>
             <Link href="/" className="flex items-center gap-2 lg:min-w-48 px-2" onClick={() => setOpen(false)}>
                 <Logo />
             </Link>
