@@ -19,10 +19,10 @@ const NavAccordion = ({ item, pathname, onClick }: { item: SideNavMenuType; path
         <Accordion
             type="single"
             collapsible
-            defaultValue={item.defaultState || (pathname.includes(item.href) ? item.href : undefined)}
+            defaultValue={pathname.includes(item.href) ? item.href : undefined}
             className="w-full"
         >
-            <AccordionItem value={item.defaultState || item.href} className="space-y-2 border-none">
+            <AccordionItem value={item.href} className="space-y-2 border-none">
                 <AccordionTrigger
                     className={cn(
                         buttonVariants({ variant: 'ghost' }),

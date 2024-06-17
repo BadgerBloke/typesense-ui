@@ -1,4 +1,4 @@
-import { Icon, IconLayoutDashboard, IconTable, IconTablePlus } from '@tabler/icons-react';
+import { Icon, IconLayoutDashboard, IconSettings, IconTable, IconTablePlus } from '@tabler/icons-react';
 
 type MenuType = {
     href: string;
@@ -51,6 +51,13 @@ const SIDE_NAV_MENUS: Array<SideNavMenuType> = [
                 havePage: true,
             },
         ],
+    },
+    {
+        href: '/settings',
+        text: 'Settings',
+        icon: IconSettings as Icon,
+        path: 'settings',
+        havePage: true,
     },
 ];
 
