@@ -16,7 +16,9 @@
         "commit": "commitizen"
     },
     "dependencies": {
+        "@hookform/resolvers": "^3.6.0",
         "@radix-ui/react-accordion": "^1.1.2",
+        "@radix-ui/react-alert-dialog": "^1.0.5",
         "@radix-ui/react-avatar": "^1.0.4",
         "@radix-ui/react-checkbox": "^1.0.4",
         "@radix-ui/react-dialog": "^1.0.5",
@@ -26,6 +28,7 @@
         "@radix-ui/react-navigation-menu": "^1.1.4",
         "@radix-ui/react-popover": "^1.0.7",
         "@radix-ui/react-scroll-area": "^1.0.5",
+        "@radix-ui/react-select": "^2.0.0",
         "@radix-ui/react-separator": "^1.0.3",
         "@radix-ui/react-slot": "^1.0.2",
         "@radix-ui/react-switch": "^1.0.3",
@@ -38,6 +41,7 @@
         "react": "18.3.1",
         "react-day-picker": "^8.10.1",
         "react-dom": "18.3.1",
+        "react-hook-form": "^7.52.0",
         "sharp": "^0.33.4",
         "sonner": "^1.5.0",
         "tailwind-merge": "^2.3.0",

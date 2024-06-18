@@ -1,5 +1,7 @@
+import CollectionCreationForm from '../components/collection-creation-form';
+
 const AddCollection = () => {
-    return <div>AddCollection</div>;
+    return <CollectionCreationForm />;
 };
 
 export default AddCollection;
