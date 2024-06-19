@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { format } from 'date-fns';
 import { CollectionSchema } from 'typesense/lib/Typesense/Collection';
 
+import { IconPencil } from '@tabler/icons-react';
+
 import Typography from '~/components/atoms/typography';
 import { Badge } from '~/components/ui/badge';
 import { buttonVariants } from '~/components/ui/button';
@@ -76,7 +78,15 @@ const CollectionsList = ({ collections }: { collections: CollectionSchema[] }) =
                             </TableCell>
                             <TableCell className="hidden md:table-cell">{format(collection.created_at, 'PPP')}</TableCell>
                             <TableCell>
-                                <CollectionDeleteButton name={collection.name} />
+                                <div className="flex gap-4 items-center">
+                                    <Link
+                                        href={`/collections/${collection.name}/edit`}
+                                        className={cn(buttonVariants({ variant: 'outline', size: 'icon' }))}
+                                    >
+                                        <IconPencil className="h-4 w-4" />
+                                    </Link>
+                                    <CollectionDeleteButton name={collection.name} />
+                                </div>
                             </TableCell>
                         </TableRow>
                     ))}

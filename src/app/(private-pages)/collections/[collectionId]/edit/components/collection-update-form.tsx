@@ -1,7 +1,7 @@
 'use client';
 import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
-import { FieldType } from 'typesense/lib/Typesense/Collection';
+import { CollectionSchema, FieldType } from 'typesense/lib/Typesense/Collection';
 import { v4 as uuid } from 'uuid';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,35 +17,31 @@ import { Input } from '~/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select';
 import { dispatchToast, MessageResponse } from '~/lib/utils/message-handler';
 
-import { createCollection } from './action';
-import CollectionField from './collection-field';
-import { CollectionSchema, CollectionType } from './schema';
+import CollectionField from '../../../components/collection-field';
+import { CollectionSchema as zodCollectionSchema, CollectionType } from '../../../components/schema';
 
-const CollectionCreationForm = () => {
+import { updateCollection } from './action';
+
+const CollectionUpdateForm = ({ collection, collectionName }: { collection: CollectionSchema; collectionName: string }) => {
     const [pending, startTransition] = useTransition();
     const form = useForm<CollectionType>({
-        defaultValues: {
-            name: '',
-            fields: [
-                {
-                    _id: uuid(),
-                    name: '',
-                    type: undefined,
-                },
-            ],
-        },
-        resolver: zodResolver(CollectionSchema),
+        defaultValues: collection,
+        resolver: zodResolver(zodCollectionSchema),
     });
 
-    const onSubmit = async (values: CollectionType) => {
+    const onSubmit = async () => {
         startTransition(async () => {
             try {
-                const res = await createCollection(values);
+                const values = form.getValues('fields')?.filter(f => {
+                    const isOldField = collection.fields?.find(e => e._id === f._id);
+                    return isOldField ? f.drop : true;
+                });
+                const res = await updateCollection({ values, collectionName });
 
                 if ((res as MessageResponse)?.type) {
                     dispatchToast(res as MessageResponse);
                 } else {
-                    dispatchToast({ type: 'success', message: 'Collection successfully created' });
+                    dispatchToast({ type: 'success', message: 'Collection successfully updated' });
                 }
             } catch (error) {
                 dispatchToast({ type: 'error', message: (error as Error).message });
@@ -54,7 +50,7 @@ const CollectionCreationForm = () => {
     };
 
     const addNewRow = () => {
-        const existingRows = form.getValues('fields');
+        const existingRows = form.getValues('fields') || [];
         existingRows.push({
             _id: uuid(),
             name: '',
@@ -65,8 +61,21 @@ const CollectionCreationForm = () => {
 
     const removeRow = (_id: string) => {
         const existingRows = form.getValues('fields');
+        const isOldField = collection.fields?.find(e => e._id === _id);
         const index = existingRows.findIndex(e => e._id === _id);
-        existingRows.splice(index, 1);
+
+        if (isOldField) {
+            existingRows[index]['drop'] = true;
+        } else {
+            existingRows.splice(index, 1);
+        }
+        form.setValue('fields', existingRows);
+    };
+
+    const undoFieldRemoval = (_id: string) => {
+        const existingRows = form.getValues('fields');
+        const index = existingRows.findIndex(e => e._id === _id);
+        delete existingRows[index]['drop'];
         form.setValue('fields', existingRows);
     };
     return (
@@ -89,7 +98,7 @@ const CollectionCreationForm = () => {
                                         <FormItem className="w-full">
                                             <FormLabel>Collection name*</FormLabel>
                                             <FormControl>
-                                                <Input placeholder="companies" {...field} />
+                                                <Input placeholder="companies" disabled readOnly {...field} />
                                             </FormControl>
                                             <FormDescription>
                                                 This should be lowercase and without special characters.
@@ -104,7 +113,7 @@ const CollectionCreationForm = () => {
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormLabel>Default sorting field</FormLabel>
-                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                            <Select onValueChange={field.onChange} defaultValue={field.value} disabled>
                                                 <FormControl>
                                                     <SelectTrigger
                                                         id="type"
@@ -116,10 +125,10 @@ const CollectionCreationForm = () => {
                                                 <SelectContent className="w-64">
                                                     {form
                                                         .watch('fields')
-                                                        .filter(
+                                                        ?.filter(
                                                             n => ['float', 'int32', 'int64'].includes(n.type) && !!n.name
                                                         )
-                                                        .map(n => (
+                                                        ?.map(n => (
                                                             <SelectItem key={n.name} value={n.name}>
                                                                 {n.name}
                                                             </SelectItem>
@@ -139,16 +148,22 @@ const CollectionCreationForm = () => {
                                 name="fields"
                                 render={({ field }) => (
                                     <div className="mt-10">
-                                        <Typography variant="large">Add fields</Typography>
-                                        {field.value.map((f, i) => (
-                                            <CollectionField
-                                                key={f._id}
-                                                control={form.control}
-                                                index={i}
-                                                removeRow={() => removeRow(f._id!)}
-                                                totalRow={field.value.length}
-                                            />
-                                        ))}
+                                        <Typography variant="large">Fields</Typography>
+                                        {field.value?.length ? (
+                                            field.value.map((f, i) => (
+                                                <CollectionField
+                                                    key={f._id}
+                                                    drop={f.drop}
+                                                    control={form.control}
+                                                    index={i}
+                                                    existingRow={Boolean(collection.fields?.find(e => e._id === f._id))}
+                                                    removeRow={() => (f.drop ? undoFieldRemoval(f._id!) : removeRow(f._id!))}
+                                                    totalRow={field.value.length}
+                                                />
+                                            ))
+                                        ) : (
+                                            <Typography variant="muted">No field exists</Typography>
+                                        )}
                                     </div>
                                 )}
                             />
@@ -161,7 +176,7 @@ const CollectionCreationForm = () => {
                                     </>
                                 ) : (
                                     <>
-                                        <IconDeviceFloppy className="h-4 w-4 mr-2" /> Create
+                                        <IconDeviceFloppy className="h-4 w-4 mr-2" /> Update
                                     </>
                                 )}
                             </Button>
@@ -172,9 +187,12 @@ const CollectionCreationForm = () => {
                     </form>
                 </Form>
             </Card>
-            <SchemaView<CollectionType> data={form.watch()} />
+            <div className="bg-muted/10 flex flex-col gap-6">
+                <Typography variant="lead">New schema</Typography>
+                <SchemaView<CollectionType> data={form.watch()} />
+            </div>
         </div>
     );
 };
 
-export default CollectionCreationForm;
+export default CollectionUpdateForm;
