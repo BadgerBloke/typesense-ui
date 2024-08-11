@@ -69,6 +69,8 @@ const CollectionCreationForm = () => {
         existingRows.splice(index, 1);
         form.setValue('fields', existingRows);
     };
+
+    const sortingFields = form.watch('fields').filter(n => ['float', 'int32', 'int64'].includes(n.type) && !!n.name);
     return (
         <div className="flex flex-col gap-10 xl:flex-row xl:gap-8 w-full">
             <Card className="max-w-5xl">
@@ -104,26 +106,31 @@ const CollectionCreationForm = () => {
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormLabel>Default sorting field</FormLabel>
-                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                            <Select
+                                                onValueChange={field.onChange}
+                                                defaultValue={field.value}
+                                                disabled={!sortingFields.length}
+                                            >
                                                 <FormControl>
                                                     <SelectTrigger
                                                         id="type"
                                                         className="items-start [&_[data-description]]:hidden w-64"
                                                     >
-                                                        <SelectValue placeholder="Select data type" />
+                                                        <SelectValue
+                                                            placeholder={
+                                                                sortingFields.length
+                                                                    ? 'Select data type'
+                                                                    : 'No sorting field created'
+                                                            }
+                                                        />
                                                     </SelectTrigger>
                                                 </FormControl>
                                                 <SelectContent className="w-64">
-                                                    {form
-                                                        .watch('fields')
-                                                        .filter(
-                                                            n => ['float', 'int32', 'int64'].includes(n.type) && !!n.name
-                                                        )
-                                                        .map(n => (
-                                                            <SelectItem key={n.name} value={n.name}>
-                                                                {n.name}
-                                                            </SelectItem>
-                                                        ))}
+                                                    {sortingFields.map(n => (
+                                                        <SelectItem key={n.name} value={n.name}>
+                                                            {n.name}
+                                                        </SelectItem>
+                                                    ))}
                                                 </SelectContent>
                                             </Select>
                                             <FormDescription>

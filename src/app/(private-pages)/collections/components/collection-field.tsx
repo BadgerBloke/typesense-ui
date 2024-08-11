@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { Control, useFormState } from 'react-hook-form';
+import { Control } from 'react-hook-form';
 import { v4 as uuid } from 'uuid';
 
 import { IconArrowBackUp, IconMinus } from '@tabler/icons-react';
@@ -29,24 +29,21 @@ const CollectionField = ({
     removeRow: () => void;
     drop?: boolean;
     existingRow?: boolean;
-}) => {
-    const formState = useFormState();
-
-    console.log({ formState });
-    return (
-        <div
-            className={cn(
-                'flex w-full gap-4 hover:bg-muted/50 transition-colors duration-300 border-y p-4',
-                clsx({
-                    'grayscale cursor-not-allowed bg-muted/40': drop,
-                })
-            )}
-        >
+}) => (
+    <div
+        className={cn(
+            'flex flex-col items-center sm:flex-row w-full gap-4 hover:bg-muted/50 transition-colors duration-300 border-y p-4',
+            clsx({
+                'grayscale cursor-not-allowed bg-muted/40': drop,
+            })
+        )}
+    >
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-9 gap-4 w-full">
             <FormField
                 control={control}
                 name={`fields.${index}.name`}
                 render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="w-full xl:col-span-2">
                         <FormLabel>Name*</FormLabel>
                         <FormControl>
                             <Input placeholder="company_name" disabled={existingRow} {...field} />
@@ -60,15 +57,15 @@ const CollectionField = ({
                 control={control}
                 name={`fields.${index}.type`}
                 render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="xl:col-span-2">
                         <FormLabel>Type*</FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value} disabled={existingRow}>
                             <FormControl>
-                                <SelectTrigger id="type" className="items-start [&_[data-description]]:hidden w-64">
+                                <SelectTrigger id="type" className="items-start [&_[data-description]]:hidden max-w-60">
                                     <SelectValue placeholder="Select data type" />
                                 </SelectTrigger>
                             </FormControl>
-                            <SelectContent className="w-64">
+                            <SelectContent className="max-w-60">
                                 {DataType.map(dt => (
                                     <SelectItem key={uuid()} value={dt.value}>
                                         <div className="grid gap-0.5">
@@ -88,67 +85,69 @@ const CollectionField = ({
                     </FormItem>
                 )}
             />
-            <FormField
-                control={control}
-                name={`fields.${index}.facet`}
-                render={({ field }) => (
-                    <FormItem className="flex flex-col gap-4 w-fit py-1 items-center">
-                        <FormLabel>Facet</FormLabel>
-                        <FormControl>
-                            <Switch disabled={existingRow} checked={field.value} onCheckedChange={field.onChange} />
-                        </FormControl>
-                    </FormItem>
-                )}
-            />
-            <FormField
-                control={control}
-                name={`fields.${index}.index`}
-                render={({ field }) => (
-                    <FormItem className="flex flex-col gap-4 w-fit py-1 items-center">
-                        <FormLabel>Index</FormLabel>
-                        <FormControl>
-                            <Switch disabled={existingRow} checked={field.value} onCheckedChange={field.onChange} />
-                        </FormControl>
-                    </FormItem>
-                )}
-            />
-            <FormField
-                control={control}
-                name={`fields.${index}.optional`}
-                render={({ field }) => (
-                    <FormItem className="flex flex-col gap-4 w-fit py-1 items-center">
-                        <FormLabel>Optional</FormLabel>
-                        <FormControl>
-                            <Switch disabled={existingRow} checked={field.value} onCheckedChange={field.onChange} />
-                        </FormControl>
-                    </FormItem>
-                )}
-            />
-            <FormField
-                control={control}
-                name={`fields.${index}.stem`}
-                render={({ field }) => (
-                    <FormItem className="flex flex-col gap-4 w-fit py-1 items-center">
-                        <FormLabel>Stemming</FormLabel>
-                        <FormControl>
-                            <Switch disabled={existingRow} checked={field.value} onCheckedChange={field.onChange} />
-                        </FormControl>
-                    </FormItem>
-                )}
-            />
+            <div className="flex gap-4 w-full justify-around xl:col-span-3">
+                <FormField
+                    control={control}
+                    name={`fields.${index}.facet`}
+                    render={({ field }) => (
+                        <FormItem className="flex flex-col gap-4 w-fit py-1 items-center">
+                            <FormLabel>Facet</FormLabel>
+                            <FormControl>
+                                <Switch disabled={existingRow} checked={field.value} onCheckedChange={field.onChange} />
+                            </FormControl>
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={control}
+                    name={`fields.${index}.index`}
+                    render={({ field }) => (
+                        <FormItem className="flex flex-col gap-4 w-fit py-1 items-center">
+                            <FormLabel>Index</FormLabel>
+                            <FormControl>
+                                <Switch disabled={existingRow} checked={field.value} onCheckedChange={field.onChange} />
+                            </FormControl>
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={control}
+                    name={`fields.${index}.optional`}
+                    render={({ field }) => (
+                        <FormItem className="flex flex-col gap-4 w-fit py-1 items-center">
+                            <FormLabel>Optional</FormLabel>
+                            <FormControl>
+                                <Switch disabled={existingRow} checked={field.value} onCheckedChange={field.onChange} />
+                            </FormControl>
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={control}
+                    name={`fields.${index}.stem`}
+                    render={({ field }) => (
+                        <FormItem className="flex flex-col gap-4 w-fit py-1 items-center">
+                            <FormLabel>Stemming</FormLabel>
+                            <FormControl>
+                                <Switch disabled={existingRow} checked={field.value} onCheckedChange={field.onChange} />
+                            </FormControl>
+                        </FormItem>
+                    )}
+                />
+            </div>
             <FormField
                 control={control}
                 name={`fields.${index}.locale`}
                 render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="w-full xl:col-span-2">
                         <FormLabel>Locale</FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value} disabled={existingRow}>
                             <FormControl>
-                                <SelectTrigger className="items-start [&_[data-description]]:hidden w-44">
+                                <SelectTrigger className="items-start [&_[data-description]]:hidden">
                                     <SelectValue placeholder="Select locale" />
                                 </SelectTrigger>
                             </FormControl>
-                            <SelectContent className="w-44">
+                            <SelectContent>
                                 {Locales.map(locale => (
                                     <SelectItem key={locale.value} value={locale.value}>
                                         {locale.label}
@@ -161,19 +160,19 @@ const CollectionField = ({
                     </FormItem>
                 )}
             />
-            {totalRow > 1 ? (
-                <Button
-                    size="icon"
-                    type="button"
-                    variant={drop ? 'default' : 'destructive'}
-                    onClick={removeRow}
-                    className="mt-8 shrink-0"
-                >
-                    {drop ? <IconArrowBackUp className="h-4 w-4" /> : <IconMinus className="h-4 w-4" />}
-                </Button>
-            ) : null}
         </div>
-    );
-};
+        {totalRow > 1 ? (
+            <Button
+                size="icon"
+                type="button"
+                variant={drop ? 'default' : 'destructive'}
+                onClick={removeRow}
+                className="mt-8 shrink-0"
+            >
+                {drop ? <IconArrowBackUp className="h-4 w-4" /> : <IconMinus className="h-4 w-4" />}
+            </Button>
+        ) : null}
+    </div>
+);
 
 export default CollectionField;
