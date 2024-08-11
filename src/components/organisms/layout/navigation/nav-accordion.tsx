@@ -68,9 +68,12 @@ const NavAccordion = ({
                                     router.push(`/collections/${e}`);
                                 }}
                                 value={collection}
+                                disabled={!collections.length}
                             >
                                 <SelectTrigger>
-                                    <SelectValue placeholder="Select a collection" />
+                                    <SelectValue
+                                        placeholder={collections.length ? 'Select a collection' : 'No collection found'}
+                                    />
                                 </SelectTrigger>
                                 <SelectContent>
                                     {collections.map(collection => (

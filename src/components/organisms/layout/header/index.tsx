@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
@@ -9,7 +9,7 @@ import { Cross1Icon, HamburgerMenuIcon } from '@radix-ui/react-icons';
 
 import Typography from '~/components/atoms/typography';
 import Logo from '~/components/molecules/logo';
-import ModeToggle from '~/components/molecules/mode-toggle';
+// import ModeToggle from '~/components/molecules/mode-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar';
 import { Button, buttonVariants } from '~/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '~/components/ui/dropdown-menu';
@@ -21,18 +21,29 @@ import {
     navigationMenuTriggerStyle,
 } from '~/components/ui/navigation-menu';
 import { Separator } from '~/components/ui/separator';
-import { SheetClose } from '~/components/ui/sheet';
+// import { SheetClose } from '~/components/ui/sheet';
 import { IAM } from '~/lib/config';
 import { headerMenu } from '~/lib/constants/header-menus';
 import { UserData } from '~/lib/interfaces/user';
 import { cn } from '~/lib/utils';
 
-import NavAccordion from './nav-accordion';
+// import NavAccordion from './nav-accordion';
 import NavMenuDropdown from './nav-dropdown';
-import Pannel from './pannel';
+// import Pannel from './pannel';
 
-const Header = ({ userData, channelId, className }: { userData?: UserData; channelId?: string; className?: string }) => {
-    const [open, setOpen] = useState(false);
+const Header = ({
+    userData,
+    channelId,
+    className,
+    isOpen,
+    setOpen,
+}: {
+    userData?: UserData;
+    channelId?: string;
+    className?: string;
+    isOpen: boolean;
+    setOpen: Dispatch<SetStateAction<boolean>>;
+}) => {
     const pathname = usePathname();
     return (
         <header className={cn('mx-auto z-10 flex h-[4.5rem] w-full max-w-[1344px] items-center px-5 sm:px-10', className)}>
@@ -40,9 +51,9 @@ const Header = ({ userData, channelId, className }: { userData?: UserData; chann
                 <Logo />
             </Link>
             <div className="ml-auto flex items-center gap-3 xl:hidden">
-                <ModeToggle />
-                <Button variant="outline" size="icon" onClick={() => setOpen(open => !open)}>
-                    {open ? <Cross1Icon className="h-4 w-4" /> : <HamburgerMenuIcon className="h-4 w-4" />}
+                {/* <ModeToggle /> */}
+                <Button variant="outline" size="icon" onClick={() => setOpen(prev => !prev)}>
+                    {isOpen ? <Cross1Icon className="h-4 w-4" /> : <HamburgerMenuIcon className="h-4 w-4" />}
                 </Button>
             </div>
             <div
@@ -99,17 +110,17 @@ const Header = ({ userData, channelId, className }: { userData?: UserData; chann
                             Log in
                         </Link>
                     )}
-                    <ModeToggle />
+                    {/* <ModeToggle /> */}
                 </div>
             </div>
 
             {/* Mobile Navigation Bar */}
-            <Pannel
+            {/* <Pannel
                 onClick={() => setOpen(false)}
-                open={open}
+                open={isOpen}
                 trigger={
                     <Button variant="outline" size="icon" className="ml-auto xl:hidden" onClick={() => setOpen(false)}>
-                        {open ? <Cross1Icon className="h-4 w-4" /> : <HamburgerMenuIcon className="h-4 w-4" />}
+                        {isOpen ? <Cross1Icon className="h-4 w-4" /> : <HamburgerMenuIcon className="h-4 w-4" />}
                     </Button>
                 }
             >
@@ -135,7 +146,7 @@ const Header = ({ userData, channelId, className }: { userData?: UserData; chann
                         )
                     )}
                 </div>
-            </Pannel>
+            </Pannel> */}
         </header>
     );
 };
