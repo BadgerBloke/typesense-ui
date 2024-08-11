@@ -120,5 +120,6 @@
 @layer utilities {
     .gradient-bg {
         background: var(--gradient);
+        color: white;
     }
 }
