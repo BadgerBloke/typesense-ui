@@ -27,7 +27,7 @@ export const SIDE_NAV_MENUS: Array<SideNavMenuType> = [
         href: '/collections/add',
         text: 'New Collection',
         icon: IconTablePlus as Icon,
-        path: 'add',
+        path: 'collections.add',
         havePage: true,
     },
     {
@@ -76,9 +76,10 @@ export const generateItems = ({ pathname, collectionId }: { pathname: string; co
             const obj = findItemByPath(sideNavMenu({ collectionId }), route);
 
             if (obj) {
-                items.push({ label: obj.name || obj.text, href: obj.href, havePage: obj.havePage });
+                const val = obj.name || obj.text;
+                items.push({ label: decodeURIComponent(val), href: obj.href, havePage: obj.havePage });
             } else {
-                items.push({ label: route, havePage: false });
+                items.push({ label: decodeURIComponent(route), havePage: false });
             }
         }
     });

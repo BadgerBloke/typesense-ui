@@ -27,7 +27,7 @@ const NavAccordion = ({
     const router = useRouter();
     const [collection, setCollection] = useState<string | undefined>(collectionId);
     const handleTriggerClick = () => {
-        router.push(item.href);
+        router.push(item.href.templateStringToValue({ collectionId: collection || '' }));
         onClick();
     };
 
@@ -35,15 +35,21 @@ const NavAccordion = ({
         <Accordion
             type="single"
             collapsible
-            defaultValue={pathname.includes(item.href) ? item.href : undefined}
+            defaultValue={
+                item.defaultState === 'open'
+                    ? item.path
+                    : item.path.split('.').every(segment => pathname.includes(segment))
+                      ? item.path
+                      : undefined
+            }
             className="w-full"
         >
-            <AccordionItem value={item.href} className="space-y-2 border-none">
+            <AccordionItem value={item.path} className="space-y-2 border-none">
                 <AccordionTrigger
                     className={cn(
                         buttonVariants({ variant: 'ghost' }),
                         clsx({
-                            'bg-muted/50': pathname.includes(item.href),
+                            'bg-muted/50': item.path.split('.').every(segment => pathname.includes(segment)),
                         }),
                         'justify-between hover:no-underline'
                     )}
@@ -86,7 +92,7 @@ const NavAccordion = ({
                                     className={cn(
                                         buttonVariants({ variant: 'ghost' }),
                                         clsx({
-                                            'bg-muted/50': pathname.includes(e.path),
+                                            'bg-muted/50': e.path.split('.').every(segment => pathname.includes(segment)),
                                         }),
                                         'justify-start rounded-l-none'
                                     )}

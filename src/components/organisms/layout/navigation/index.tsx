@@ -27,7 +27,10 @@ const Navigation: React.FC<{
     const [open, setOpen] = useState(false);
     const pathname = usePathname();
     const collection = pathname.split('/')[2];
-    const collectionId = collection && collection !== 'add' ? decodeURIComponent(collection) : undefined;
+    const collectionId =
+        collection && collection !== 'add' && pathname.split('/')[1] === 'collections'
+            ? decodeURIComponent(collection)
+            : undefined;
     return (
         <Fragment>
             <div className="flex w-full">
@@ -53,7 +56,10 @@ const Navigation: React.FC<{
                                         className={cn(
                                             buttonVariants({ variant: 'ghost' }),
                                             clsx({
-                                                'bg-muted/50': pathname.includes(menu.path),
+                                                'bg-muted/50':
+                                                    menu.path === '/'
+                                                        ? pathname === menu.path
+                                                        : menu.path.split('.').every(segment => pathname.includes(segment)),
                                             }),
                                             'justify-start no-underline'
                                         )}
@@ -100,7 +106,10 @@ const Navigation: React.FC<{
                                         className={cn(
                                             buttonVariants({ variant: 'ghost' }),
                                             clsx({
-                                                'bg-muted/50': pathname.includes(menu.path),
+                                                'bg-muted/50':
+                                                    menu.path === '/'
+                                                        ? pathname === menu.path
+                                                        : menu.path.split('.').every(segment => pathname.includes(segment)),
                                             }),
                                             'justify-start no-underline'
                                         )}
