@@ -6,7 +6,7 @@ import Typography from '~/components/atoms/typography';
 const SettingsLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <div className="flex h-full w-full flex-col">
-            <main className="flex flex-1 flex-col gap-4 bg-muted/40 p-4 md:gap-8 md:p-10">
+            <main className="flex flex-1 flex-col gap-4 bg-muted/40 rounded-lg p-4 md:gap-8 md:p-10">
                 <div className="mx-auto grid w-full gap-2">
                     <Typography variant="h1" className="text-3xl font-semibold">
                         Settings
