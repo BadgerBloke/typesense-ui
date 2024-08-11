@@ -1,15 +1,31 @@
+import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import clsx from 'clsx';
-import { v4 as uuid } from 'uuid';
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '~/components/ui/accordion';
-import { buttonVariants } from '~/components/ui/button';
+import { Button, buttonVariants } from '~/components/ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select';
 import { SideNavMenuType } from '~/lib/constants/navigation-menus';
 import { cn } from '~/lib/utils';
 
-const NavAccordion = ({ item, pathname, onClick }: { item: SideNavMenuType; pathname: string; onClick: () => void }) => {
+import { SelectData } from '.';
+
+const NavAccordion = ({
+    item,
+    collectionId,
+    pathname,
+    onClick,
+    collections,
+}: {
+    item: SideNavMenuType;
+    collectionId?: string;
+    pathname: string;
+    onClick: () => void;
+    collections: SelectData[];
+}) => {
     const router = useRouter();
+    const [collection, setCollection] = useState<string | undefined>(collectionId);
     const handleTriggerClick = () => {
         router.push(item.href);
         onClick();
@@ -38,23 +54,56 @@ const NavAccordion = ({ item, pathname, onClick }: { item: SideNavMenuType; path
                     </span>
                 </AccordionTrigger>
                 <AccordionContent>
-                    <div className="mx-4 flex flex-col gap-1 border-l border-muted">
-                        {item.children?.map(e => (
-                            <Link
-                                key={uuid()}
-                                href={e.href}
-                                onClick={onClick}
-                                className={cn(
-                                    buttonVariants({ variant: 'ghost' }),
-                                    clsx({
-                                        'bg-muted/50': pathname === e.href,
-                                    }),
-                                    'justify-start rounded-l-none'
-                                )}
+                    <div className="p-1 pl-2">
+                        {item.path === 'collections' && (
+                            <Select
+                                onValueChange={e => {
+                                    setCollection(e);
+                                    router.push(`/collections/${e}`);
+                                }}
+                                value={collection}
                             >
-                                {e.text}
-                            </Link>
-                        ))}
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select a collection" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {collections.map(collection => (
+                                        <SelectItem key={collection.value.slugify()} value={collection.value}>
+                                            {collection.label}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        )}
+                    </div>
+                    <div className="mx-4 flex flex-col gap-1 border-l border-muted">
+                        {item.children?.map(e =>
+                            collection ? (
+                                <Link
+                                    key={`${item.path}-${e.path}`}
+                                    href={e.href.templateStringToValue({ collectionId: collection })}
+                                    onClick={onClick}
+                                    className={cn(
+                                        buttonVariants({ variant: 'ghost' }),
+                                        clsx({
+                                            'bg-muted/50': pathname.includes(e.path),
+                                        }),
+                                        'justify-start rounded-l-none'
+                                    )}
+                                >
+                                    {e.text}
+                                </Link>
+                            ) : (
+                                <Button
+                                    variant="ghost"
+                                    disabled
+                                    key={`${item.path}-${e.path}`}
+                                    className="justify-start rounded-l-none"
+                                >
+                                    {e.text}
+                                </Button>
+                            )
+                        )}
                     </div>
                 </AccordionContent>
             </AccordionItem>

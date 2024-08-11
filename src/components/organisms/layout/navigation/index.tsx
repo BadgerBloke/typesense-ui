@@ -3,25 +3,31 @@ import { Fragment, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
-import { v4 as uuid } from 'uuid';
 
 import { Cross1Icon, HamburgerMenuIcon } from '@radix-ui/react-icons';
 
 import Breadcrumb from '~/components/molecules/breadcrumb';
 import { Button, buttonVariants } from '~/components/ui/button';
 import { ScrollArea } from '~/components/ui/scroll-area';
-import { sideNavMenu } from '~/lib/constants/navigation-menus';
+import { SIDE_NAV_MENUS } from '~/lib/constants/navigation-menus';
 import { cn } from '~/lib/utils';
 
 import NavAccordion from './nav-accordion';
 import Panel from './panel';
 
+export interface SelectData {
+    label: string;
+    value: string;
+}
+
 const Navigation: React.FC<{
     children: React.ReactNode;
-    collectionId: string;
-}> = ({ children, collectionId }) => {
+    collections: SelectData[];
+}> = ({ children, collections }) => {
     const [open, setOpen] = useState(false);
     const pathname = usePathname();
+    const collection = pathname.split('/')[2];
+    const collectionId = collection && collection !== 'add' ? decodeURIComponent(collection) : undefined;
     return (
         <Fragment>
             <div className="flex w-full">
@@ -29,23 +35,25 @@ const Navigation: React.FC<{
                     {/* Desktop Navigation Bar */}
                     <ScrollArea className="hidden h-[calc(100dvh-4.75rem)] mt-1 px-2 lg:block">
                         <div className="flex flex-col gap-2">
-                            {sideNavMenu({ collectionId }).map(menu =>
+                            {SIDE_NAV_MENUS.map(menu =>
                                 menu.children ? (
                                     <NavAccordion
-                                        key={uuid()}
+                                        key={menu.path}
                                         item={menu}
                                         pathname={pathname}
                                         onClick={() => setOpen(false)}
+                                        collectionId={collectionId}
+                                        collections={collections}
                                     />
                                 ) : (
                                     <Link
-                                        key={uuid()}
+                                        key={menu.path}
                                         href={menu.href}
                                         onClick={() => setOpen(false)}
                                         className={cn(
                                             buttonVariants({ variant: 'ghost' }),
                                             clsx({
-                                                'bg-muted/50': pathname === menu.href,
+                                                'bg-muted/50': pathname.includes(menu.path),
                                             }),
                                             'justify-start no-underline'
                                         )}
@@ -74,23 +82,25 @@ const Navigation: React.FC<{
                         }
                     >
                         <div className="flex flex-col gap-2">
-                            {sideNavMenu({ collectionId }).map(menu =>
+                            {SIDE_NAV_MENUS.map(menu =>
                                 menu.children ? (
                                     <NavAccordion
-                                        key={uuid()}
+                                        key={menu.path}
                                         item={menu}
                                         pathname={pathname}
                                         onClick={() => setOpen(false)}
+                                        collectionId={collectionId}
+                                        collections={collections}
                                     />
                                 ) : (
                                     <Link
-                                        key={uuid()}
+                                        key={menu.path}
                                         href={menu.href}
                                         onClick={() => setOpen(false)}
                                         className={cn(
                                             buttonVariants({ variant: 'ghost' }),
                                             clsx({
-                                                'bg-muted/50': pathname === menu.href,
+                                                'bg-muted/50': pathname.includes(menu.path),
                                             }),
                                             'justify-start no-underline'
                                         )}

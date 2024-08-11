@@ -5,7 +5,7 @@ type MenuType = {
     text: string;
     icon: Icon;
     name?: string;
-    path?: string;
+    path: string;
     defaultState?: 'open' | 'close';
     havePage: boolean;
 };
@@ -14,7 +14,7 @@ export type SideNavMenuType = MenuType & {
     children?: Omit<MenuType, 'icon'>[];
 };
 
-const SIDE_NAV_MENUS: Array<SideNavMenuType> = [
+export const SIDE_NAV_MENUS: Array<SideNavMenuType> = [
     {
         href: '/',
         text: 'Dashboard',

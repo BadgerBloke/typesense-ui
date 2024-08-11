@@ -68,7 +68,13 @@ const CollectionsList = ({ collections }: { collections: CollectionSchema[] }) =
                                 <Badge variant="outline">{collection.enable_nested_fields ? 'Enabled' : 'Disabled'}</Badge>
                             </TableCell>
                             <TableCell className="hidden md:table-cell">
-                                {collection.fields?.map(f => f.name).join(', ')}
+                                <div className="flex flex-col gap-1">
+                                    {collection.fields?.map(f => (
+                                        <Badge key={f.name.slugify()} variant="outline">
+                                            {f.name} -&gt; {f.type}
+                                        </Badge>
+                                    ))}
+                                </div>
                             </TableCell>
                             <TableCell className="hidden md:table-cell">
                                 {collection.symbols_to_index?.join(', ') || 'None'}
