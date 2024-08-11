@@ -8,6 +8,8 @@ import ThemeProvider from '~/components/providers/theme-provider';
 import { Toaster } from '~/components/ui/sonner';
 import { cn } from '~/lib/utils';
 
+import '~/lib/utils/string-extensions';
+
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
