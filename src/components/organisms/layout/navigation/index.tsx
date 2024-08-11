@@ -1,5 +1,5 @@
 'use client';
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
@@ -11,6 +11,8 @@ import { Button, buttonVariants } from '~/components/ui/button';
 import { ScrollArea } from '~/components/ui/scroll-area';
 import { SIDE_NAV_MENUS } from '~/lib/constants/navigation-menus';
 import { cn } from '~/lib/utils';
+
+import Header from '../header';
 
 import NavAccordion from './nav-accordion';
 import Panel from './panel';
@@ -32,7 +34,12 @@ const Navigation: React.FC<{
             ? decodeURIComponent(collection)
             : undefined;
     return (
-        <Fragment>
+        <div className="flex flex-col w-full">
+            <Header
+                isOpen={open}
+                setOpen={setOpen}
+                className="sticky top-0 max-w-full bg-background/50 backdrop-blur-md sm:px-4"
+            />
             <div className="flex w-full">
                 <nav className="sticky top-[4.75rem] flex h-[calc(100dvh-4.75rem)] mt-1 w-fit max-w-xs flex-col lg:min-w-[220px]">
                     {/* Desktop Navigation Bar */}
@@ -128,7 +135,7 @@ const Navigation: React.FC<{
                     {children}
                 </main>
             </div>
-        </Fragment>
+        </div>
     );
 };
 
