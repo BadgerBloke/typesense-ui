@@ -107,10 +107,13 @@ const ApiKeysCard = async () => {
             <div className="flex flex-col items-center gap-1 text-center">
                 <h3 className="text-2xl font-bold tracking-tight">You have no API Key</h3>
                 <p className="text-sm text-muted-foreground">
-                    Do not use your master API key any operation.
+                    Do not use your master API key for any operation.
                     <br />
-                    Create your first scoped API Key start the journey
+                    Create your first scoped API Key to start the journey.
                 </p>
+                <Link href="/settings/api-keys/add" className={buttonVariants()}>
+                    Create API Key
+                </Link>
             </div>
         </div>
     );

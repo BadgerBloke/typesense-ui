@@ -3,14 +3,15 @@ export const IAM = {
 };
 
 export const TYPESENSE = {
-    host: String(process.env.TYPESENSE_HOST),
-    port: Number(process.env.TYPESENSE_PORT),
-    protocol: String(process.env.TYPESENSE_PROTOCOL),
+    // host: String(process.env.TYPESENSE_HOST),
+    url: String(process.env.TYPESENSE_URL),
+    // port: Number(process.env.TYPESENSE_PORT),
+    // protocol: String(process.env.TYPESENSE_PROTOCOL),
     timeoutSeconds: Number(process.env.TYPESENSE_CONNECTION_TIMEOUT_SECONDS),
     healthPath: String(process.env.TYPESENSE_HEALTH_PATH),
     apiKey: String(process.env.TYPESENSE_API_KEY),
     getHealthCheckUrl: function () {
-        return `${this.protocol}://${this.host}:${this.port}${this.healthPath}`;
+        return `${this.url}${this.healthPath}`;
     },
 };
 

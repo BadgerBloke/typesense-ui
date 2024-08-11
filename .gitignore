@@ -37,3 +37,4 @@ next-env.d.ts
 
 # test data
 /src/data
+/scripts/typesense-data
