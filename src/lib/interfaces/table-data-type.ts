@@ -5,3 +5,10 @@ export interface SynonymsDataType {
     locale?: string;
     symbols_to_index?: string[];
 }
+
+export interface OverridesDataType {
+    id: string;
+    root?: string;
+    locale?: string;
+    symbols_to_index?: string[];
+}
