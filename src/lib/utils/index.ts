@@ -33,3 +33,7 @@ export const addFieldIds = (collection: CollectionSchema): CollectionSchema => {
 
     return { ...collection, fields: updatedFields };
 };
+
+export const zodEnumToSelectData = <T extends string[]>(data: T) => {
+    return data.map(d => ({ label: d.fromSnakeToSentenceCase(['CF']), value: d }));
+};
