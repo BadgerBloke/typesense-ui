@@ -42,6 +42,7 @@
         "react": "18.3.1",
         "react-day-picker": "^8.10.1",
         "react-dom": "18.3.1",
+        "react-dropzone": "^14.2.3",
         "react-hook-form": "^7.52.2",
         "sharp": "^0.33.4",
         "sonner": "^1.5.0",
@@ -49,6 +50,7 @@
         "tailwindcss-animate": "^1.0.7",
         "typesense": "^1.8.2",
         "uuid": "^10.0.0",
+        "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
         "zod": "^3.23.8"
     },
     "devDependencies": {

@@ -56,15 +56,13 @@ const OverridesIngestionForm = ({ collectionId, defaultData }: { collectionId: s
                         <div className="flex flex-col space-y-1.5">
                             <CardTitle>{defaultData ? 'Update' : 'Create'} curation</CardTitle>
                             <CardDescription>
-                                <Typography variant="muted">
-                                    Curation allows you to pin certain records at particular positions or hide results, for a
-                                    given search query.
-                                </Typography>
+                                Curation allows you to pin certain records at particular positions or hide results, for a
+                                given search query.
                                 <a
                                     href="https://typesense.org/docs/26.0/api/curation.html"
                                     target="_blank"
                                     rel="noreferrer noopener"
-                                    className="text-primary"
+                                    className="text-primary ml-2"
                                 >
                                     Read the documentation
                                 </a>

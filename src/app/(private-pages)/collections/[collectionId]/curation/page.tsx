@@ -11,8 +11,6 @@ import { columns } from './components/overrides-data-table';
 
 const SynonymsPage = async ({ params: { collectionId } }: { params: { collectionId: string } }) => {
     const { overrides } = await client.collections(collectionId).overrides().retrieve();
-
-    console.log('overrides: ', overrides);
     return (
         <div className="flex flex-col gap-6 w-full">
             <div className="flex flex-1 gap-4 p-4 md:gap-8 md:p-10">

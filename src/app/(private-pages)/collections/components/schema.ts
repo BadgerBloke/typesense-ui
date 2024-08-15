@@ -17,10 +17,10 @@ export const FieldsSchema = z
                 required_error: 'Type is required',
                 invalid_type_error: 'Select an option',
             }),
-            facet: z.boolean().optional(),
-            index: z.boolean().optional(),
-            optional: z.boolean().optional(),
-            stem: z.boolean().optional(),
+            facet: z.boolean().default(false).optional(),
+            index: z.boolean().default(false).optional(),
+            optional: z.boolean().default(false).optional(),
+            stem: z.boolean().default(false).optional(),
             locale: z.enum([locales[0], ...locales.slice(1), ''], { invalid_type_error: 'Select valid option' }).optional(),
             drop: z.boolean().optional(),
         })
@@ -50,4 +50,5 @@ export const CollectionSchema = z
         }
     );
 
+export type FieldsType = z.infer<typeof FieldsSchema>;
 export type CollectionType = z.infer<typeof CollectionSchema>;
