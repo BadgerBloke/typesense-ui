@@ -8,8 +8,6 @@ import BulkUploader from './components/bulk-uploader';
 
 const DocumentAddPage = async ({ params: { collectionId } }: { params: { collectionId: string } }) => {
     const collectionSchema = await client.collections(collectionId).retrieve();
-
-    // console.log('Collection Schema: ', documents.hits);
     return (
         <div className="flex h-full w-full flex-col gap-8 lg:flex-row">
             <div className="flex flex-col gap-4 bg-muted/40 rounded-lg p-4 md:gap-8 md:p-10 w-full">

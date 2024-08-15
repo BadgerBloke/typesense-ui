@@ -61,4 +61,8 @@ String.prototype.templateStringToValue = function (variables: Record<string, str
     });
 };
 
+String.prototype.convertToJson = function (): string {
+    return this.replace(/([{,])\s*([a-zA-Z0-9_]+)\s*:/g, '$1"$2":').replace(/'/g, '"');
+};
+
 export {};

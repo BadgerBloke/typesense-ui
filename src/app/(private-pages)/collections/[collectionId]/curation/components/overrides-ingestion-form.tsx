@@ -21,7 +21,7 @@ import { cn, zodEnumToSelectData } from '~/lib/utils';
 import { dispatchToast } from '~/lib/utils/message-handler';
 
 import { createAndUpdateOverrides } from './actions';
-import { OverridesSchema, OverridesType } from './schema';
+import { MatchEnum, OverridesSchema, OverridesType } from './schema';
 
 const OverridesIngestionForm = ({ collectionId, defaultData }: { collectionId: string; defaultData?: OverridesType }) => {
     const [pending, setPending] = useState(false);
@@ -40,7 +40,7 @@ const OverridesIngestionForm = ({ collectionId, defaultData }: { collectionId: s
             const res = await createAndUpdateOverrides({ ...values, collection: collectionId });
             if (res) {
                 dispatchToast(res);
-                router.push(`/collections/${collectionId}/overrides`);
+                res.type === 'success' && router.push(`/collections/${collectionId}/curation`);
             }
         } catch (e) {
             dispatchToast({ type: 'error', message: (e as Error).message });
@@ -103,7 +103,7 @@ const OverridesIngestionForm = ({ collectionId, defaultData }: { collectionId: s
                                     <div className="grid gap-6 pl-4">
                                         <FormField
                                             control={form.control}
-                                            name="curateByQuery"
+                                            name="rule.curateByQuery"
                                             render={({ field }) => (
                                                 <FormItem className="w-full">
                                                     <div className="inline-flex gap-2 items-center">
@@ -116,7 +116,7 @@ const OverridesIngestionForm = ({ collectionId, defaultData }: { collectionId: s
                                                         <FormLabel>Curate by Search Query</FormLabel>
                                                     </div>
                                                     {field.value && (
-                                                        <div className="inline-flex gap-0 items-center w-full">
+                                                        <div className="inline-flex gap-0 w-full">
                                                             <FormField
                                                                 control={form.control}
                                                                 name="rule.query"
@@ -147,9 +147,7 @@ const OverridesIngestionForm = ({ collectionId, defaultData }: { collectionId: s
                                                                         <Select
                                                                             onValueChange={field.onChange}
                                                                             defaultValue={
-                                                                                field.value ||
-                                                                                OverridesSchema.shape.rule.shape.match.Enum
-                                                                                    .exact
+                                                                                field.value || MatchEnum.Enum.exact
                                                                             }
                                                                         >
                                                                             <FormControl>
@@ -159,10 +157,7 @@ const OverridesIngestionForm = ({ collectionId, defaultData }: { collectionId: s
                                                                             </FormControl>
                                                                             <SelectContent className="w-36">
                                                                                 {zodEnumToSelectData(
-                                                                                    Object.values(
-                                                                                        OverridesSchema.shape.rule.shape
-                                                                                            .match.Enum
-                                                                                    )
+                                                                                    Object.values(MatchEnum.Enum)
                                                                                 ).map(match => (
                                                                                     <SelectItem
                                                                                         key={match.value}
@@ -185,7 +180,7 @@ const OverridesIngestionForm = ({ collectionId, defaultData }: { collectionId: s
                                         />
                                         <FormField
                                             control={form.control}
-                                            name="curateByFilter"
+                                            name="rule.curateByFilter"
                                             render={({ field }) => (
                                                 <FormItem className="w-full">
                                                     <div className="inline-flex gap-2 items-center">
@@ -220,7 +215,7 @@ const OverridesIngestionForm = ({ collectionId, defaultData }: { collectionId: s
                                         />
                                         <FormField
                                             control={form.control}
-                                            name="curateByTags"
+                                            name="rule.curateByTags"
                                             render={({ field }) => (
                                                 <FormItem className="w-full">
                                                     <div className="inline-flex gap-2 items-center">
@@ -544,7 +539,6 @@ const OverridesIngestionForm = ({ collectionId, defaultData }: { collectionId: s
                                                                         <Input
                                                                             placeholder="eg. replacement query"
                                                                             {...field}
-                                                                            value={JSON.stringify(field.value || '')}
                                                                         />
                                                                     </FormControl>
                                                                     <FormMessage />
