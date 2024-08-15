@@ -20,7 +20,6 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from '~/components/ui/alert-dialog';
-import { Badge } from '~/components/ui/badge';
 import { Button, buttonVariants } from '~/components/ui/button';
 import { Checkbox } from '~/components/ui/checkbox';
 import {
@@ -59,13 +58,7 @@ export const columns: ColumnDef<OverridesDataType>[] = [
     {
         accessorKey: 'id',
         header: 'Overrides',
-        cell: ({ row }) => (
-            <div className="space-x-1.5 space-y-1.5">
-                {(row.getValue('id') as string[]).map(s => (
-                    <Badge key={s}>{s}</Badge>
-                ))}
-            </div>
-        ),
+        cell: ({ row }) => <div className="space-x-1.5 space-y-1.5">{row.getValue('id')}</div>,
     },
     {
         accessorKey: 'root',
@@ -127,7 +120,7 @@ const UpdateButton = ({ id }: { id: string }) => {
     return (
         <Link
             className={cn(buttonVariants(), 'cursor-pointer w-full')}
-            href={`/collections/${pathname.split('/')[2]}/synonyms/update?id=${id}`}
+            href={`/collections/${pathname.split('/')[2]}/curation/update?id=${id}`}
         >
             <IconPencil className="w-4 h-4 mr-2" />
             Update
