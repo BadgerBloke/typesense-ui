@@ -39,6 +39,12 @@ export const SIDE_NAV_MENUS: Array<SideNavMenuType> = [
         havePage: true,
         children: [
             {
+                href: '/collections/{{collectionId}}/documents',
+                text: 'Documents',
+                path: 'documents',
+                havePage: true,
+            },
+            {
                 href: '/collections/{{collectionId}}/synonyms',
                 text: 'Synonyms',
                 path: 'synonyms',
