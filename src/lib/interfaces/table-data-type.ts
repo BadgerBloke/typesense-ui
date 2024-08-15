@@ -12,3 +12,14 @@ export interface OverridesDataType {
     locale?: string;
     symbols_to_index?: string[];
 }
+
+export interface DocumentsDataType {
+    document: {
+        id: string;
+        price: string | number;
+        product_id: string;
+        product_name: string;
+        shop_id: string;
+        shop_name: string;
+    };
+}
