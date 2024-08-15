@@ -7,6 +7,7 @@ declare global {
         fromSnakeToSentenceCase(preserveCaseSubstrings?: string[]): string;
         dotNotedToReadable(): string;
         templateStringToValue(variables: Record<string, string>): string;
+        convertToJson(): string;
     }
 }
 

@@ -14,7 +14,26 @@ const CurationUpdatePage = async ({
     searchParams: { id?: string };
 }) => {
     if (!searchParams.id) notFound();
-    const defaultData = await client.collections(collectionId).synonyms(searchParams.id).retrieve();
+    const data: OverridesType = await client.collections(collectionId).overrides(searchParams.id).retrieve();
+    const defaultData = {
+        ...data,
+        ...(data.rule && {
+            rule: {
+                ...data.rule,
+                ...(data.rule.query && { curateByQuery: true }),
+                ...(data.rule.filter_by && { curateByFilter: true }),
+                ...(data.rule.tags?.length && { curateByTags: true }),
+            },
+        }),
+        ...(data.includes?.length && { pinDocuments: true }),
+        ...(data.excludes?.length && { hideDocuments: true }),
+        ...(data.filter_by && { filterDocuments: true }),
+        ...(data.sort_by && { sortDocuments: true }),
+        ...(data.replace_query && { replaceDocuments: true }),
+        ...(data.metadata && { customMetadata: true }),
+        ...(data.effective_from_ts && { effectiveFrom: true }),
+        ...(data.effective_to_ts && { effectiveTo: true }),
+    };
     return (
         <div className="flex h-full w-full flex-col gap-8">
             <div className="flex flex-1 flex-col gap-4 bg-muted/40 rounded-lg p-4 md:gap-8 md:p-10">
