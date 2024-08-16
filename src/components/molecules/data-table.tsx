@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 import { ChevronDownIcon } from '@radix-ui/react-icons';
+import { IconFilter } from '@tabler/icons-react';
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -26,19 +27,29 @@ import {
 import { Input } from '~/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table';
 
+import { SelectData } from '../organisms/layout/navigation';
+
 const DataTable = <D, K extends string>({
     data,
     columns,
+    filterPlaceholder,
     filterKey,
+    filterFn,
+    filterBy,
 }: {
     data: D[];
     columns: ColumnDef<D>[];
-    filterKey: K;
+    filterPlaceholder?: string;
+    filterKey?: K;
+    filterFn?: (e: ChangeEvent<HTMLInputElement>, filterBy: string[]) => void;
+    filterBy?: SelectData[];
 }) => {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
     const [rowSelection, setRowSelection] = useState({});
+    const [filterText, setFilterText] = useState('');
+    const [queryBy, setQueryBy] = useState<string[]>([]);
 
     const table = useReactTable({
         data,
@@ -59,15 +70,50 @@ const DataTable = <D, K extends string>({
         },
     });
 
+    const handleFilterFn = (e: ChangeEvent<HTMLInputElement>) => {
+        if (filterFn) {
+            if (filterBy) {
+                filterFn(e, queryBy.length ? queryBy : filterBy.map(d => d.value));
+                setFilterText(e.target.value);
+            } else {
+                throw new Error('You have provided filter function so provide the filter by fields.');
+            }
+        }
+    };
     return (
         <div className="w-full">
-            <div className="flex items-center py-4">
+            <div className="flex items-center py-4 gap-4">
                 <Input
-                    placeholder={`Filter ${filterKey.fromCamelToSpaceSeparated()}...`}
-                    value={(table.getColumn(filterKey)?.getFilterValue() as string) ?? ''}
-                    onChange={event => table.getColumn(filterKey)?.setFilterValue(event.target.value)}
+                    placeholder={`Filter ${filterPlaceholder || filterKey?.fromCamelToSpaceSeparated()}...`}
+                    value={(filterKey && (table.getColumn(filterKey)?.getFilterValue() as string)) ?? filterText}
+                    onChange={event =>
+                        filterKey ? table.getColumn(filterKey)?.setFilterValue(event.target.value) : handleFilterFn(event)
+                    }
                     className="max-w-sm"
                 />
+                {filterBy && (
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button className="w-56 justify-between" variant="outline">
+                                Query by
+                                <IconFilter className="w-4 h-4 ml-2" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="w-56">
+                            {filterBy.map(d => (
+                                <DropdownMenuCheckboxItem
+                                    key={d.value}
+                                    checked={queryBy?.includes(d.value)}
+                                    onCheckedChange={e =>
+                                        setQueryBy(prev => (e ? [...prev, d.value] : prev?.filter(v => v !== d.value)))
+                                    }
+                                >
+                                    {d.label}
+                                </DropdownMenuCheckboxItem>
+                            ))}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                )}
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto">
