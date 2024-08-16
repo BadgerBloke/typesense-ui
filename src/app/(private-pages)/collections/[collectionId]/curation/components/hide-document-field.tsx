@@ -74,7 +74,7 @@ const HideDocumentField: React.FC<HideDocumentFieldProps> = ({ form, queryBy, co
             <div className="inline-flex" key={o.id}>
                 <FormField
                     control={form.control}
-                    name="excludes.0.id"
+                    name={`excludes.${i}.id`}
                     render={({ field }) => (
                         <FormItem className="flex flex-col">
                             <FormLabel className="sr-only">include document</FormLabel>
