@@ -58,7 +58,9 @@ export const OverridesSchema = z
                 { message: 'Tags is required', path: ['tags'] }
             ),
         pinDocuments: z.boolean().default(false).optional(), // only for ui controls
-        includes: z.array(z.object({ id: z.string(), position: z.string().transform(Number) })).optional(),
+        includes: z
+            .array(z.object({ id: z.string(), position: z.union([z.number(), z.string().transform(Number)]) }))
+            .optional(),
         hideDocuments: z.boolean().default(false).optional(), // only for ui controls
         excludes: z.array(z.object({ id: z.string() })).optional(),
         filterDocuments: z.boolean().default(false).optional(), // only for ui controls
@@ -77,7 +79,6 @@ export const OverridesSchema = z
         effectiveTo: z.boolean().default(false).optional(), // only for ui controls
         effective_to_ts: z.string().transform(Number).optional(),
     })
-    // `includes`, `excludes`, `metadata`, `filter_by`, `sort_by`, `remove_matched_tokens`, `replace_query`.
     .refine(
         data => {
             if (

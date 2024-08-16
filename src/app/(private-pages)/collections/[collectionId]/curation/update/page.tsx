@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import Typography from '~/components/atoms/typography';
 import { client } from '~/lib/services/typesense';
 
+import { CollectionType } from '../../../components/schema';
 import OverridesIngestionForm from '../components/overrides-ingestion-form';
 import { OverridesType } from '../components/schema';
 
@@ -14,7 +15,25 @@ const CurationUpdatePage = async ({
     searchParams: { id?: string };
 }) => {
     if (!searchParams.id) notFound();
-    const data: OverridesType = await client.collections(collectionId).overrides(searchParams.id).retrieve();
+    const [data, collection] = (await Promise.all([
+        client.collections(collectionId).overrides(searchParams.id).retrieve(),
+        client.collections(collectionId).retrieve(),
+    ])) as [OverridesType, CollectionType];
+    // const indexStringFields = collection.fields
+    //     .filter(f => f.index && ['string', 'string[]'].includes(f.type))
+    //     .map(f => f.name);
+
+    // const labelField = indexStringFields.find(f => f.toLowerCase().includes('name')) || indexStringFields[0];
+    // for (const doc of data.includes!) {
+    //     const document = (await client.collections(collectionId).documents(doc.id).retrieve()) as { [x: string]: string };
+    //     console.log('Log ', doc.id, document[labelField]);
+    //     (doc as unknown as { id: string; position: string; label: string })['label'] = document[labelField];
+    // }
+    // for (const doc of data.excludes!) {
+    //     const document = (await client.collections(collectionId).documents(doc.id).retrieve()) as { [x: string]: string };
+    //     console.log('Log ', doc.id, document[labelField]);
+    //     (doc as unknown as { id: string; position: string; label: string })['label'] = document[labelField];
+    // }
     const defaultData = {
         ...data,
         ...(data.rule && {
@@ -40,7 +59,7 @@ const CurationUpdatePage = async ({
                 <Typography variant="h1" className="text-3xl font-semibold">
                     Curation
                 </Typography>
-                <OverridesIngestionForm defaultData={defaultData as unknown as OverridesType} collectionId={collectionId} />
+                <OverridesIngestionForm defaultData={defaultData as unknown as OverridesType} collection={collection} />
             </div>
         </div>
     );

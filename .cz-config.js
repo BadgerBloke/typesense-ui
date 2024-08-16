@@ -35,7 +35,7 @@ module.exports = {
     appendBranchNameToCommitMessage: false,
     allowTicketNumber: true,
     isTicketNumberRequired: true,
-    ticketNumberPrefix: 'mk-',
+    ticketNumberPrefix: '#',
     // Limit ticket number to numbers
     ticketNumberRegExp: '\\d{1,5}',
     // Append ticket number to commit message
@@ -60,7 +60,7 @@ module.exports = {
         parserOpts: {
             headerPattern: /^(\w*)(?:\(([UI]+-[0-9]+)\))?\: (.*)$/,
             headerCorrespondence: ['type', 'scope', 'subject'],
-            issuePrefixes: ['mk-'],
+            issuePrefixes: ['#'],
         },
     },
 
@@ -73,9 +73,9 @@ module.exports = {
         subject: 'Write a SHORT, IMPERATIVE tense description of the change (i.e.,Subject):\n',
         body: 'Provide a LONGER description of the change. Use "|" to break new line (optional):\n',
         breaking: 'List any BREAKING CHANGES (optional):\n',
-        footer: 'List any JIRA ISSUES CLOSED by this change (optional). E.g.: mk-101, mk-125:\n',
+        footer: 'List any JIRA ISSUES CLOSED by this change (optional). E.g.: #101, #125:\n',
         confirmCommit: 'Are you sure you want to proceed with the commit above?',
-        ticketNumber: 'Enter ticket number (digits only). Prefix "mk-" will be added automatically:',
+        ticketNumber: 'Enter ticket number (digits only). Prefix "#" will be added automatically:',
     },
 
     allowCustomScopes: false,
