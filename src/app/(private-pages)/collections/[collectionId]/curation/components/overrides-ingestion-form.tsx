@@ -9,6 +9,7 @@ import { IconCirclePlus, IconDeviceFloppy, IconRotateClockwise2 } from '@tabler/
 
 import Tooltip from '~/components/atoms/tooltip';
 import Typography from '~/components/atoms/typography';
+import { DateTimePicker } from '~/components/molecules/date-time-picker';
 import { Button, buttonVariants } from '~/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '~/components/ui/card';
 import { Checkbox } from '~/components/ui/checkbox';
@@ -17,7 +18,7 @@ import { Input } from '~/components/ui/input';
 import { Label } from '~/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select';
 import { Separator } from '~/components/ui/separator';
-import { cn, zodEnumToSelectData } from '~/lib/utils';
+import { cn, parseDate, zodEnumToSelectData } from '~/lib/utils';
 import { dispatchToast } from '~/lib/utils/message-handler';
 
 import { CollectionType } from '../../../components/schema';
@@ -648,10 +649,9 @@ const OverridesIngestionForm = ({
                                                                 <FormItem className="w-full">
                                                                     <FormLabel className="sr-only">Effective From</FormLabel>
                                                                     <FormControl>
-                                                                        <Input
-                                                                            placeholder="apple"
-                                                                            className="rounded-r-none w-full"
-                                                                            {...field}
+                                                                        <DateTimePicker
+                                                                            value={parseDate(field.value)}
+                                                                            onChange={field.onChange}
                                                                         />
                                                                     </FormControl>
                                                                     <FormMessage />
@@ -685,10 +685,9 @@ const OverridesIngestionForm = ({
                                                                 <FormItem className="w-full">
                                                                     <FormLabel className="sr-only">Effective To</FormLabel>
                                                                     <FormControl>
-                                                                        <Input
-                                                                            placeholder="apple"
-                                                                            className="rounded-r-none w-full"
-                                                                            {...field}
+                                                                        <DateTimePicker
+                                                                            value={parseDate(field.value)}
+                                                                            onChange={field.onChange}
                                                                         />
                                                                     </FormControl>
                                                                     <FormMessage />
