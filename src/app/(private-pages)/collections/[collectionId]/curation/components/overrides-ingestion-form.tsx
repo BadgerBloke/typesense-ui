@@ -18,6 +18,7 @@ import { Input } from '~/components/ui/input';
 import { Label } from '~/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select';
 import { Separator } from '~/components/ui/separator';
+import { SEARCHABLE_FIELD_TYPE } from '~/lib/constants';
 import { cn, parseDate, zodEnumToSelectData } from '~/lib/utils';
 import { dispatchToast } from '~/lib/utils/message-handler';
 
@@ -308,8 +309,7 @@ const OverridesIngestionForm = ({
                                                                 <Typography variant="small">Query by</Typography>
                                                                 <div className="flex flex-wrap gap-4">
                                                                     {collection.fields.map(f =>
-                                                                        f.index &&
-                                                                        ['string', 'string[]'].includes(f.type) ? (
+                                                                        f.index && SEARCHABLE_FIELD_TYPE.includes(f.type) ? (
                                                                             <Label
                                                                                 key={f.name}
                                                                                 className="inline-flex items-center"
@@ -367,8 +367,7 @@ const OverridesIngestionForm = ({
                                                                 <Typography variant="small">Query by</Typography>
                                                                 <div className="flex flex-wrap gap-4">
                                                                     {collection.fields.map(f =>
-                                                                        f.index &&
-                                                                        ['string', 'string[]'].includes(f.type) ? (
+                                                                        f.index && SEARCHABLE_FIELD_TYPE.includes(f.type) ? (
                                                                             <Label
                                                                                 key={f.name}
                                                                                 className="inline-flex items-center"

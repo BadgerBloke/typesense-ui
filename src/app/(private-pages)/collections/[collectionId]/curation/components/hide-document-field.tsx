@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import debounce from 'lodash-es/debounce';
 import { UseFormReturn } from 'react-hook-form';
 
 import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
@@ -59,6 +60,8 @@ const HideDocumentField: React.FC<HideDocumentFieldProps> = ({ form, queryBy, co
         }
     };
 
+    const debouncedDocumentSearch = debounce(handleDocumentSearch, 1000);
+
     const handleAddNewItem = () => {
         const newArray = [...excludes!, {}];
         form.setValue('excludes', newArray as { id: string; position: number; label: string }[]);
@@ -103,7 +106,7 @@ const HideDocumentField: React.FC<HideDocumentFieldProps> = ({ form, queryBy, co
                                         <CommandInput
                                             placeholder="Search document..."
                                             className="h-9"
-                                            onValueChange={handleDocumentSearch}
+                                            onValueChange={debouncedDocumentSearch}
                                         />
                                         <CommandList>
                                             <CommandEmpty>
@@ -195,7 +198,7 @@ const HideDocumentField: React.FC<HideDocumentFieldProps> = ({ form, queryBy, co
                                     <CommandInput
                                         placeholder="Search document..."
                                         className="h-9"
-                                        onValueChange={handleDocumentSearch}
+                                        onValueChange={debouncedDocumentSearch}
                                     />
                                     <CommandList>
                                         <CommandEmpty>
