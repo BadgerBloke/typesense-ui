@@ -2,29 +2,50 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { useForm, UseFormReturn } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { IconCirclePlus, IconDeviceFloppy, IconRotateClockwise2 } from '@tabler/icons-react';
 
 import Tooltip from '~/components/atoms/tooltip';
 import Typography from '~/components/atoms/typography';
-// import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '~/components/ui/accordion';
 import { Button, buttonVariants } from '~/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '~/components/ui/card';
 import { Checkbox } from '~/components/ui/checkbox';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form';
 import { Input } from '~/components/ui/input';
+import { Label } from '~/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select';
 import { Separator } from '~/components/ui/separator';
 import { cn, zodEnumToSelectData } from '~/lib/utils';
 import { dispatchToast } from '~/lib/utils/message-handler';
 
+import { CollectionType } from '../../../components/schema';
+
 import { createAndUpdateOverrides } from './actions';
+import HideDocumentField, { HideDocOverridesType } from './hide-document-field';
+import PinDocumentField, { RevisedOverridesType } from './pin-document-field';
 import { MatchEnum, OverridesSchema, OverridesType } from './schema';
 
-const OverridesIngestionForm = ({ collectionId, defaultData }: { collectionId: string; defaultData?: OverridesType }) => {
+export interface SelectData {
+    value: string;
+    label: string;
+}
+
+export interface QueryByType {
+    includes: string[];
+    excludes: string[];
+}
+
+const OverridesIngestionForm = ({
+    collection,
+    defaultData,
+}: {
+    collection: CollectionType;
+    defaultData?: OverridesType;
+}) => {
     const [pending, setPending] = useState(false);
+    const [queryBy, setQueryBy] = useState<QueryByType>({ includes: [], excludes: [] });
     const router = useRouter();
     const form = useForm<OverridesType>({
         defaultValues: {
@@ -37,10 +58,10 @@ const OverridesIngestionForm = ({ collectionId, defaultData }: { collectionId: s
     const onSubmit = async (values: OverridesType) => {
         try {
             setPending(true);
-            const res = await createAndUpdateOverrides({ ...values, collection: collectionId });
+            const res = await createAndUpdateOverrides({ ...values, collection: collection.name });
             if (res) {
                 dispatchToast(res);
-                res.type === 'success' && router.push(`/collections/${collectionId}/curation`);
+                res.type === 'success' && router.push(`/collections/${collection.name}/curation`);
             }
         } catch (e) {
             dispatchToast({ type: 'error', message: (e as Error).message });
@@ -48,6 +69,7 @@ const OverridesIngestionForm = ({ collectionId, defaultData }: { collectionId: s
             setPending(false);
         }
     };
+
     return (
         <div className="flex flex-col gap-10 xl:flex-row xl:gap-8 w-full">
             <Card className="max-w-5xl">
@@ -70,7 +92,7 @@ const OverridesIngestionForm = ({ collectionId, defaultData }: { collectionId: s
                         </div>
                         <div className="flex flex-col gap-3">
                             <Link
-                                href={`/collections/${collectionId}/overrides`}
+                                href={`/collections/${collection.name}/overrides`}
                                 className={cn(buttonVariants(), 'whitespace-nowrap')}
                             >
                                 Goto Overrides
@@ -280,40 +302,43 @@ const OverridesIngestionForm = ({ collectionId, defaultData }: { collectionId: s
                                                         <FormLabel>Pin Documents</FormLabel>
                                                     </div>
                                                     {field.value && (
-                                                        <div className="inline-flex items-center gap-4">
-                                                            <FormField
-                                                                control={form.control}
-                                                                name="includes.0.id"
-                                                                render={({ field }) => (
-                                                                    <FormItem className="w-full">
-                                                                        <FormLabel className="sr-only">
-                                                                            include documents
-                                                                        </FormLabel>
-                                                                        <FormControl>
-                                                                            <Input placeholder="Doc ID" {...field} />
-                                                                        </FormControl>
-                                                                        <FormMessage />
-                                                                    </FormItem>
-                                                                )}
-                                                            />
-                                                            <FormField
-                                                                control={form.control}
-                                                                name="includes.0.position"
-                                                                render={({ field }) => (
-                                                                    <FormItem className="w-full">
-                                                                        <FormLabel className="sr-only">
-                                                                            include documents
-                                                                        </FormLabel>
-                                                                        <FormControl>
-                                                                            <Input
-                                                                                placeholder="Position"
-                                                                                type="number"
-                                                                                {...field}
-                                                                            />
-                                                                        </FormControl>
-                                                                        <FormMessage />
-                                                                    </FormItem>
-                                                                )}
+                                                        <div className="grid gap-2 pl-6">
+                                                            <div className="space-y-3">
+                                                                <Typography variant="small">Query by</Typography>
+                                                                <div className="flex flex-wrap gap-4">
+                                                                    {collection.fields.map(f =>
+                                                                        f.index &&
+                                                                        ['string', 'string[]'].includes(f.type) ? (
+                                                                            <Label
+                                                                                key={f.name}
+                                                                                className="inline-flex items-center"
+                                                                            >
+                                                                                <Checkbox
+                                                                                    className="mr-2"
+                                                                                    checked={queryBy.includes.includes(
+                                                                                        f.name
+                                                                                    )}
+                                                                                    onCheckedChange={e =>
+                                                                                        setQueryBy(prev => ({
+                                                                                            ...prev,
+                                                                                            includes: e
+                                                                                                ? [...prev.includes, f.name]
+                                                                                                : prev.includes.filter(
+                                                                                                      v => v !== f.name
+                                                                                                  ),
+                                                                                        }))
+                                                                                    }
+                                                                                />
+                                                                                {f.name}
+                                                                            </Label>
+                                                                        ) : null
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                            <PinDocumentField
+                                                                form={form as UseFormReturn<RevisedOverridesType>}
+                                                                queryBy={queryBy}
+                                                                collectionName={collection.name}
                                                             />
                                                         </div>
                                                     )}
@@ -336,21 +361,46 @@ const OverridesIngestionForm = ({ collectionId, defaultData }: { collectionId: s
                                                         <FormLabel>Hide Documents</FormLabel>
                                                     </div>
                                                     {field.value && (
-                                                        <FormField
-                                                            control={form.control}
-                                                            name="excludes.0.id"
-                                                            render={({ field }) => (
-                                                                <FormItem className="w-full">
-                                                                    <FormLabel className="sr-only">hide documents</FormLabel>
-                                                                    <FormControl>
-                                                                        <Input placeholder="Doc ID" {...field} />
-                                                                    </FormControl>
-                                                                    <FormMessage />
-                                                                </FormItem>
-                                                            )}
-                                                        />
+                                                        <div className="grid gap-2 pl-6">
+                                                            <div className="space-y-3">
+                                                                <Typography variant="small">Query by</Typography>
+                                                                <div className="flex flex-wrap gap-4">
+                                                                    {collection.fields.map(f =>
+                                                                        f.index &&
+                                                                        ['string', 'string[]'].includes(f.type) ? (
+                                                                            <Label
+                                                                                key={f.name}
+                                                                                className="inline-flex items-center"
+                                                                            >
+                                                                                <Checkbox
+                                                                                    className="mr-2"
+                                                                                    checked={queryBy.excludes.includes(
+                                                                                        f.name
+                                                                                    )}
+                                                                                    onCheckedChange={e =>
+                                                                                        setQueryBy(prev => ({
+                                                                                            ...prev,
+                                                                                            excludes: e
+                                                                                                ? [...prev.excludes, f.name]
+                                                                                                : prev.excludes.filter(
+                                                                                                      v => v !== f.name
+                                                                                                  ),
+                                                                                        }))
+                                                                                    }
+                                                                                />
+                                                                                {f.name}
+                                                                            </Label>
+                                                                        ) : null
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                            <HideDocumentField
+                                                                form={form as UseFormReturn<HideDocOverridesType>}
+                                                                queryBy={queryBy}
+                                                                collectionName={collection.name}
+                                                            />
+                                                        </div>
                                                     )}
-                                                    <FormMessage />
                                                 </FormItem>
                                             )}
                                         />
@@ -658,7 +708,7 @@ const OverridesIngestionForm = ({ collectionId, defaultData }: { collectionId: s
                                     <Button
                                         onClick={() => {
                                             form.reset();
-                                            router.push(`/collections/${collectionId}/overrides/add`);
+                                            router.push(`/collections/${collection.name}/overrides/add`);
                                         }}
                                         type="button"
                                         variant="secondary"
