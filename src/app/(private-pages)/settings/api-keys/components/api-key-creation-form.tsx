@@ -95,7 +95,7 @@ const ApiKeyCreationCard = ({ collections }: { collections: CollectionSchema[] }
                                         id="expires_at"
                                         variant={'outline'}
                                         className={cn(
-                                            'w-[240px] pl-3 text-left font-normal',
+                                            'w-[248px] pl-3 text-left font-normal',
                                             !expiresAt && 'text-muted-foreground'
                                         )}
                                     >
@@ -106,6 +106,7 @@ const ApiKeyCreationCard = ({ collections }: { collections: CollectionSchema[] }
                                 <PopoverContent className="w-auto p-0" align="start">
                                     <Calendar
                                         mode="single"
+                                        showYearSwitcher
                                         selected={expiresAt}
                                         onSelect={e => setExpiresAt(e)}
                                         disabled={(date: Date) => date < new Date() || date > new Date('2035-01-01')}

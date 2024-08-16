@@ -75,9 +75,9 @@ export const OverridesSchema = z
         filter_curated_hits: z.boolean().default(false).optional(),
         stop_processing: z.boolean().default(false).optional(),
         effectiveFrom: z.boolean().default(false).optional(), // only for ui controls
-        effective_from_ts: z.string().transform(Number).optional(),
+        effective_from_ts: z.union([z.date().transform(date => Math.floor(date.getTime() / 1000)), z.number()]).optional(),
         effectiveTo: z.boolean().default(false).optional(), // only for ui controls
-        effective_to_ts: z.string().transform(Number).optional(),
+        effective_to_ts: z.union([z.date().transform(date => Math.floor(date.getTime() / 1000)), z.number()]).optional(),
     })
     .refine(
         data => {
@@ -180,6 +180,15 @@ export const OverridesSchema = z
             return true;
         },
         { message: 'Effective to date is required', path: ['effective_to_ts'] }
+    )
+    .refine(
+        data => {
+            if (data.effectiveFrom && data.effectiveTo) {
+                return data.effective_from_ts! < data.effective_to_ts!;
+            }
+            return true;
+        },
+        { message: 'Effective to date cannot be before Effective from date', path: ['effective_to_ts'] }
     );
 
 export type OverridesType = z.infer<typeof OverridesSchema>;

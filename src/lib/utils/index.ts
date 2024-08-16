@@ -37,3 +37,12 @@ export const addFieldIds = (collection: CollectionSchema): CollectionSchema => {
 export const zodEnumToSelectData = <T extends string[]>(data: T) => {
     return data.map(d => ({ label: d.fromSnakeToSentenceCase(['CF']), value: d }));
 };
+
+export const parseDate = (value?: Date | number): Date | undefined => {
+    if (value instanceof Date) {
+        return value;
+    } else if (typeof value === 'number') {
+        return new Date(value * 1000);
+    }
+    return;
+};
