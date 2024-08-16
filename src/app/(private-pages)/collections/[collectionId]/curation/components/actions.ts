@@ -50,3 +50,22 @@ export const deleteOverrides = async ({ id, collectionId }: { id: string; collec
         return Message.error((error as Error).message);
     }
 };
+
+export const getDocuments = async ({ q, collection, queryBy }: { q: string; collection: string; queryBy: string }) => {
+    try {
+        const res = await client
+            .collections(collection)
+            .documents()
+            .search({ q: `${q}*`, query_by: queryBy }, { cacheSearchResultsForSeconds: 60 });
+        if (res.found) {
+            return (res.hits as { document: { id: string } }[])?.map(d => ({
+                ...d.document,
+                value: d.document.id,
+                label: d.document[queryBy.split(',')[0] as 'id'],
+            }));
+        }
+        return [];
+    } catch (error) {
+        return [];
+    }
+};
