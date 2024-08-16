@@ -43,7 +43,7 @@ export const columns = ({ collection }: { collection: CollectionType }): ColumnD
         cell: ({ row }) => <div>{row.original.document.id}</div>,
     },
     {
-        accessorKey: 'field',
+        id: 'field',
         header: 'Fields',
         cell: ({ row }) => {
             const d = Object.keys(row.original.document);
@@ -64,7 +64,7 @@ export const columns = ({ collection }: { collection: CollectionType }): ColumnD
         },
     },
     {
-        accessorKey: 'field',
+        id: 'type',
         header: 'Data type',
         cell: ({ row }) => {
             const d = Object.keys(row.original.document);
@@ -87,7 +87,7 @@ export const columns = ({ collection }: { collection: CollectionType }): ColumnD
         },
     },
     {
-        accessorKey: 'field',
+        accessorKey: 'values',
         header: 'Values',
         cell: ({ row }) => {
             const d = Object.keys(row.original.document);

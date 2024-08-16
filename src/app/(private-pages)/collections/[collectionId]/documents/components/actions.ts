@@ -48,3 +48,22 @@ export const deleteDocuments = async ({ id, collectionId }: { id: string; collec
         return Message.error((error as Error).message);
     }
 };
+
+export const searchDocuments = async ({
+    q,
+    queryBy,
+    collectionId,
+}: {
+    q: string;
+    queryBy: string;
+    collectionId: string;
+}) => {
+    try {
+        return await client
+            .collections(collectionId)
+            .documents()
+            .search({ q, query_by: queryBy }, { cacheSearchResultsForSeconds: 0 });
+    } catch (error) {
+        return;
+    }
+};

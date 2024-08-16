@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import debounce from 'lodash-es/debounce';
 import { UseFormReturn } from 'react-hook-form';
 
 import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
@@ -60,6 +61,8 @@ const PinDocumentField: React.FC<PinDocumentFieldProps> = ({ form, queryBy, coll
         }
     };
 
+    const debouncedDocumentSearch = debounce(handleDocumentSearch, 1000);
+
     const handleAddNewItem = () => {
         const newArray = [...includes!, {}];
         form.setValue('includes', newArray as { id: string; position: number; label: string }[]);
@@ -104,7 +107,7 @@ const PinDocumentField: React.FC<PinDocumentFieldProps> = ({ form, queryBy, coll
                                         <CommandInput
                                             placeholder="Search document..."
                                             className="h-9"
-                                            onValueChange={handleDocumentSearch}
+                                            onValueChange={debouncedDocumentSearch}
                                         />
                                         <CommandList>
                                             <CommandEmpty>
@@ -215,7 +218,7 @@ const PinDocumentField: React.FC<PinDocumentFieldProps> = ({ form, queryBy, coll
                                     <CommandInput
                                         placeholder="Search document..."
                                         className="h-9"
-                                        onValueChange={handleDocumentSearch}
+                                        onValueChange={debouncedDocumentSearch}
                                     />
                                     <CommandList>
                                         <CommandEmpty>
