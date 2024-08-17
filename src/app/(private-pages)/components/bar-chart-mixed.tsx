@@ -13,9 +13,10 @@ interface BarChartMixedProps {
     title: string;
     description?: string;
     label?: { value: string; text: string };
+    layout?: 'horizontal' | 'vertical';
 }
 
-const BarChartMixed: React.FC<BarChartMixedProps> = ({ chartData, title, description }) => {
+const BarChartMixed: React.FC<BarChartMixedProps> = ({ chartData, title, description, layout = 'horizontal' }) => {
     const chartConfig: { [x: string]: { label: string; color?: string } } = {} satisfies ChartConfig;
     const revisedChartData = chartData.map((d, i) => {
         chartConfig[d!.category] = { label: d!.category.fromCamelToSpaceSeparated(), color: `hsl(var(--chart-${i + 1}))` };
@@ -34,22 +35,39 @@ const BarChartMixed: React.FC<BarChartMixedProps> = ({ chartData, title, descrip
                     <BarChart
                         accessibilityLayer
                         data={revisedChartData}
-                        layout="vertical"
+                        layout={layout}
                         margin={{
-                            left: 16,
+                            left: layout === 'vertical' ? 16 : 0,
                         }}
                     >
                         <YAxis
-                            dataKey="category"
-                            type="category"
-                            tickLine={false}
-                            tickMargin={10}
-                            axisLine={false}
-                            tickFormatter={value => chartConfig[value as keyof typeof chartConfig]?.label}
+                            dataKey={layout === 'vertical' ? 'category' : 'metric'}
+                            type={layout === 'vertical' ? 'category' : 'number'}
+                            tickLine={layout === 'vertical' ? false : undefined}
+                            tickMargin={layout === 'vertical' ? 10 : undefined}
+                            axisLine={layout === 'vertical' ? false : undefined}
+                            tickFormatter={
+                                layout === 'vertical'
+                                    ? value => chartConfig[value as keyof typeof chartConfig]?.label
+                                    : undefined
+                            }
+                            hide={layout === 'horizontal'}
                         />
-                        <XAxis dataKey="metric" type="number" hide />
+                        <XAxis
+                            dataKey={layout === 'horizontal' ? 'category' : 'metric'}
+                            type={layout === 'horizontal' ? 'category' : 'number'}
+                            tickLine={layout === 'horizontal' ? false : undefined}
+                            tickMargin={layout === 'horizontal' ? 10 : undefined}
+                            axisLine={layout === 'horizontal' ? false : undefined}
+                            tickFormatter={
+                                layout === 'horizontal'
+                                    ? value => chartConfig[value as keyof typeof chartConfig]?.label
+                                    : undefined
+                            }
+                            hide={layout === 'vertical'}
+                        />
                         <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-                        <Bar dataKey="metric" layout="vertical" radius={5} />
+                        <Bar dataKey="metric" layout={layout} radius={5} />
                     </BarChart>
                 </ChartContainer>
             </CardContent>

@@ -80,6 +80,7 @@ const HomePage = async () => {
                     ]}
                     title="Network Usage"
                     description="Network sent and received stats. (Values in MB)"
+                    layout="vertical"
                 />
                 <PieChartDonutActive
                     chartData={[
