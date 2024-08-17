@@ -46,3 +46,7 @@ export const parseDate = (value?: Date | number): Date | undefined => {
     }
     return;
 };
+
+export const bytesToMB = (bytes: number | string): number => {
+    return +(+bytes / (1024 * 1024)).toFixed(2);
+};
