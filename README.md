@@ -85,6 +85,14 @@ _Run the command according to your package manager if not using `pnpm`_
 
 > ### Example pages
 
+-   Dashboard
+    <img src="./public/images/dashboard.png" alt="create collection - page" />
+-   Documents List
+    <img src="./public/images/documents.png" alt="create collection - page" />
+
+-   Index Document
+    <img src="./public/images/add-document.png" alt="create collection - page" />
+
 -   Create New Collection
     <img src="./public/images/add-collection.png" alt="create collection - page" />
 
