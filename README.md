@@ -54,7 +54,7 @@ cd ..
 #### Step 2: Create `.env` file
 
 ```bash
-cp .env-example .env
+cp .env.example .env
 ```
 
 _In case you have changed the values in `Typesense Step 3` then update the same here as well._
