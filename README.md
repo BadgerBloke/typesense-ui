@@ -1,103 +1,100 @@
-# Typesense UI (Alpha) [Typesense v26.0 Compatible](https://typesense.org/docs/26.0/api/)
+# Welcome to React Router!
 
-An OpenSource user interface for Typesense self-hosted instance.
+A modern, production-ready template for building full-stack React applications using React Router.
 
-## All the available features are compatible with Typesense version 26.0
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
 
-# Welcome to the typesense-ui wiki!
+## Features
 
-## Start Locally
+- 🚀 Server-side rendering
+- ⚡️ Hot Module Replacement (HMR)
+- 📦 Asset bundling and optimization
+- 🔄 Data loading and mutations
+- 🔒 TypeScript by default
+- 🎉 TailwindCSS for styling
+- 📖 [React Router docs](https://reactrouter.com/)
 
-### Start Typesense Server
+## Getting Started
 
-#### Step 1: Clone the repo
+### Installation
 
-```bash
-git clone https://github.com/BadgerBloke/typesense-ui.git
-```
-
-#### Step 2: Goto Scripts
-
-```bash
-cd typesense-ui/scripts
-```
-
-#### Step 3: Create `.env` file
+Install the dependencies:
 
 ```bash
-cp .env-example .env
+npm install
 ```
 
-you can change the values in `.env`
+### Development
 
-#### Step 4: Start Typesense server
+Start the development server with HMR:
 
 ```bash
-docker compose up -d
+npm run dev
 ```
 
-#### Step 5: Check Typesense is up and running
+Your application will be available at `http://localhost:5173`.
 
-[http://localhost:8108/health](http://localhost:8108/health)
-_In case you have changed the value in `Step 3` then change the value here as well._
+## Building for Production
+
+Create a production build:
+
+```bash
+npm run build
+```
+
+## Deployment
+
+### Docker Deployment
+
+This template includes three Dockerfiles optimized for different package managers:
+
+- `Dockerfile` - for npm
+- `Dockerfile.pnpm` - for pnpm
+- `Dockerfile.bun` - for bun
+
+To build and run using Docker:
+
+```bash
+# For npm
+docker build -t my-app .
+
+# For pnpm
+docker build -f Dockerfile.pnpm -t my-app .
+
+# For bun
+docker build -f Dockerfile.bun -t my-app .
+
+# Run the container
+docker run -p 3000:3000 my-app
+```
+
+The containerized application can be deployed to any platform that supports Docker, including:
+
+- AWS ECS
+- Google Cloud Run
+- Azure Container Apps
+- Digital Ocean App Platform
+- Fly.io
+- Railway
+
+### DIY Deployment
+
+If you're familiar with deploying Node applications, the built-in app server is production-ready.
+
+Make sure to deploy the output of `npm run build`
+
+```
+├── package.json
+├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
+├── build/
+│   ├── client/    # Static assets
+│   └── server/    # Server-side code
+```
+
+## Styling
+
+This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
 
 ---
 
-### Start Typesense-UI
-
-#### Goto `typesense-ui` root directory
-
-```bash
-cd ..
-```
-
-#### Step 2: Create `.env` file
-
-```bash
-cp .env-example .env
-```
-
-_In case you have changed the values in `Typesense Step 3` then update the same here as well._
-
-#### Step 3: Install NextJS dependencies
-
-```bash
-pnpm i
-```
-
-_In case you are not using `pnpm` then delete `pnpm-lock.yaml` and run the dependencies installation command accordingly._
-
-#### Step 4: Start the App
-
-```bash
-pnpm dev
-```
-
-_Run the command according to your package manager if not using `pnpm`_
-
-#### Step 5: Visit [http://localhost:3000](http://localhost:3000)
-
----
-
-<br />
-
--   [Official Typesense installation doc](https://typesense.org/docs/guide/install-typesense.html#docker-compose)
-
-> ### Example pages
-
--   Dashboard
-    <img src="./public/images/dashboard.png" alt="create collection - page" />
--   Documents List
-    <img src="./public/images/documents.png" alt="create collection - page" />
-
--   Index Document
-    <img src="./public/images/add-document.png" alt="create collection - page" />
-
--   Create New Collection
-    <img src="./public/images/add-collection.png" alt="create collection - page" />
-
--   Settings
-    <img src="./public/images/settings.png" alt="settings - page" />
-
--   Crete API Key
-    <img src="./public/images/create-api-key.png" alt="create api key - page" />
+Built with ❤️ using React Router.
