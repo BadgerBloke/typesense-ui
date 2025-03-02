@@ -1,0 +1,10 @@
+.next
+node_modules
+next-env.d.ts
+*.js
+/node_modules
+/build
+/public/build
+/playwright-report
+/server-build
+!.server

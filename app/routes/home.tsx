@@ -1,13 +1,9 @@
-import type { Route } from "./+types/home";
-import { Welcome } from "../welcome/welcome";
+import { Welcome } from '~/client/welcome/welcome';
 
-export function meta({ }: Route.MetaArgs) {
-  return [
-    { title: "Typesense UI | Developed by MKSingh" },
-    { name: "description", content: "Typesense UI/Console | Developed by MKSingh" },
-  ];
+export function meta() {
+    return [{ title: 'Typesense UI | Developed by MKSingh' }, { name: 'description', content: 'Typesense UI/Console | Developed by MKSingh' }];
 }
 
 export default function Home() {
-  return <Welcome />;
+    return <Welcome />;
 }
