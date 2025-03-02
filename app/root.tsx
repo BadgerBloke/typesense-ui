@@ -9,6 +9,17 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import { PreventFlashOnWrongTheme, ThemeProvider, useTheme } from "remix-themes";
+import clsx from "clsx";
+import type { LoaderFunctionArgs } from "react-router";
+import { themeSessionResolver } from "./.server/session";
+
+export async function loader({ request }: LoaderFunctionArgs) {
+  const { getTheme } = await themeSessionResolver(request);
+  return {
+    theme: getTheme(),
+  };
+}
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -23,27 +34,32 @@ export const links: Route.LinksFunction = () => [
   },
 ];
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export const App = ({ loaderData }: { loaderData: Route.ComponentProps['loaderData'] }) => {
+  const [theme] = useTheme();
+
   return (
-    <html lang="en">
+    <html lang="en" className={clsx(theme)}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
+        <PreventFlashOnWrongTheme ssrTheme={Boolean(loaderData.theme)} />
         <Links />
       </head>
-      <body>
-        {children}
+      <body className="flex flex-col min-h-dvh antialiased">
+        <Outlet />
         <ScrollRestoration />
         <Scripts />
       </body>
     </html>
   );
-}
+};
 
-export default function App() {
-  return <Outlet />;
-}
+const AppWithProviders = ({ loaderData }: Route.ComponentProps) => (
+  <ThemeProvider specifiedTheme={loaderData.theme} themeAction="/action/set-theme">
+    <App loaderData={loaderData} />
+  </ThemeProvider>
+);
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   let message = "Oops!";
@@ -73,3 +89,5 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
     </main>
   );
 }
+
+export default AppWithProviders;
