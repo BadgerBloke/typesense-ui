@@ -10,7 +10,7 @@
         "rootDirs": [".", "./.react-router/types"],
         "baseUrl": ".",
         "paths": {
-            "~/client/*": ["./app/*"],
+            "~/*": ["./app/*"],
             "~/server/*": ["./app/.server/*"],
             "+types/*": ["./.react-router/types/app/routes/+types/*"]
         },

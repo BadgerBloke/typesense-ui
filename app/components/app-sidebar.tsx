@@ -2,10 +2,9 @@ import * as React from 'react';
 import { Cog, Grid2x2Plus, LayoutDashboard, Notebook } from 'lucide-react';
 import { Link } from 'react-router';
 
-import Typography, { typographyVariants } from '~/client/components/atoms/typography';
-import { NavMain } from '~/client/components/nav-main';
-import { NavUser } from '~/client/components/nav-user';
-import { ScrollArea } from '~/client/components/ui/scroll-area';
+import { NavMain } from '~/components/nav-main';
+import { NavUser } from '~/components/nav-user';
+import { ScrollArea } from '~/components/ui/scroll-area';
 import {
     Sidebar,
     SidebarContent,
@@ -15,8 +14,10 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
     SidebarRail,
-} from '~/client/components/ui/sidebar';
-import { cn } from '~/client/lib/utils';
+} from '~/components/ui/sidebar';
+
+import Logo from './atoms/logo';
+import SystemStatus from './atoms/system-status';
 
 // This is sample data.
 const data = {
@@ -30,7 +31,6 @@ const data = {
             title: 'Dashboard',
             url: '/',
             icon: LayoutDashboard,
-            isActive: true,
         },
         {
             title: 'New Collection',
@@ -41,6 +41,7 @@ const data = {
             title: 'Collections',
             url: '/collections',
             icon: Notebook,
+            isActive: true,
             items: [
                 {
                     title: 'Documents',
@@ -70,10 +71,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton size="lg" asChild>
+                        <SidebarMenuButton size="lg" asChild className="hover:bg-transparent">
                             <Link to="/" className="flex items-center gap-2 text-sm font-medium">
-                                <Typography variant="large">Typesense</Typography>
-                                <span className={cn(typographyVariants({ variant: 'large' }), 'gradient-bg px-1 rounded-sm')}>UI</span>
+                                <Logo />
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -85,6 +85,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 </ScrollArea>
             </SidebarContent>
             <SidebarFooter>
+                <SystemStatus />
                 <NavUser user={data.user} />
             </SidebarFooter>
             <SidebarRail />

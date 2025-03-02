@@ -1,1 +1,1 @@
-export { default } from '~/client/components/pages/_with-layout';
+export { default } from '~/components/pages/_with-layout';

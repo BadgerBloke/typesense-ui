@@ -1,7 +1,7 @@
 import { ChevronRight, type LucideIcon } from 'lucide-react';
-import { Link } from 'react-router';
+import { Link, useFetcher } from 'react-router';
 
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '~/client/components/ui/collapsible';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '~/components/ui/collapsible';
 import {
     SidebarGroup,
     SidebarGroupLabel,
@@ -11,7 +11,7 @@ import {
     SidebarMenuSub,
     SidebarMenuSubButton,
     SidebarMenuSubItem,
-} from '~/client/components/ui/sidebar';
+} from '~/components/ui/sidebar';
 
 export function NavMain({
     items,
@@ -27,6 +27,12 @@ export function NavMain({
         }[];
     }[];
 }) {
+    const fetcher = useFetcher({ key: 'collections' });
+
+    if (typeof window !== 'undefined' && fetcher.state === 'idle' && !fetcher.data) {
+        fetcher.load('/collections');
+    }
+
     return (
         <SidebarGroup>
             <SidebarGroupLabel className="sr-only">Menu</SidebarGroupLabel>

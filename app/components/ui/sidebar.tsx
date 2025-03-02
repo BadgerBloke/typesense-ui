@@ -1,16 +1,16 @@
 import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { PanelLeftIcon } from 'lucide-react';
+import { PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 
 import { Slot } from '@radix-ui/react-slot';
-import { Button } from '~/client/components/ui/button';
-import { Input } from '~/client/components/ui/input';
-import { Separator } from '~/client/components/ui/separator';
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '~/client/components/ui/sheet';
-import { Skeleton } from '~/client/components/ui/skeleton';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '~/client/components/ui/tooltip';
-import { useIsMobile } from '~/client/hooks/use-mobile';
-import { cn } from '~/client/lib/utils';
+import { Button } from '~/components/ui/button';
+import { Input } from '~/components/ui/input';
+import { Separator } from '~/components/ui/separator';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '~/components/ui/sheet';
+import { Skeleton } from '~/components/ui/skeleton';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '~/components/ui/tooltip';
+import { useIsMobile } from '~/hooks/use-mobile';
+import { cn } from '~/lib/utils';
 
 const SIDEBAR_COOKIE_NAME = 'sidebar_state';
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
@@ -225,7 +225,7 @@ function Sidebar({
 }
 
 function SidebarTrigger({ className, onClick, ...props }: React.ComponentProps<typeof Button>) {
-    const { toggleSidebar } = useSidebar();
+    const { toggleSidebar, state } = useSidebar();
 
     return (
         <Button
@@ -240,7 +240,7 @@ function SidebarTrigger({ className, onClick, ...props }: React.ComponentProps<t
             }}
             {...props}
         >
-            <PanelLeftIcon />
+            {state === 'expanded' ? <PanelLeftClose /> : <PanelLeftOpen />}
             <span className="sr-only">Toggle Sidebar</span>
         </Button>
     );

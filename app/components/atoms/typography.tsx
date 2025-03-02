@@ -1,7 +1,7 @@
 import React, { type JSX } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 
-import { cn } from '~/client/lib/utils';
+import { cn } from '~/lib/utils';
 
 export type TypographyVariant = 'hero' | 'h1' | 'h2' | 'h3' | 'h4' | 'p' | 'blockquote' | 'code' | 'lead' | 'large' | 'small' | 'muted' | 'tiny';
 

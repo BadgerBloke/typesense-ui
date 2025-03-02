@@ -2,9 +2,9 @@ import { Theme, useTheme } from 'remix-themes';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { Monitor, Moon, Sun } from 'lucide-react';
 
-import { Button } from '~/client/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '~/client/components/ui/dropdown-menu';
-import { cn } from '~/client/lib/utils';
+import { Button } from '~/components/ui/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '~/components/ui/dropdown-menu';
+import { cn } from '~/lib/utils';
 
 const toggleVariants = cva('shrink-0', {
     variants: {
