@@ -17,7 +17,20 @@ import globals from 'globals';
 export default [
     eslint.configs.recommended,
     {
-        ignores: ['**/node_modules/**', '**/dist/**', '**/build/**', '.git/**'],
+        ignores: [
+            '**/node_modules/**',
+            '**/.react-router/**',
+            '**/dist/**',
+            '**/build/**',
+            '.git/**',
+            '*.js',
+            '*.mjs',
+            '*.md',
+            '/public/build',
+            '/playwright-report',
+            '/server-build',
+            '!.server',
+        ],
     },
     {
         languageOptions: {

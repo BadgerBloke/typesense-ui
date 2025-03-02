@@ -1,4 +1,5 @@
-// Skip Husky install in production and CI
+/* eslint-disable no-console */
+/* eslint-disable no-undef */
 if (process.env.NODE_ENV === 'production' || process.env.CI === 'true') {
     process.exit(0);
 }
