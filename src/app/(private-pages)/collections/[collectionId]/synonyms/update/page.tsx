@@ -7,13 +7,15 @@ import { SynonymsType } from '../components/schema';
 import SynonymsIngestionForm from '../components/synonyms-ingestion-form';
 
 const SynonymsUpdatePage = async ({
-    params: { collectionId },
+    params,
     searchParams,
 }: {
-    params: { collectionId: string };
+    params: Promise<{ collectionId: string }>;
     searchParams: { id?: string };
 }) => {
     if (!searchParams.id) notFound();
+
+    const { collectionId } = await params;
     const defaultData = await client.collections(collectionId).synonyms(searchParams.id).retrieve();
     return (
         <div className="flex h-full w-full flex-col gap-8">

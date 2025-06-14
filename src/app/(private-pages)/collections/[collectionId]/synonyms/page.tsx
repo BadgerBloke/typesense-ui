@@ -9,7 +9,8 @@ import { cn } from '~/lib/utils';
 
 import { columns } from './components/synonyms-data-table';
 
-const SynonymsPage = async ({ params: { collectionId } }: { params: { collectionId: string } }) => {
+const SynonymsPage = async ({ params }: { params: Promise<{ collectionId: string }> }) => {
+    const { collectionId } = await params;
     const { synonyms } = await client.collections(collectionId).synonyms().retrieve();
     return (
         <div className="flex flex-col gap-6 w-full">

@@ -4,7 +4,8 @@ import { addFieldIds } from '~/lib/utils';
 
 import CollectionUpdateForm from './components/collection-update-form';
 
-const EditCollectionPage = async ({ params: { collectionId } }: { params: { collectionId: string } }) => {
+const EditCollectionPage = async ({ params }: { params: Promise<{ collectionId: string }> }) => {
+    const { collectionId } = await params;
     const collection = await client.collections(collectionId).retrieve();
 
     return (
