@@ -1,0 +1,68 @@
+name: Staging Deployment
+on:
+    push:
+        branches:
+            - super-release # Change this to the branch you want to deploy from
+jobs:
+    deploy:
+        runs-on: self-hosted # Uses your self-hosted runner on EC2
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Build and start staging
+              run: |
+                  # Stop any existing containers
+                  make stop-staging || true
+
+                  # Build the production image
+                  make build-staging
+
+                  # Start the production containers
+                  make start-staging
+
+            - name: Wait for services to stabilize
+              run: sleep 30s
+
+            - name: Verify services are running
+              run: docker compose -f docker/staging-compose.yml ps
+
+            - name: Check application health
+              run: |
+                  # Wait for the application to be available
+                  max_attempts=10
+                  attempt=1
+
+                  while [ $attempt -le $max_attempts ]; do
+                    if curl -s -f -o /dev/null https://dev.imageai.io/api/health; then
+                      echo "Application is healthy!"
+                      break
+                    fi
+                    
+                    echo "Waiting for application to become available (attempt $attempt/$max_attempts)..."
+                    sleep 10
+                    attempt=$((attempt+1))
+                  done
+
+                  if [ $attempt -gt $max_attempts ]; then
+                    echo "Application failed to become healthy after $max_attempts attempts"
+                    docker compose -f docker/staging-compose.yml logs
+                    exit 1
+                  fi
+
+            - name: Clean up
+              run: |
+                  docker system prune -af --volumes
+                  docker image prune -af
+              continue-on-error: true
+
+            # - name: Notify deployment status
+            #   if: always()
+            #   uses: rtCamp/action-slack-notify@v2
+            #   env:
+            #       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+            #       SLACK_CHANNEL: deployments
+            #       SLACK_COLOR: ${{ job.status }}
+            #       SLACK_TITLE: Production Deployment Status
+            #       SLACK_MESSAGE: ${{ job.status == 'success' && 'Deployment completed successfully! 🚀' || 'Deployment failed! 🔥' }}
+            #       SLACK_FOOTER: 'Deployed from branch: trunk'
