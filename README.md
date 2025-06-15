@@ -4,7 +4,7 @@ An OpenSource user interface for Typesense self-hosted instance.
 
 ## All the available features are compatible with Typesense version 26.0
 
-# Welcome to the typesense-ui wiki!
+## Welcome to the typesense-ui wiki
 
 ## Start Locally
 
@@ -81,23 +81,23 @@ _Run the command according to your package manager if not using `pnpm`_
 
 <br />
 
--   [Official Typesense installation doc](https://typesense.org/docs/guide/install-typesense.html#docker-compose)
+- [Official Typesense installation doc](https://typesense.org/docs/guide/install-typesense.html#docker-compose)
 
 > ### Example pages
 
--   Dashboard
-    <img src="./public/images/dashboard.png" alt="create collection - page" />
--   Documents List
-    <img src="./public/images/documents.png" alt="create collection - page" />
+- Dashboard
+  <img src="./public/images/dashboard.png" alt="create collection - page" />
+- Documents List
+  <img src="./public/images/documents.png" alt="create collection - page" />
 
--   Index Document
-    <img src="./public/images/add-document.png" alt="create collection - page" />
+- Index Document
+  <img src="./public/images/add-document.png" alt="create collection - page" />
 
--   Create New Collection
-    <img src="./public/images/add-collection.png" alt="create collection - page" />
+- Create New Collection
+  <img src="./public/images/add-collection.png" alt="create collection - page" />
 
--   Settings
-    <img src="./public/images/settings.png" alt="settings - page" />
+- Settings
+  <img src="./public/images/settings.png" alt="settings - page" />
 
--   Crete API Key
-    <img src="./public/images/create-api-key.png" alt="create api key - page" />
+- Crete API Key
+  <img src="./public/images/create-api-key.png" alt="create api key - page" />
