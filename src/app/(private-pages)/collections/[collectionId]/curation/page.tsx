@@ -9,7 +9,8 @@ import { cn } from '~/lib/utils';
 
 import { columns } from './components/overrides-data-table';
 
-const CurationPage = async ({ params: { collectionId } }: { params: { collectionId: string } }) => {
+const CurationPage = async ({ params }: { params: Promise<{ collectionId: string }> }) => {
+    const { collectionId } = await params;
     const { overrides } = await client.collections(collectionId).overrides().retrieve();
     return (
         <div className="flex flex-col gap-6 w-full">

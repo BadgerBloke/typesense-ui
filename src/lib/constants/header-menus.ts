@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Icon, IconArticleFilled, IconHome2 } from '@tabler/icons-react';
+import { Icon } from '@tabler/icons-react';
 
 type MenuType = {
     href: string;

@@ -10,7 +10,8 @@ import { CollectionType } from '../../components/schema';
 
 import DocumentsDataTable from './components/data-table';
 
-const DocumentsPage = async ({ params: { collectionId } }: { params: { collectionId: string } }) => {
+const DocumentsPage = async ({ params }: { params: Promise<{ collectionId: string }> }) => {
+    const { collectionId } = await params;
     const [documents, collection] = await Promise.all([
         client.collections(collectionId).documents().search({ q: '*' }, { cacheSearchResultsForSeconds: 0 }),
         client.collections(collectionId).retrieve(),

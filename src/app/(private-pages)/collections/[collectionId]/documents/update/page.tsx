@@ -7,15 +7,18 @@ import { CollectionType } from '../../../components/schema';
 import DocumentsIngestionForm from '../components/documents-ingestion-form';
 
 const DocumentUpdatePage = async ({
-    params: { collectionId },
+    params,
     searchParams,
 }: {
-    params: { collectionId: string };
-    searchParams: { id?: string };
+    params: Promise<{ collectionId: string }>;
+    searchParams: Promise<{ id?: string }>;
 }) => {
-    if (!searchParams.id) notFound();
+    const { id } = await searchParams;
+    if (!id) notFound();
+
+    const { collectionId } = await params;
     const [defaultData, collection] = await Promise.all([
-        client.collections(collectionId).documents(searchParams.id).retrieve(),
+        client.collections(collectionId).documents(id).retrieve(),
         client.collections(collectionId).retrieve(),
     ]);
     return (

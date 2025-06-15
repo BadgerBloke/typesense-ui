@@ -8,15 +8,18 @@ import OverridesIngestionForm from '../components/overrides-ingestion-form';
 import { OverridesType } from '../components/schema';
 
 const CurationUpdatePage = async ({
-    params: { collectionId },
+    params,
     searchParams,
 }: {
-    params: { collectionId: string };
-    searchParams: { id?: string };
+    params: Promise<{ collectionId: string }>;
+    searchParams: Promise<{ id?: string }>;
 }) => {
-    if (!searchParams.id) notFound();
+    const { id } = await searchParams;
+    if (!id) notFound();
+
+    const { collectionId } = await params;
     const [data, collection] = (await Promise.all([
-        client.collections(collectionId).overrides(searchParams.id).retrieve(),
+        client.collections(collectionId).overrides(id).retrieve(),
         client.collections(collectionId).retrieve(),
     ])) as [OverridesType, CollectionType];
     // const indexStringFields = collection.fields

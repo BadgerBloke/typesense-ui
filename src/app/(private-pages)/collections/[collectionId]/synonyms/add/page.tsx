@@ -2,7 +2,8 @@ import Typography from '~/components/atoms/typography';
 
 import SynonymsIngestionForm from '../components/synonyms-ingestion-form';
 
-const SynonymsUpdatePage = async ({ params: { collectionId } }: { params: { collectionId: string } }) => {
+const SynonymsUpdatePage = async ({ params }: { params: Promise<{ collectionId: string }> }) => {
+    const { collectionId } = await params;
     return (
         <div className="flex h-full w-full flex-col gap-8">
             <div className="flex flex-1 flex-col gap-4 bg-muted/40 rounded-lg p-4 md:gap-8 md:p-10">

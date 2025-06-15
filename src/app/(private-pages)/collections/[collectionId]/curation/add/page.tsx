@@ -4,7 +4,8 @@ import { client } from '~/lib/services/typesense';
 import { CollectionType } from '../../../components/schema';
 import OverridesIngestionForm from '../components/overrides-ingestion-form';
 
-const CurationAddPage = async ({ params: { collectionId } }: { params: { collectionId: string } }) => {
+const CurationAddPage = async ({ params }: { params: Promise<{ collectionId: string }> }) => {
+    const { collectionId } = await params;
     const collection = await client.collections(collectionId).retrieve();
     return (
         <div className="flex h-full w-full flex-col gap-8">

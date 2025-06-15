@@ -25,7 +25,7 @@ const eslintConfig = [
         extends: ['next', 'next/core-web-vitals', 'next/typescript', 'prettier'],
     }),
     {
-        ignores: ['.next/**', '**/node_modules/**', '**/dist/**', '**/build/**', '.git/**'],
+        ignores: ['.next/**', '**/node_modules/**', '**/dist/**', '**/build/**', '.git/**', '*.md'],
     },
     {
         languageOptions: {

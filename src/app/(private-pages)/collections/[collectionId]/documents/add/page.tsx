@@ -6,7 +6,8 @@ import DocumentsIngestionForm from '../components/documents-ingestion-form';
 
 import BulkUploader from './components/bulk-uploader';
 
-const DocumentAddPage = async ({ params: { collectionId } }: { params: { collectionId: string } }) => {
+const DocumentAddPage = async ({ params }: { params: Promise<{ collectionId: string }> }) => {
+    const { collectionId } = await params;
     const collectionSchema = await client.collections(collectionId).retrieve();
     return (
         <div className="flex h-full w-full flex-col gap-8 lg:flex-row">

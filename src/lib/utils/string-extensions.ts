@@ -1,4 +1,3 @@
-/* eslint-disable no-extend-native */
 String.prototype.toCamelCase = function (): string {
     return this.split(' ')
         .map((word, index) => {

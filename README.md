@@ -57,7 +57,8 @@ cd ..
 cp .env-example .env
 ```
 
-_In case you have changed the values in `Typesense Step 3` then update the same here as well._
+_In case you have changed the values in `Typesense Step 3` then update the same
+here as well._
 
 #### Step 3: Install NextJS dependencies
 
@@ -65,7 +66,8 @@ _In case you have changed the values in `Typesense Step 3` then update the same 
 pnpm i
 ```
 
-_In case you are not using `pnpm` then delete `pnpm-lock.yaml` and run the dependencies installation command accordingly._
+_In case you are not using `pnpm` then delete `pnpm-lock.yaml` and run the
+dependencies installation command accordingly._
 
 #### Step 4: Start the App
 
@@ -79,25 +81,24 @@ _Run the command according to your package manager if not using `pnpm`_
 
 ---
 
-<br />
-
 - [Official Typesense installation doc](https://typesense.org/docs/guide/install-typesense.html#docker-compose)
 
 > ### Example pages
 
 - Dashboard
-  <img src="./public/images/dashboard.png" alt="create collection - page" />
+  [!dashboard](./public/images/dashboard.png)
+
 - Documents List
-  <img src="./public/images/documents.png" alt="create collection - page" />
+  [!documents](./public/images/documents.png)
 
 - Index Document
-  <img src="./public/images/add-document.png" alt="create collection - page" />
+  [!add document](./public/images/add-document.png)
 
 - Create New Collection
-  <img src="./public/images/add-collection.png" alt="create collection - page" />
+  [!create collection](./public/images/add-collection.png)
 
 - Settings
-  <img src="./public/images/settings.png" alt="settings - page" />
+  [!settings - page](./public/images/settings.png)
 
 - Crete API Key
-  <img src="./public/images/create-api-key.png" alt="create api key - page" />
+  [!create api key](./public/images/create-api-key.png)

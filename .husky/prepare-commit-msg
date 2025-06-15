@@ -1,0 +1,36 @@
+#!/usr/bin/env sh
+
+# $2 contains the source of the commit message.
+# It can be message, template, merge, squash, or commit (for git commit --amend)
+if [ "$2" = "commit" ]; then
+    echo "Skipping prepare-commit-msg hook due to amend."
+    exit 0
+fi
+
+# If we're in the middle of an interactive rebase, GIT_SEQUENCE_EDITOR will be set.
+# We'll skip the hook in this case as well.
+if [ -n "$GIT_SEQUENCE_EDITOR" ]; then
+    echo "Skipping prepare-commit-msg hook due to rebase."
+    exit 0
+fi
+
+# Skip if we're in LazyGit or other Git GUIs that don't support interactive prompts
+if [ -n "$LAZYGIT" ] || [ -n "$GIT_GUI" ] || [ "$TERM" = "dumb" ]; then
+    echo "Skipping prepare-commit-msg hook due to GUI environment."
+    exit 0
+fi
+
+# Check if we're in a non-interactive environment
+if [ ! -t 0 ] || [ ! -t 1 ]; then
+    echo "Skipping prepare-commit-msg hook due to non-interactive environment."
+    exit 0
+fi
+
+# Try to run commitizen with proper TTY handling
+if command -v cz >/dev/null 2>&1; then
+    # Use global commitizen if available
+    exec </dev/tty && cz --hook || true
+else
+    # Use local commitizen
+    exec </dev/tty && node_modules/.bin/cz --hook || true
+fi

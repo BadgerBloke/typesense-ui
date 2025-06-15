@@ -57,7 +57,7 @@ export const dispatchToast = ({ type, message, router }: MessageResponse & { rou
             toast.warning(message);
             break;
         case 'redirect':
-            router && router.push(message);
+            if (router) router.push(message);
             break;
         default:
             toast(message);
