@@ -58,7 +58,7 @@ module.exports = {
     // formatter: '{type}({ticketNumber}): {scope} >>> {subject}',
     parserPreset: {
         parserOpts: {
-            headerPattern: /^(\w*)(?:\(([UI]+-[0-9]+)\))?\: (.*)$/,
+            headerPattern: /^(\w*)(?:\(([UI]+-[0-9]+)\))?: (.*)$/,
             headerCorrespondence: ['type', 'scope', 'subject'],
             issuePrefixes: ['#'],
         },
@@ -80,7 +80,6 @@ module.exports = {
 
     allowCustomScopes: false,
     allowBreakingChanges: ['feat', 'fix', 'refactor'],
-    formatter: '@commitlint/format',
     subjectLimit: 100,
     breaklineChar: '|', // It is supported for fields body and footer.
     footerPrefix: '',
