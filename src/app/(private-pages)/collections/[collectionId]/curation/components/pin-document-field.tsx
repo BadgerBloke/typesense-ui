@@ -49,8 +49,8 @@ const PinDocumentField: React.FC<PinDocumentFieldProps> = ({ form, queryBy, coll
             if (queryBy.includes.length) {
                 const res = await getDocuments({ q, collection: collectionName, queryBy: queryBy.includes.join(',') });
                 const selectedDocs = [];
-                form.getValues('excludes') && selectedDocs.push(form.getValues('excludes'));
-                form.getValues('includes') && selectedDocs.push(form.getValues('includes'));
+                if (form.getValues('excludes')) selectedDocs.push(form.getValues('excludes'));
+                if (form.getValues('includes')) selectedDocs.push(form.getValues('includes'));
                 const selectedDocIds = new Set(selectedDocs.flat()?.map(doc => doc?.id));
                 setDocuments(res.filter(doc => !selectedDocIds.has(doc.id)));
             } else {

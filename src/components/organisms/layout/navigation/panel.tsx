@@ -1,3 +1,5 @@
+import { JSX } from 'react';
+
 import Logo from '~/components/molecules/logo';
 import { ScrollArea } from '~/components/ui/scroll-area';
 import { Sheet, SheetClose, SheetContent } from '~/components/ui/sheet';

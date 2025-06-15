@@ -49,7 +49,7 @@ const OverridesIngestionForm = ({
     const [pending, setPending] = useState(false);
     const [queryBy, setQueryBy] = useState<QueryByType>({ includes: [], excludes: [] });
     const router = useRouter();
-    const form = useForm<OverridesType>({
+    const form = useForm({
         defaultValues: {
             id: '',
             ...defaultData,
@@ -63,7 +63,7 @@ const OverridesIngestionForm = ({
             const res = await createAndUpdateOverrides({ ...values, collection: collection.name });
             if (res) {
                 dispatchToast(res);
-                res.type === 'success' && router.push(`/collections/${collection.name}/curation`);
+                if (res.type === 'success') router.push(`/collections/${collection.name}/curation`);
             }
         } catch (e) {
             dispatchToast({ type: 'error', message: (e as Error).message });

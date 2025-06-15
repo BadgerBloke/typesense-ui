@@ -1,14 +1,13 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { isRedirectError } from 'next/dist/client/components/redirect';
+import { isRedirectError } from 'next/dist/client/components/redirect-error';
 import { redirect } from 'next/navigation';
 
+import { FieldsType } from '~/app/(private-pages)/collections/components/schema';
 import { client } from '~/lib/services/typesense';
 import { Message } from '~/lib/utils/message-handler';
 import { jsonToZodSchema } from '~/lib/utils/renderer/json-to-zod-schema';
-
-import { FieldsType } from '../../../components/schema';
 
 export const createDocument = async ({
     collectionSchema,
@@ -63,7 +62,7 @@ export const searchDocuments = async ({
             .collections(collectionId)
             .documents()
             .search({ q, query_by: queryBy }, { cacheSearchResultsForSeconds: 0 });
-    } catch (error) {
+    } catch {
         return;
     }
 };

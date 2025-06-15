@@ -1,5 +1,5 @@
 'use client';
-import { Children, isValidElement } from 'react';
+import { Children, isValidElement, JSX } from 'react';
 import Image from 'next/image';
 import clsx from 'clsx';
 import DropzonePrimitive, { DropzoneProps, DropzoneRootProps } from 'react-dropzone';

@@ -10,9 +10,10 @@ export const login = async (callback: string, formData: FormData) => {
     const rawData = Object.fromEntries(formData);
     const validationResult = SignInFormSchema.safeParse({ ...rawData });
 
-    if (!validationResult.success) return { data: validationResult.error.format() };
+    if (!validationResult.success) throw new Error(JSON.stringify({ data: validationResult.error.format() }));
 
-    cookies().set(COOKIES.authorization, validationResult.data.email, {
+    const cookieStore = await cookies();
+    cookieStore.set(COOKIES.authorization, validationResult.data.email, {
         domain: CLIENT.domain,
         secure: true,
         sameSite: 'strict',

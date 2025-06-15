@@ -13,38 +13,38 @@ export const createAndUpdateOverrides = async (values: OverridesType & { collect
         const validationResult = OverridesSchema.safeParse(values);
         if (!validationResult.success) return Message.error('Invalid data, please fix before resubmission');
 
-        !validationResult.data.customMetadata && delete validationResult.data.metadata;
+        if (!validationResult.data.customMetadata) delete validationResult.data.metadata;
         delete validationResult.data.customMetadata;
 
-        !validationResult.data.effectiveFrom && delete validationResult.data.effective_from_ts;
+        if (!validationResult.data.effectiveFrom) delete validationResult.data.effective_from_ts;
         delete validationResult.data.effectiveFrom;
 
-        !validationResult.data.effectiveTo && delete validationResult.data.effective_to_ts;
+        if (!validationResult.data.effectiveTo) delete validationResult.data.effective_to_ts;
         delete validationResult.data.effectiveTo;
 
-        !validationResult.data.filterDocuments && delete validationResult.data.filter_by;
+        if (!validationResult.data.filterDocuments) delete validationResult.data.filter_by;
         delete validationResult.data.filterDocuments;
 
-        !validationResult.data.hideDocuments && delete validationResult.data.excludes;
+        if (!validationResult.data.hideDocuments) delete validationResult.data.excludes;
         delete validationResult.data.hideDocuments;
 
-        !validationResult.data.pinDocuments && delete validationResult.data.includes;
+        if (!validationResult.data.pinDocuments) delete validationResult.data.includes;
         delete validationResult.data.pinDocuments;
 
-        !validationResult.data.replaceDocuments && delete validationResult.data.replace_query;
+        if (!validationResult.data.replaceDocuments) delete validationResult.data.replace_query;
         delete validationResult.data.replaceDocuments;
 
-        !validationResult.data.sortDocuments && delete validationResult.data.sort_by;
+        if (!validationResult.data.sortDocuments) delete validationResult.data.sort_by;
         delete validationResult.data.sortDocuments;
 
-        !validationResult.data.rule?.curateByFilter && delete validationResult.data.rule?.filter_by;
+        if (!validationResult.data.rule?.curateByFilter) delete validationResult.data.rule?.filter_by;
         delete validationResult.data.rule?.curateByFilter;
 
-        !validationResult.data.rule?.curateByQuery && delete validationResult.data.rule?.query;
-        !validationResult.data.rule?.curateByQuery && delete validationResult.data.rule?.match;
+        if (!validationResult.data.rule?.curateByQuery) delete validationResult.data.rule?.query;
+        if (!validationResult.data.rule?.curateByQuery) delete validationResult.data.rule?.match;
         delete validationResult.data.rule?.curateByQuery;
 
-        !validationResult.data.rule?.curateByTags && delete validationResult.data.rule?.tags;
+        if (!validationResult.data.rule?.curateByTags) delete validationResult.data.rule?.tags;
         delete validationResult.data.rule?.curateByTags;
 
         const res = await client
@@ -87,7 +87,7 @@ export const getDocuments = async ({ q, collection, queryBy }: { q: string; coll
             }));
         }
         return [];
-    } catch (error) {
+    } catch {
         return [];
     }
 };

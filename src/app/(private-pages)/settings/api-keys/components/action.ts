@@ -26,7 +26,7 @@ export const createAPIKey = async (state: State, formData: FormData) => {
     formObject.collections = formData.getAll('collections') as string[];
     formObject.expires_at = parseInt(formObject.expires_at as unknown as string, 10);
 
-    formObject.collections.length === 0 ? (formObject.collections = ['*']) : null;
+    if (formObject.collections.length === 0) formObject.collections = ['*'];
     formObject.autodelete = formObject.autodelete === 'on' ? true : false;
     const validationResult = APIKeySchema.safeParse(formObject);
 
@@ -37,7 +37,13 @@ export const createAPIKey = async (state: State, formData: FormData) => {
             isResponse: true,
         };
 
-    const keys = await client.keys().create(validationResult.data);
+    const keys = await client.keys().create({
+        ...validationResult.data,
+        autodelete:
+            typeof validationResult.data.autodelete === 'boolean'
+                ? validationResult.data.autodelete
+                : validationResult.data.autodelete === 'on',
+    });
     return { data: keys, pathname: state.pathname, error: {}, isResponse: true };
 };
 

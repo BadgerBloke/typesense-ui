@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import { FieldsType } from '~/app/(private-pages)/collections/components/schema';
 
-export const jsonToZodSchema = (fields: FieldsType): z.ZodSchema<Record<string, z.ZodTypeAny>> => {
+export const jsonToZodSchema = (fields: FieldsType) => {
     const schemaShape: Record<string, z.ZodTypeAny> = {};
 
     for (const field of fields) {
