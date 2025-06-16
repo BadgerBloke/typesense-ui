@@ -3,7 +3,7 @@
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
-import { CollectionType } from '~/app/(private-pages)/collections/components/schema';
+import { CollectionType } from '~/app/(private)/collections/components/schema';
 import { DocumentsDataType } from '~/lib/interfaces/table-data-type';
 import { client } from '~/lib/services/typesense';
 import { Message } from '~/lib/utils/message-handler';

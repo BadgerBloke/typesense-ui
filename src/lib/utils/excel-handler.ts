@@ -1,7 +1,7 @@
 import { read, utils } from 'xlsx';
 import { z } from 'zod';
 
-import { CollectionType } from '~/app/(private-pages)/collections/components/schema';
+import { CollectionType } from '~/app/(private)/collections/components/schema';
 import { dispatchToast } from '~/lib/utils/message-handler';
 
 import { jsonToZodSchema } from './renderer/json-to-zod-schema';

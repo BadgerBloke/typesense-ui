@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { CollectionType } from '~/app/(private-pages)/collections/components/schema';
+import { CollectionType } from '~/app/(private)/collections/components/schema';
 
 import { jsonToZodSchema } from './renderer/json-to-zod-schema';
 import { dispatchToast } from './message-handler';

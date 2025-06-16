@@ -12,6 +12,8 @@
 }
 
 :root {
+    --brand-gradient: linear-gradient(to top left, #fc4a1a, #f7b733);
+
     --background: oklch(0.9232 0.0026 48.7171);
     --foreground: oklch(0.2795 0.0368 260.031);
     --card: oklch(0.9699 0.0013 106.4238);
@@ -31,11 +33,11 @@
     --border: oklch(0.8687 0.0043 56.366);
     --input: oklch(0.8687 0.0043 56.366);
     --ring: oklch(0.5886 0.2252 27.7948);
-    --chart-1: oklch(0.7501 0.0721 18.9006);
-    --chart-2: oklch(0.6716 0.1191 20.7078);
-    --chart-3: oklch(0.6362 0.1648 22.9731);
-    --chart-4: oklch(0.5422 0.1956 26.7705);
-    --chart-5: oklch(0.4815 0.1976 29.2339);
+    --chart-1: oklch(0.7965 0.0879 41.0323);
+    --chart-2: oklch(0.6895 0.1658 39.7811);
+    --chart-3: oklch(0.6748 0.208 38.0091);
+    --chart-4: oklch(0.5823 0.1952 36.2229);
+    --chart-5: oklch(0.4176 0.1355 37.2772);
     --sidebar: oklch(0.8687 0.0043 56.366);
     --sidebar-foreground: oklch(0.2795 0.0368 260.031);
     --sidebar-primary: oklch(0.6716 0.1191 20.7078);
@@ -59,6 +61,8 @@
 }
 
 .dark {
+    --brand-gradient: linear-gradient(to top left, #fc4a1a, #f7b733);
+
     --background: oklch(0.2244 0.0074 67.437);
     --foreground: oklch(0.9288 0.0126 255.5078);
     --card: oklch(0.2801 0.008 59.3379);
@@ -78,11 +82,11 @@
     --border: oklch(0.3359 0.0077 59.4197);
     --input: oklch(0.3359 0.0077 59.4197);
     --ring: oklch(0.5886 0.2252 27.7948);
-    --chart-1: oklch(0.6406 0.0599 18.8495);
-    --chart-2: oklch(0.6716 0.1191 20.7078);
-    --chart-3: oklch(0.6362 0.1648 22.9731);
-    --chart-4: oklch(0.5422 0.1956 26.7705);
-    --chart-5: oklch(0.4815 0.1976 29.2339);
+    --chart-1: oklch(0.7965 0.0879 41.0323);
+    --chart-2: oklch(0.6895 0.1658 39.7811);
+    --chart-3: oklch(0.6748 0.208 38.0091);
+    --chart-4: oklch(0.5823 0.1952 36.2229);
+    --chart-5: oklch(0.4176 0.1355 37.2772);
     --sidebar: oklch(0.3359 0.0077 59.4197);
     --sidebar-foreground: oklch(0.9288 0.0126 255.5078);
     --sidebar-primary: oklch(0.6362 0.1648 22.9731);
@@ -106,6 +110,8 @@
 }
 
 @theme inline {
+    --gradient: var(--brand-gradient);
+
     --color-background: var(--background);
     --color-foreground: var(--foreground);
     --color-card: var(--card);

@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { IconFileDownload } from '@tabler/icons-react';
 
-import { CollectionType } from '~/app/(private-pages)/collections/components/schema';
+import { CollectionType } from '~/app/(private)/collections/components/schema';
 import Typography from '~/components/atoms/typography';
 import ValidationErrorTable from '~/components/atoms/validation-error-table';
 import Dropzone from '~/components/organisms/dropzone';

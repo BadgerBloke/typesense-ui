@@ -35,7 +35,7 @@ const SheetSide = ({
                     {children}
                     <Separator className="my-1" />
                     <div className="my-5 ml-4 flex flex-wrap items-center gap-5">
-                        <Link className={buttonVariants()} href="/sign-in">
+                        <Link className={buttonVariants()} href="/auth/sign-in">
                             Log in
                         </Link>
                     </div>

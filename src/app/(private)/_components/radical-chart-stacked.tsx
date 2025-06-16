@@ -8,11 +8,11 @@ import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '
 const chartConfig = {
     total: {
         label: 'Total',
-        color: 'hsl(var(--chart-1))',
+        color: 'var(--chart-1)',
     },
     consumed: {
         label: 'Consumed',
-        color: 'hsl(var(--chart-2))',
+        color: 'var(--chart-2)',
     },
 } satisfies ChartConfig;
 
@@ -23,7 +23,7 @@ interface RadicalChartStackedProps {
     label?: { value: string; text: string };
 }
 
-export const RadicalChartStacked: React.FC<RadicalChartStackedProps> = ({ chartData, title, description, label }) => {
+const RadicalChartStacked: React.FC<RadicalChartStackedProps> = ({ chartData, title, description, label }) => {
     return (
         <Card className="flex flex-col">
             <CardHeader className="items-center pb-0">
@@ -84,3 +84,5 @@ export const RadicalChartStacked: React.FC<RadicalChartStackedProps> = ({ chartD
         </Card>
     );
 };
+
+export default RadicalChartStacked;

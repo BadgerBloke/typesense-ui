@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { FieldsType } from '~/app/(private-pages)/collections/components/schema';
+import { FieldsType } from '~/app/(private)/collections/components/schema';
 
 export const jsonToZodSchema = (fields: FieldsType) => {
     const schemaShape: Record<string, z.ZodTypeAny> = {};

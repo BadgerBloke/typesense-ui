@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { IconCirclePlus, IconDeviceFloppy, IconRotateClockwise2 } from '@tabler/icons-react';
 
-import { Locales } from '~/app/(private-pages)/collections/components/constant';
+import { Locales } from '~/app/(private)/collections/components/constant';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '~/components/ui/accordion';
 import { Button, buttonVariants } from '~/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '~/components/ui/card';

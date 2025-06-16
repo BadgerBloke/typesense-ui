@@ -19,7 +19,7 @@ interface BarChartMixedProps {
 const BarChartMixed: React.FC<BarChartMixedProps> = ({ chartData, title, description, layout = 'horizontal' }) => {
     const chartConfig: { [x: string]: { label: string; color?: string } } = {} satisfies ChartConfig;
     const revisedChartData = chartData.map((d, i) => {
-        chartConfig[d!.category] = { label: d!.category.fromCamelToSpaceSeparated(), color: `hsl(var(--chart-${i + 1}))` };
+        chartConfig[d!.category] = { label: d!.category.fromCamelToSpaceSeparated(), color: `var(--chart-${i + 1})` };
         return { ...d, fill: `var(--color-${d!.category})` };
     });
     return (

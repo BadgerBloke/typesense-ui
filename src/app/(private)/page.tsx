@@ -6,9 +6,9 @@ import Typography from '~/components/atoms/typography';
 import { client } from '~/lib/services/typesense';
 import { bytesToMB } from '~/lib/utils';
 
-import BarChartMixed from './components/bar-chart-mixed';
-import PieChartDonutActive from './components/pie-chart-donut-active';
-import { RadicalChartStacked } from './components/radical-chart-stacked';
+import BarChartMixed from './_components/bar-chart-mixed';
+import PieChartDonutActive from './_components/pie-chart-donut-active';
+import RadicalChartStacked from './_components/radical-chart-stacked';
 
 const HomePage = async () => {
     const [health, metrics] = await Promise.all([client.health.retrieve(), client.metrics.retrieve()]);

@@ -1,4 +1,5 @@
 'use client';
+
 import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { FieldType } from 'typesense/lib/Typesense/Collection';

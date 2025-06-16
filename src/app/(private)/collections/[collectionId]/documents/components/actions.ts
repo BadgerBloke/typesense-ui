@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { isRedirectError } from 'next/dist/client/components/redirect-error';
 import { redirect } from 'next/navigation';
 
-import { FieldsType } from '~/app/(private-pages)/collections/components/schema';
+import { FieldsType } from '~/app/(private)/collections/components/schema';
 import { client } from '~/lib/services/typesense';
 import { Message } from '~/lib/utils/message-handler';
 import { jsonToZodSchema } from '~/lib/utils/renderer/json-to-zod-schema';
