@@ -9,6 +9,11 @@ String.prototype.toCamelCase = function (): string {
         .join('');
 };
 
+String.prototype.toSentenceCase = function (): string {
+    const firstLetter = this.charAt(0).toUpperCase();
+    return firstLetter + this.slice(1).toLowerCase().replace(/-/g, ' ');
+};
+
 String.prototype.slugify = function (): string {
     return this.toLowerCase()
         .trim()

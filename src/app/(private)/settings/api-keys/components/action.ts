@@ -1,6 +1,7 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 import { KeySchema } from 'typesense/lib/Typesense/Key';
 
 import { client } from '~/lib/services/typesense';
@@ -16,9 +17,7 @@ export type State = {
         expires_at?: string[] | undefined;
         autodelete?: string[] | undefined;
     };
-    pathname: string;
     data?: KeySchema;
-    isResponse: boolean;
 };
 
 export const createAPIKey = async (state: State, formData: FormData) => {
@@ -32,19 +31,10 @@ export const createAPIKey = async (state: State, formData: FormData) => {
     if (!validationResult.success)
         return {
             error: validationResult.error?.flatten().fieldErrors,
-            pathname: state.pathname,
-            isResponse: true,
         };
 
-    if (!validationResult.data.expires_at) {
-        delete validationResult.data.expires_at;
-    }
-    if (!validationResult.data.autodelete) {
-        delete validationResult.data.autodelete;
-    }
-    console.log(validationResult.data);
     const keys = await client.keys().create(validationResult.data);
-    return { data: keys, pathname: state.pathname, error: {}, isResponse: true };
+    redirect(`/settings/api-keys/add/success?message=${keys.value}`);
 };
 
 export const deleteAPIKey = async (state: {

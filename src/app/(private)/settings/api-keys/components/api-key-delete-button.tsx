@@ -1,6 +1,7 @@
 'use client';
 
-import { useFormState, useFormStatus } from 'react-dom';
+import { useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
 
 import { IconLoader2, IconTrash } from '@tabler/icons-react';
 
@@ -11,7 +12,7 @@ import { deleteAPIKey } from './action';
 
 const ApiKeyDeleteButton = ({ apiKeyId }: { apiKeyId: number }) => {
     const { pending } = useFormStatus();
-    const [state, formAction] = useFormState(deleteAPIKey, { isResponse: false, apiKeyId, error: {}, success: false });
+    const [state, formAction] = useActionState(deleteAPIKey, { isResponse: false, apiKeyId, error: {}, success: false });
 
     if (state.isResponse) {
         if (state.success) {

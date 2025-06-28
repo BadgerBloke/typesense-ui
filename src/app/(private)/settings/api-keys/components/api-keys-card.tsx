@@ -62,9 +62,9 @@ const ApiKeysCard = async () => {
                                 <TableCell className="hidden sm:table-cell">
                                     <Badge
                                         className="text-xs"
-                                        variant={key.expires_at && key.expires_at > Date.now() ? 'default' : 'secondary'}
+                                        variant={key.expires_at && key.expires_at < Date.now() ? 'secondary' : 'default'}
                                     >
-                                        {key.expires_at && key.expires_at > Date.now() ? 'Active' : 'Expired'}
+                                        {key.expires_at && key.expires_at < Date.now() ? 'Expired' : 'Active'}
                                     </Badge>
                                 </TableCell>
                                 <TableCell>

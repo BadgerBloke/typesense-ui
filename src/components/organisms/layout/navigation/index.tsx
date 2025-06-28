@@ -34,7 +34,7 @@ const Navigation: React.FC<{
     const routeSegments = pathname.split('/');
     const collectionId = useMemo(
         () =>
-            routeSegments.length > 2 && routeSegments[1] === 'collections'
+            routeSegments.length > 2 && routeSegments[1] === 'collections' && routeSegments[2] !== 'add'
                 ? decodeURIComponent(routeSegments[2])
                 : undefined,
         [routeSegments]

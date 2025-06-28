@@ -3,6 +3,7 @@ declare global {
         formattedDate(): string;
         slugify(): string;
         toCamelCase(): string;
+        toSentenceCase(): string;
         fromCamelToSpaceSeparated(): string;
         fromSnakeToSentenceCase(preserveCaseSubstrings?: string[]): string;
         dotNotedToReadable(): string;
