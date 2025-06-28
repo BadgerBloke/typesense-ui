@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import clsx from 'clsx';
@@ -31,11 +31,14 @@ const Navigation: React.FC<{
     const [open, setOpen] = useState(false);
     const router = useRouter();
     const pathname = usePathname();
-    const collection = pathname.split('/')[2] ?? '';
-    const collectionId =
-        collection && collection !== 'add' && pathname.split('/')[1] === 'collections'
-            ? decodeURIComponent(collection)
-            : undefined;
+    const routeSegments = pathname.split('/');
+    const collectionId = useMemo(
+        () =>
+            routeSegments.length > 2 && routeSegments[1] === 'collections'
+                ? decodeURIComponent(routeSegments[2])
+                : undefined,
+        [routeSegments]
+    );
     return (
         <div className="flex flex-col w-full">
             <Header
@@ -75,7 +78,7 @@ const Navigation: React.FC<{
                                         <div className="p-1 pl-2">
                                             <Select
                                                 onValueChange={e => router.push(`/collections/${e}`)}
-                                                value={collection}
+                                                value={collectionId}
                                                 disabled={!collections.length}
                                             >
                                                 <SelectTrigger>
@@ -101,10 +104,10 @@ const Navigation: React.FC<{
                                         </div>
                                         <div className="mx-4 flex flex-col gap-1 border-l border-muted">
                                             {menu.children?.map(e =>
-                                                collection ? (
+                                                collectionId ? (
                                                     <Link
                                                         key={`${menu.path}-${e.path}`}
-                                                        href={e.href.templateStringToValue({ collectionId: collection })}
+                                                        href={e.href.templateStringToValue({ collectionId })}
                                                         className={cn(
                                                             buttonVariants({ variant: 'ghost' }),
                                                             clsx({
@@ -201,7 +204,7 @@ const Navigation: React.FC<{
                                         <div className="p-1 pl-2">
                                             <Select
                                                 onValueChange={e => router.push(`/collections/${e}`)}
-                                                value={collection}
+                                                value={collectionId}
                                                 disabled={!collections.length}
                                             >
                                                 <SelectTrigger>
@@ -227,10 +230,10 @@ const Navigation: React.FC<{
                                         </div>
                                         <div className="mx-4 flex flex-col gap-1 border-l border-muted">
                                             {menu.children?.map(e =>
-                                                collection ? (
+                                                collectionId ? (
                                                     <Link
                                                         key={`${menu.path}-${e.path}`}
-                                                        href={e.href.templateStringToValue({ collectionId: collection })}
+                                                        href={e.href.templateStringToValue({ collectionId })}
                                                         className={cn(
                                                             buttonVariants({ variant: 'ghost' }),
                                                             clsx({

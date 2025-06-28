@@ -1,5 +1,5 @@
 'use client';
-import { useActionState, useState } from 'react';
+import { Fragment, useActionState, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { format } from 'date-fns';
@@ -9,17 +9,18 @@ import { CollectionSchema } from 'typesense/lib/Typesense/Collection';
 import { CalendarIcon, CopyIcon, ListBulletIcon } from '@radix-ui/react-icons';
 
 import Typography from '~/components/atoms/typography';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '~/components/ui/accordion';
+import { Accordion } from '~/components/ui/accordion';
 import { Button, buttonVariants } from '~/components/ui/button';
 import { Calendar } from '~/components/ui/calendar';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '~/components/ui/card';
 import { Checkbox } from '~/components/ui/checkbox';
+import { CheckboxTree } from '~/components/ui/checkbox-tree';
 import { Input } from '~/components/ui/input';
 import { Label } from '~/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '~/components/ui/popover';
 import { Switch } from '~/components/ui/switch';
 import { API_ACTIONS } from '~/lib/constants/api-actions';
-import { cn, slugify } from '~/lib/utils';
+import { cn } from '~/lib/utils';
 import { dispatchToast } from '~/lib/utils/message-handler';
 
 import { createAPIKey, State } from './action';
@@ -87,7 +88,7 @@ const ApiKeyCreationCard = ({ collections }: { collections: CollectionSchema[] }
                         </div>
                         <div className="flex flex-col gap-3">
                             <Label htmlFor="expires_at">Key validity</Label>
-                            <input name="expires_at" value={expiresAt?.getTime()} readOnly hidden />
+                            <input name="expires_at" value={expiresAt?.getTime() ?? ''} readOnly hidden />
                             <Popover>
                                 <PopoverTrigger asChild>
                                     <Button
@@ -106,7 +107,6 @@ const ApiKeyCreationCard = ({ collections }: { collections: CollectionSchema[] }
                                 <PopoverContent className="w-auto p-0" align="start">
                                     <Calendar
                                         mode="single"
-                                        showYearSwitcher
                                         selected={expiresAt}
                                         onSelect={e => setExpiresAt(e)}
                                         disabled={(date: Date) => date < new Date() || date > new Date('2035-01-01')}
@@ -167,36 +167,26 @@ const ApiKeyCreationCard = ({ collections }: { collections: CollectionSchema[] }
                         <Typography variant="small">
                             Select <Typography variant="code">actions</Typography> scope
                         </Typography>
-                        {(state as State).error.actions ? (
-                            <Typography variant="small" className="text-rose-500">
-                                {(state as State).error.actions}
-                            </Typography>
-                        ) : null}
-                        <Accordion
-                            type="multiple"
-                            className="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 bg-muted/50 rounded-lg"
-                        >
-                            {Object.keys(API_ACTIONS).map(action => (
-                                <AccordionItem key={slugify(action)} value={action} className="flex flex-col gap-3">
-                                    <AccordionTrigger className="px-4 justify-between hover:no-underline radix-state-open:bg-muted/50 rounded-md hover:bg-muted/25">
-                                        <Typography variant="small">{action}</Typography>
-                                    </AccordionTrigger>
-                                    <AccordionContent className="px-4">
-                                        {API_ACTIONS[action].map(ac => (
-                                            <div key={ac.value} className="flex items-center space-x-2 my-3">
-                                                <Checkbox id={ac.value} value={ac.value} name="actions" />
-                                                <Label
-                                                    htmlFor={ac.value}
-                                                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                                >
-                                                    {ac.label}
-                                                </Label>
-                                            </div>
-                                        ))}
-                                    </AccordionContent>
-                                </AccordionItem>
-                            ))}
-                        </Accordion>
+                        <div className="space-y-3">
+                            <CheckboxTree
+                                tree={API_ACTIONS}
+                                renderNode={({ node, isChecked, onCheckedChange, children }) => (
+                                    <Fragment key={`${API_ACTIONS.id}-${node.id}`}>
+                                        <div className="flex items-center gap-2">
+                                            <Checkbox
+                                                id={`${API_ACTIONS.id}-${node.id}`}
+                                                checked={isChecked}
+                                                onCheckedChange={onCheckedChange}
+                                                name="actions"
+                                                value={node.id}
+                                            />
+                                            <Label htmlFor={`${API_ACTIONS.id}-${node.id}`}>{node.label}</Label>
+                                        </div>
+                                        {children && <div className="ms-6 space-y-3">{children}</div>}
+                                    </Fragment>
+                                )}
+                            />
+                        </div>
                     </div>
                 </CardContent>
                 <CardFooter className="border-t px-6 py-4 space-y-6 flex-col items-start">
