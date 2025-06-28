@@ -111,7 +111,7 @@ const ApiKeysCard = async () => {
                     <br />
                     Create your first scoped API Key to start the journey.
                 </p>
-                <Link href="/settings/api-keys/add" className={buttonVariants()}>
+                <Link href="/settings/api-keys/add" className={cn(buttonVariants(), 'mt-6')}>
                     Create API Key
                 </Link>
             </div>

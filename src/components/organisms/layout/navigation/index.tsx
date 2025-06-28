@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import clsx from 'clsx';
 
 import { Cross1Icon, HamburgerMenuIcon } from '@radix-ui/react-icons';
@@ -9,6 +9,8 @@ import { Cross1Icon, HamburgerMenuIcon } from '@radix-ui/react-icons';
 import Breadcrumb from '~/components/molecules/breadcrumb';
 import { Button, buttonVariants } from '~/components/ui/button';
 import { ScrollArea } from '~/components/ui/scroll-area';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select';
+import { SheetClose, SheetDescription, SheetHeader, SheetTitle } from '~/components/ui/sheet';
 import { SIDE_NAV_MENUS } from '~/lib/constants/navigation-menus';
 import { cn } from '~/lib/utils';
 
@@ -27,8 +29,9 @@ const Navigation: React.FC<{
     collections: SelectData[];
 }> = ({ children, collections }) => {
     const [open, setOpen] = useState(false);
+    const router = useRouter();
     const pathname = usePathname();
-    const collection = pathname.split('/')[2];
+    const collection = pathname.split('/')[2] ?? '';
     const collectionId =
         collection && collection !== 'add' && pathname.split('/')[1] === 'collections'
             ? decodeURIComponent(collection)
@@ -41,20 +44,92 @@ const Navigation: React.FC<{
                 className="sticky top-0 max-w-full bg-background/50 backdrop-blur-md sm:px-4"
             />
             <div className="flex w-full">
-                <nav className="sticky top-[4.75rem] flex h-[calc(100dvh-4.75rem)] mt-1 w-fit max-w-xs flex-col lg:min-w-[220px]">
+                <nav className="sticky top-[4.75rem] flex h-[calc(100dvh-4.75rem)] mt-1 w-fit max-w-xs flex-col xl:min-w-[220px]">
                     {/* Desktop Navigation Bar */}
-                    <ScrollArea className="hidden h-[calc(100dvh-4.75rem)] mt-1 px-2 lg:block">
+                    <ScrollArea className="hidden h-[calc(100dvh-4.75rem)] mt-1 px-2 xl:block">
                         <div className="flex flex-col gap-2">
                             {SIDE_NAV_MENUS.map(menu =>
-                                menu.children ? (
+                                menu.children && menu.path !== 'collections' ? (
                                     <NavAccordion
                                         key={menu.path}
                                         item={menu}
                                         pathname={pathname}
                                         onClick={() => setOpen(false)}
-                                        collectionId={collectionId}
-                                        collections={collections}
                                     />
+                                ) : menu.path === 'collections' ? (
+                                    <div className="flex flex-col gap-2 mx-4" key={menu.path}>
+                                        <Link
+                                            key={menu.path}
+                                            href={menu.href}
+                                            onClick={() => setOpen(false)}
+                                            className={cn(
+                                                buttonVariants({ variant: 'ghost' }),
+                                                clsx({
+                                                    'bg-muted/50': pathname.includes(menu.path),
+                                                }),
+                                                'justify-start no-underline -ml-4'
+                                            )}
+                                        >
+                                            <menu.icon className="mr-2 h-5 w-5" /> {menu.text}
+                                        </Link>
+                                        <div className="p-1 pl-2">
+                                            <Select
+                                                onValueChange={e => router.push(`/collections/${e}`)}
+                                                value={collection}
+                                                disabled={!collections.length}
+                                            >
+                                                <SelectTrigger>
+                                                    <SelectValue
+                                                        placeholder={
+                                                            collections.length
+                                                                ? 'Select a collection'
+                                                                : 'No collection found'
+                                                        }
+                                                    />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {collections.map(collection => (
+                                                        <SelectItem
+                                                            key={collection.value.slugify()}
+                                                            value={collection.value}
+                                                        >
+                                                            {collection.label}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                        <div className="mx-4 flex flex-col gap-1 border-l border-muted">
+                                            {menu.children?.map(e =>
+                                                collection ? (
+                                                    <Link
+                                                        key={`${menu.path}-${e.path}`}
+                                                        href={e.href.templateStringToValue({ collectionId: collection })}
+                                                        className={cn(
+                                                            buttonVariants({ variant: 'ghost' }),
+                                                            clsx({
+                                                                'bg-muted/50': e.path
+                                                                    .split('.')
+                                                                    .every(segment => pathname.includes(segment)),
+                                                            }),
+                                                            'justify-start rounded-l-none'
+                                                        )}
+                                                    >
+                                                        {e.text}
+                                                    </Link>
+                                                ) : (
+                                                    <Button
+                                                        variant="ghost"
+                                                        disabled
+                                                        key={`${menu.path}-${e.path}`}
+                                                        className="justify-start rounded-l-none"
+                                                    >
+                                                        {e.text}
+                                                    </Button>
+                                                )
+                                            )}
+                                        </div>
+                                    </div>
                                 ) : (
                                     <Link
                                         key={menu.path}
@@ -68,7 +143,7 @@ const Navigation: React.FC<{
                                                         ? pathname === menu.path
                                                         : menu.path.split('.').every(segment => pathname.includes(segment)),
                                             }),
-                                            'justify-start no-underline'
+                                            'justify-start no-underline pl-4 mr-4'
                                         )}
                                     >
                                         <menu.icon className="mr-2 h-5 w-5" /> {menu.text}
@@ -94,35 +169,114 @@ const Navigation: React.FC<{
                             </Button>
                         }
                     >
+                        <SheetHeader className="sr-only">
+                            <SheetTitle>Navigation Menu</SheetTitle>
+                            <SheetDescription>Navigate to the desired section</SheetDescription>
+                        </SheetHeader>
                         <div className="flex flex-col gap-2">
                             {SIDE_NAV_MENUS.map(menu =>
-                                menu.children ? (
+                                menu.children && menu.path !== 'collections' ? (
                                     <NavAccordion
                                         key={menu.path}
                                         item={menu}
                                         pathname={pathname}
                                         onClick={() => setOpen(false)}
-                                        collectionId={collectionId}
-                                        collections={collections}
                                     />
+                                ) : menu.path === 'collections' ? (
+                                    <div className="flex flex-col gap-2 mx-4" key={menu.path}>
+                                        <Link
+                                            key={menu.path}
+                                            href={menu.href}
+                                            onClick={() => setOpen(false)}
+                                            className={cn(
+                                                buttonVariants({ variant: 'ghost' }),
+                                                clsx({
+                                                    'bg-muted/50': pathname.includes(menu.path),
+                                                }),
+                                                'justify-start no-underline -ml-4'
+                                            )}
+                                        >
+                                            <menu.icon className="mr-2 h-5 w-5" /> {menu.text}
+                                        </Link>
+                                        <div className="p-1 pl-2">
+                                            <Select
+                                                onValueChange={e => router.push(`/collections/${e}`)}
+                                                value={collection}
+                                                disabled={!collections.length}
+                                            >
+                                                <SelectTrigger>
+                                                    <SelectValue
+                                                        placeholder={
+                                                            collections.length
+                                                                ? 'Select a collection'
+                                                                : 'No collection found'
+                                                        }
+                                                    />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {collections.map(collection => (
+                                                        <SelectItem
+                                                            key={collection.value.slugify()}
+                                                            value={collection.value}
+                                                        >
+                                                            {collection.label}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                        <div className="mx-4 flex flex-col gap-1 border-l border-muted">
+                                            {menu.children?.map(e =>
+                                                collection ? (
+                                                    <Link
+                                                        key={`${menu.path}-${e.path}`}
+                                                        href={e.href.templateStringToValue({ collectionId: collection })}
+                                                        className={cn(
+                                                            buttonVariants({ variant: 'ghost' }),
+                                                            clsx({
+                                                                'bg-muted/50': e.path
+                                                                    .split('.')
+                                                                    .every(segment => pathname.includes(segment)),
+                                                            }),
+                                                            'justify-start rounded-l-none'
+                                                        )}
+                                                    >
+                                                        {e.text}
+                                                    </Link>
+                                                ) : (
+                                                    <Button
+                                                        variant="ghost"
+                                                        disabled
+                                                        key={`${menu.path}-${e.path}`}
+                                                        className="justify-start rounded-l-none"
+                                                    >
+                                                        {e.text}
+                                                    </Button>
+                                                )
+                                            )}
+                                        </div>
+                                    </div>
                                 ) : (
-                                    <Link
-                                        key={menu.path}
-                                        href={menu.href}
-                                        onClick={() => setOpen(false)}
-                                        className={cn(
-                                            buttonVariants({ variant: 'ghost' }),
-                                            clsx({
-                                                'bg-muted/50':
-                                                    menu.path === '/'
-                                                        ? pathname === menu.path
-                                                        : menu.path.split('.').every(segment => pathname.includes(segment)),
-                                            }),
-                                            'justify-start no-underline'
-                                        )}
-                                    >
-                                        <menu.icon className="mr-2 h-5 w-5" /> {menu.text}
-                                    </Link>
+                                    <SheetClose asChild key={menu.path}>
+                                        <Link
+                                            href={menu.href}
+                                            onClick={() => setOpen(false)}
+                                            className={cn(
+                                                buttonVariants({ variant: 'ghost' }),
+                                                clsx({
+                                                    'bg-muted/50':
+                                                        menu.path === '/'
+                                                            ? pathname === menu.path
+                                                            : menu.path
+                                                                  .split('.')
+                                                                  .every(segment => pathname.includes(segment)),
+                                                }),
+                                                'justify-start no-underline'
+                                            )}
+                                        >
+                                            <menu.icon className="mr-2 h-5 w-5" /> {menu.text}
+                                        </Link>
+                                    </SheetClose>
                                 )
                             )}
                         </div>

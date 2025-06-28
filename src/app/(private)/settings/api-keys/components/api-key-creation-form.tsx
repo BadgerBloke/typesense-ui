@@ -1,9 +1,9 @@
 'use client';
-import { useState } from 'react';
+import { useActionState, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { format } from 'date-fns';
-import { useFormState, useFormStatus } from 'react-dom';
+import { useFormStatus } from 'react-dom';
 import { CollectionSchema } from 'typesense/lib/Typesense/Collection';
 
 import { CalendarIcon, CopyIcon, ListBulletIcon } from '@radix-ui/react-icons';
@@ -27,7 +27,7 @@ import { createAPIKey, State } from './action';
 const ApiKeyCreationCard = ({ collections }: { collections: CollectionSchema[] }) => {
     const [expiresAt, setExpiresAt] = useState<Date>();
     const pathname = usePathname();
-    const [state, formAction] = useFormState(createAPIKey, { error: {}, pathname, isResponse: false });
+    const [state, formAction] = useActionState(createAPIKey, { error: {}, pathname, isResponse: false });
 
     if (state.isResponse) {
         if (state.data) {

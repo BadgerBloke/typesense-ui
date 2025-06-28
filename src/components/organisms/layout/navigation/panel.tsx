@@ -4,10 +4,6 @@ import Logo from '~/components/molecules/logo';
 import { ScrollArea } from '~/components/ui/scroll-area';
 import { Sheet, SheetClose, SheetContent } from '~/components/ui/sheet';
 
-const SHEET_SIDES = ['top', 'right', 'bottom', 'left'] as const;
-
-type SheetSide = (typeof SHEET_SIDES)[number];
-
 const SheetSide = ({
     children,
     trigger,

@@ -3,7 +3,10 @@ import { client } from '~/lib/services/typesense';
 
 const PagesLayout: React.FC<{ children: React.ReactNode }> = async ({ children }) => {
     const collections = await client.collections().retrieve();
-    const data = collections.map(collection => ({ label: collection.name, value: collection.name }));
+    const data = collections.map(collection => ({
+        label: collection.name.fromSnakeToSentenceCase(['and']),
+        value: collection.name,
+    }));
     return (
         <div className="flex w-full">
             <Navigation collections={data}>{children}</Navigation>
