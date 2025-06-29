@@ -157,33 +157,6 @@ const ApiKeyCreationCard = ({ collectionsPromise }: { collectionsPromise: Promis
                     </div>
                 </CardContent>
                 <CardFooter className="border-t px-6 py-4 space-y-6 items-start">
-                    {/*     {state.data ? ( */}
-                    {/*         <div className="flex flex-col gap-4 rounded-lg py-4 bg-muted w-full items-center"> */}
-                    {/*             <Typography variant="small">Description: {state.data.description}</Typography> */}
-                    {/*             <Typography variant="small"> */}
-                    {/*                 Expires at: {state.data.expires_at ? format(state.data.expires_at, 'PPP') : 'No expiry'} */}
-                    {/*             </Typography> */}
-                    {/*             <div className="flex flex-col gap-3"> */}
-                    {/*                 <div className="flex gap-3 items-center"> */}
-                    {/*                     API Key: <Typography variant="code">{state.data.value}</Typography> */}
-                    {/*                     <Button */}
-                    {/*                         type="button" */}
-                    {/*                         size="icon" */}
-                    {/*                         variant="secondary" */}
-                    {/*                         onClick={() => { */}
-                    {/*                             navigator.clipboard.writeText(state.data.value || ''); */}
-                    {/*                             dispatchToast({ type: 'success', message: 'Key copied to clipboard' }); */}
-                    {/*                         }} */}
-                    {/*                     > */}
-                    {/*                         <CopyIcon className="h-4 w-4" /> */}
-                    {/*                     </Button> */}
-                    {/*                 </div> */}
-                    {/*                 <Typography variant="small" className="bg-rose-200 rounded-md py-1 px-2 text-rose-500"> */}
-                    {/*                     Warning: This key will not be shown again. */}
-                    {/*                 </Typography> */}
-                    {/*             </div> */}
-                    {/*         </div> */}
-                    {/*     ) : null} */}
                     <SubmitButton />
                 </CardFooter>
             </form>

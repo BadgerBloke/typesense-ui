@@ -9,6 +9,7 @@ import { cn } from '~/lib/utils';
 import { CollectionType } from '../../components/schema';
 
 import DocumentsDataTable from './components/data-table';
+import DocumentsExportButton from './components/export-documents-button';
 
 const DocumentsPage = async ({ params }: { params: Promise<{ collectionId: string }> }) => {
     const { collectionId } = await params;
@@ -19,13 +20,16 @@ const DocumentsPage = async ({ params }: { params: Promise<{ collectionId: strin
 
     return (
         <div className="flex flex-col gap-6 w-full">
-            <div className="flex flex-1 gap-4 p-4 md:gap-8 md:p-10">
+            <div className="flex flex-1 gap-4 p-4 md:gap-8 md:p-10 justify-between">
                 <Typography variant="h1" className="text-3xl font-semibold">
                     Documents
                 </Typography>
-                <Link href="documents/add" className={cn(buttonVariants(), 'w-fit ml-auto')}>
-                    Create document
-                </Link>
+                <div className="flex items-center gap-2">
+                    <DocumentsExportButton collectionId={collectionId} />
+                    <Link href="documents/add" className={cn(buttonVariants(), 'w-fit')}>
+                        Create document
+                    </Link>
+                </div>
             </div>
             {documents.found ? (
                 <DocumentsDataTable

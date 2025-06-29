@@ -5,6 +5,7 @@ import { isRedirectError } from 'next/dist/client/components/redirect-error';
 import { redirect } from 'next/navigation';
 
 import { FieldsType } from '~/app/(private)/collections/components/schema';
+import { TYPESENSE } from '~/lib/config';
 import { client } from '~/lib/services/typesense';
 import { Message } from '~/lib/utils/message-handler';
 import { jsonToZodSchema } from '~/lib/utils/renderer/json-to-zod-schema';
@@ -64,5 +65,45 @@ export const searchDocuments = async ({
             .search({ q, query_by: queryBy }, { cacheSearchResultsForSeconds: 0 });
     } catch {
         return;
+    }
+};
+
+type ExportDocumentsResponse =
+    | {
+          success: true;
+          data: string;
+          filename: string;
+      }
+    | {
+          success: false;
+          error: string;
+      };
+
+export const exportDocuments = async ({ collectionId }: { collectionId: string }): Promise<ExportDocumentsResponse> => {
+    try {
+        const response = await fetch(`${TYPESENSE.url}/collections/${collectionId}/documents/export`, {
+            method: 'GET',
+            headers: {
+                'X-TYPESENSE-API-KEY': TYPESENSE.apiKey,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.text();
+
+        const timestamp = new Date().toLocaleString().replace(/[/, :.]+/g, '-');
+        return {
+            success: true,
+            data,
+            filename: `documents-export-${collectionId}-${timestamp}.jsonl`,
+        };
+    } catch (error) {
+        return {
+            success: false,
+            error: error instanceof Error ? error.message : 'Unknown error occurred',
+        };
     }
 };

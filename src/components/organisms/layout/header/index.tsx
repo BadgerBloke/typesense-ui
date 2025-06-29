@@ -113,40 +113,6 @@ const Header = ({
                     {/* <ModeToggle /> */}
                 </div>
             </div>
-
-            {/* Mobile Navigation Bar */}
-            {/* <Pannel
-                onClick={() => setOpen(false)}
-                open={isOpen}
-                trigger={
-                    <Button variant="outline" size="icon" className="ml-auto xl:hidden" onClick={() => setOpen(false)}>
-                        {isOpen ? <Cross1Icon className="h-4 w-4" /> : <HamburgerMenuIcon className="h-4 w-4" />}
-                    </Button>
-                }
-            >
-                <div className="flex flex-col gap-2">
-                    {headerMenu(channelId)?.map(menu =>
-                        menu.children ? (
-                            <NavAccordion key={uuid()} item={menu} onClick={() => setOpen(false)} pathname={pathname} />
-                        ) : (
-                            <SheetClose asChild key={uuid()}>
-                                <Link
-                                    href={menu.href}
-                                    className={cn(
-                                        buttonVariants({ variant: 'ghost' }),
-                                        clsx({
-                                            'bg-muted/50': pathname === menu.href,
-                                        }),
-                                        'justify-start no-underline'
-                                    )}
-                                >
-                                    <menu.icon className="mr-2 h-5 w-5" /> {menu.text}
-                                </Link>
-                            </SheetClose>
-                        )
-                    )}
-                </div>
-            </Pannel> */}
         </header>
     );
 };

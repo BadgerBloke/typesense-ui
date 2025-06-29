@@ -1,5 +1,3 @@
-// import Image from 'next/image';
-
 import { CheckCircledIcon, CrossCircledIcon } from '@radix-ui/react-icons';
 
 import Typography from '~/components/atoms/typography';

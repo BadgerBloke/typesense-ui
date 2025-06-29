@@ -56,6 +56,12 @@ export const SIDE_NAV_MENUS: Array<SideNavMenuType> = [
                 path: 'curation',
                 havePage: true,
             },
+            {
+                href: '/collections/{{collectionId}}/documents/delete',
+                text: 'Delete documents',
+                path: 'delete-documents',
+                havePage: true,
+            },
         ],
     },
     {

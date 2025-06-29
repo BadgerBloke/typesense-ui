@@ -13,7 +13,7 @@ import '~/lib/utils/string-extensions';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-    title: 'Typesense UI',
+    title: { default: 'Typesense UI', template: '%s | Typesense UI' },
     description: 'Typesense UI is a free and open-source UI for Typesense, the open-source, typo-tolerant search engine.',
 };
 

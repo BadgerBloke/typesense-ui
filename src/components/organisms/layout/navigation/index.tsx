@@ -115,7 +115,7 @@ const Navigation: React.FC<{
                                                                     .split('.')
                                                                     .every(segment => pathname.includes(segment)),
                                                             }),
-                                                            'justify-start rounded-l-none'
+                                                            'justify-start rounded-l-none whitespace-nowrap'
                                                         )}
                                                     >
                                                         {e.text}
