@@ -1,22 +1,37 @@
 'use server';
 
+import { redirect } from 'next/navigation';
+
+import { parseWithZod } from '@conform-to/zod/v4';
+
 import { client } from '~/lib/services/typesense';
 
-import { deleteByIdSchema } from './schema';
+import { deleteByIdSchema, deleteByQuerySchema } from './schema';
 
 interface State {
-    success: boolean;
     collectionId: string;
 }
 
-export const deleteById = async ({ collectionId }: State, formData: FormData) => {
-    const result = deleteByIdSchema.safeParse(Object.fromEntries(formData));
-    if (!result.success) {
-        const flattenedIssues = result.error.flatten(issue => issue.message);
-        return { success: false, collectionId, error: flattenedIssues.fieldErrors };
+export const deleteById = async (prevState: unknown, formData: FormData) => {
+    const { collectionId } = prevState as State;
+    const result = parseWithZod(formData, { schema: deleteByIdSchema });
+    if (result.status !== 'success') {
+        return result.reply();
     }
 
-    console.log({ collectionId, id: result.data.id });
-    await client.collections(collectionId).documents(result.data.id).delete();
-    return { success: true, collectionId };
+    const res = await client.collections(collectionId).documents(result.value.id).delete();
+    return (res as { id: string }).id === result.value.id
+        ? redirect(`/collections/${collectionId}/documents`)
+        : { collectionId };
+};
+
+export const deleteByQuery = async (prevState: unknown, formData: FormData) => {
+    const { collectionId } = prevState as State;
+    const result = parseWithZod(formData, { schema: deleteByQuerySchema });
+    if (result.status !== 'success') {
+        return result.reply();
+    }
+
+    const res = await client.collections(collectionId).documents().delete(result.value);
+    return res.num_deleted ? redirect(`/collections/${collectionId}/documents`) : { collectionId };
 };

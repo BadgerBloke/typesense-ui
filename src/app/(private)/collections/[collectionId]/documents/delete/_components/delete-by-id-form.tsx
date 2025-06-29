@@ -3,7 +3,9 @@
 import { useActionState } from 'react';
 import { useParams } from 'next/navigation';
 
-import Form from '~/components/form-elements/form';
+import { SubmissionResult, useForm } from '@conform-to/react';
+import { parseWithZod } from '@conform-to/zod/v4';
+
 import FormInput from '~/components/form-elements/input';
 import SubmitButton from '~/components/form-elements/submit';
 
@@ -12,12 +14,20 @@ import { deleteByIdSchema } from './schema';
 
 const DeleteByIDForm = () => {
     const { collectionId } = useParams<{ collectionId: string }>();
-    const [, formAction] = useActionState(deleteById, { success: false, collectionId });
+    const [lastResult, formAction] = useActionState(deleteById, { collectionId });
+    const [form, fields] = useForm({
+        lastResult: lastResult as SubmissionResult,
+        onValidate({ formData }) {
+            return parseWithZod(formData, { schema: deleteByIdSchema });
+        },
+        shouldValidate: 'onBlur',
+        shouldRevalidate: 'onInput',
+    });
     return (
-        <Form schema={deleteByIdSchema} action={formAction}>
-            <FormInput label="Document id" name="id" placeholder="Enter a document id" />
+        <form id={form.id} onSubmit={form.onSubmit} noValidate action={formAction} className="flex flex-col w-full gap-4">
+            <FormInput field={fields.id} label="Document id" placeholder="Enter a document id" />
             <SubmitButton>Delete</SubmitButton>
-        </Form>
+        </form>
     );
 };
 
