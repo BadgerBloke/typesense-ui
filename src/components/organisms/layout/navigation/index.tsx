@@ -125,7 +125,7 @@ const Navigation: React.FC<{
                                                         variant="ghost"
                                                         disabled
                                                         key={`${menu.path}-${e.path}`}
-                                                        className="justify-start rounded-l-none"
+                                                        className="justify-start rounded-l-none whitespace-nowrap"
                                                     >
                                                         {e.text}
                                                     </Button>

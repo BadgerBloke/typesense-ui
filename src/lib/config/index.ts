@@ -10,6 +10,7 @@ export const TYPESENSE = {
     timeoutSeconds: Number(process.env.TYPESENSE_CONNECTION_TIMEOUT_SECONDS),
     healthPath: String(process.env.TYPESENSE_HEALTH_PATH),
     apiKey: String(process.env.TYPESENSE_API_KEY),
+    version: String(process.env.TYPESENSE_VERSION),
     getHealthCheckUrl: function () {
         return `${this.url}${this.healthPath}`;
     },

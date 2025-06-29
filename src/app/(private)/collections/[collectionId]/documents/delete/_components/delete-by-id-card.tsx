@@ -1,5 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/components/ui/card';
 
+import DeleteByIDForm from './delete-by-id-form';
+
 const DeleteByIDCard = () => {
     return (
         <Card className="w-full">
@@ -9,7 +11,7 @@ const DeleteByIDCard = () => {
             </CardHeader>
             <CardContent>
                 <div className="flex w-full flex-col gap-4">
-                    Read the docs for more information on available filter_by options.
+                    <DeleteByIDForm />
                 </div>
             </CardContent>
         </Card>
