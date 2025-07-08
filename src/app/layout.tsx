@@ -2,6 +2,7 @@ import './globals.css';
 
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { SessionProvider } from 'next-auth/react';
 
 import NativeExtensionsProvider from '~/components/providers/native-extensions-provider';
 import ThemeProvider from '~/components/providers/theme-provider';
@@ -21,12 +22,14 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <html lang="en" className="dark" style={{ colorScheme: 'dark' }}>
             <body className={cn(inter.className, 'flex flex-col min-h-svh antialiased')}>
-                <NativeExtensionsProvider>
-                    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-                        <Toaster richColors />
-                        {children}
-                    </ThemeProvider>
-                </NativeExtensionsProvider>
+                <SessionProvider>
+                    <NativeExtensionsProvider>
+                        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+                            <Toaster richColors />
+                            {children}
+                        </ThemeProvider>
+                    </NativeExtensionsProvider>
+                </SessionProvider>
             </body>
         </html>
     );

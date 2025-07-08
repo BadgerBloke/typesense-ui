@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     description: 'Sign in to your Typesense account.',
 };
 
-const LoginPage = () => {
+const LoginPage = async () => {
     return (
         <div className="flex w-screen items-center justify-center h-svh flex-col px-4">
             <LoginForm />

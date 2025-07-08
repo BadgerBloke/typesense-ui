@@ -3,13 +3,14 @@ import { Dispatch, SetStateAction } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
-import { v4 as uuid } from 'uuid';
 
 import { Cross1Icon, HamburgerMenuIcon } from '@radix-ui/react-icons';
 
+import SignOutButton from '~/app/auth/_components/sign-out';
+import SignedIn from '~/app/auth/_components/signed-in';
+import SignedOut from '~/app/auth/_components/signed-out';
 import Typography from '~/components/atoms/typography';
 import Logo from '~/components/molecules/logo';
-// import ModeToggle from '~/components/molecules/mode-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar';
 import { Button, buttonVariants } from '~/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '~/components/ui/dropdown-menu';
@@ -21,24 +22,17 @@ import {
     navigationMenuTriggerStyle,
 } from '~/components/ui/navigation-menu';
 import { Separator } from '~/components/ui/separator';
-// import { SheetClose } from '~/components/ui/sheet';
-import { IAM } from '~/lib/config';
 import { headerMenu } from '~/lib/constants/header-menus';
-import { UserData } from '~/lib/interfaces/user';
 import { cn } from '~/lib/utils';
 
-// import NavAccordion from './nav-accordion';
 import NavMenuDropdown from './nav-dropdown';
-// import Pannel from './pannel';
 
 const Header = ({
-    userData,
     channelId,
     className,
     isOpen,
     setOpen,
 }: {
-    userData?: UserData;
     channelId?: string;
     className?: string;
     isOpen: boolean;
@@ -66,9 +60,9 @@ const Header = ({
                     <NavigationMenuList>
                         {headerMenu(channelId)?.map(menu =>
                             menu.children ? (
-                                <NavMenuDropdown key={uuid()} menu={menu} />
+                                <NavMenuDropdown key={menu.path} menu={menu} />
                             ) : (
-                                <NavigationMenuItem key={uuid()} className="w-full" asChild>
+                                <NavigationMenuItem key={menu.path} className="w-full" asChild>
                                     <NavigationMenuLink href={menu.href} className={navigationMenuTriggerStyle()}>
                                         {menu.text}
                                     </NavigationMenuLink>
@@ -79,37 +73,38 @@ const Header = ({
                 </NavigationMenu>
 
                 <div className="ml-auto flex flex-wrap items-center gap-5 xl:mt-0">
-                    {userData ? (
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Avatar className="cursor-pointer">
-                                    <AvatarImage src="" />
-                                    <AvatarFallback>
-                                        {userData.given_name.charAt(0) + (userData.family_name?.charAt(0) || '')}
-                                    </AvatarFallback>
-                                </Avatar>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                                {/* <DropdownMenuItem> */}
-                                <Typography variant="p">{userData.name}</Typography>
-                                {/* </DropdownMenuItem> */}
-                                {/* <DropdownMenuItem> */}
-                                <Typography variant="muted">{userData.email}</Typography>
-                                <Separator className="my-1" />
-                                {/* </DropdownMenuItem> */}
-                                <DropdownMenuItem
-                                    asChild
-                                    className="cursor-pointer bg-destructive text-destructive-foreground"
-                                >
-                                    <a href={`${IAM.baseUrl}/api/logout`}>Logout</a>
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    ) : (
+                    <SignedIn>
+                        {({ session: { user } }) => (
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Avatar className="cursor-pointer">
+                                        <AvatarImage src={user?.image ?? ''} />
+                                        <AvatarFallback>{user?.name?.charAt(0)}</AvatarFallback>
+                                    </Avatar>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                    {/* <DropdownMenuItem> */}
+                                    <Typography variant="p">{user?.name}</Typography>
+                                    {/* </DropdownMenuItem> */}
+                                    {/* <DropdownMenuItem> */}
+                                    <Typography variant="muted">{user?.email}</Typography>
+                                    <Separator className="my-1" />
+                                    {/* </DropdownMenuItem> */}
+                                    <DropdownMenuItem
+                                        asChild
+                                        className="cursor-pointer bg-destructive text-destructive-foreground"
+                                    >
+                                        <SignOutButton />
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        )}
+                    </SignedIn>
+                    <SignedOut>
                         <Link className={buttonVariants()} href={`/auth/sign-in?callback=${pathname}`}>
                             Log in
                         </Link>
-                    )}
+                    </SignedOut>
                     {/* <ModeToggle /> */}
                 </div>
             </div>
