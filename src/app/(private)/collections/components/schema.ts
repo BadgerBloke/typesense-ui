@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod/v3';
 
 import { DataType, Locales } from './constant';
 
@@ -10,18 +10,17 @@ export const FieldsSchema = z
         z.object({
             _id: z.string().uuid().optional(),
             name: z
-                .string({ required_error: 'Name is required' })
+                .string({ message: 'Name is required' })
                 .min(1, 'Name must be minimum 1 characters long.')
                 .max(36, 'Name cannot be longer than 36 characters'),
             type: z.enum([dataTypes[0], ...dataTypes.slice(1)], {
-                required_error: 'Type is required',
-                invalid_type_error: 'Select an option',
+                message: 'Type is required',
             }),
             facet: z.boolean().default(false).optional(),
             index: z.boolean().default(false).optional(),
             optional: z.boolean().default(false).optional(),
             stem: z.boolean().default(false).optional(),
-            locale: z.enum([locales[0], ...locales.slice(1), ''], { invalid_type_error: 'Select valid option' }).optional(),
+            locale: z.enum([locales[0], ...locales.slice(1), ''], { message: 'Select valid option' }).optional(),
             drop: z.boolean().optional(),
         })
     )
@@ -30,7 +29,7 @@ export const FieldsSchema = z
 export const CollectionSchema = z
     .object({
         name: z
-            .string({ required_error: 'Name is required' })
+            .string({ message: 'Name is required' })
             .min(2, 'Name must be minimum 2 characters long.')
             .max(25, 'Name cannot be longer than 25 characters'),
         fields: FieldsSchema,

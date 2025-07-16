@@ -171,7 +171,7 @@ const OverridesIngestionForm = ({
                                                                         <Select
                                                                             onValueChange={field.onChange}
                                                                             defaultValue={
-                                                                                field.value || MatchEnum.Enum.exact
+                                                                                field.value || MatchEnum.enum.exact
                                                                             }
                                                                         >
                                                                             <FormControl>
@@ -181,7 +181,7 @@ const OverridesIngestionForm = ({
                                                                             </FormControl>
                                                                             <SelectContent className="w-36">
                                                                                 {zodEnumToSelectData(
-                                                                                    Object.values(MatchEnum.Enum)
+                                                                                    Object.values(MatchEnum.enum)
                                                                                 ).map(match => (
                                                                                     <SelectItem
                                                                                         key={match.value}

@@ -1,5 +1,5 @@
 import { read, utils } from 'xlsx';
-import { z } from 'zod';
+import { z } from 'zod/v3';
 
 import { CollectionType } from '~/app/(private)/collections/components/schema';
 import { dispatchToast } from '~/lib/utils/message-handler';

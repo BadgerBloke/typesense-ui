@@ -132,10 +132,10 @@ export const OverridesSchema = z
             if (data.customMetadata) {
                 if (data.metadata) {
                     try {
-                        const schema = z.record(z.union([z.string(), z.number()]));
+                        const schema = z.record(z.string(), z.union([z.string(), z.number()]));
                         const result = schema.safeParse(JSON.parse(data.metadata.convertToJson()));
                         return result.success;
-                    } catch (error) {
+                    } catch {
                         return false;
                     }
                 }

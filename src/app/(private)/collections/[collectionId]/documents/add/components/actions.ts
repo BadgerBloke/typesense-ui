@@ -1,7 +1,7 @@
 'use server';
 
 import { redirect } from 'next/navigation';
-import { z } from 'zod';
+import { z } from 'zod/v3';
 
 import { CollectionType } from '~/app/(private)/collections/components/schema';
 import { DocumentsDataType } from '~/lib/interfaces/table-data-type';

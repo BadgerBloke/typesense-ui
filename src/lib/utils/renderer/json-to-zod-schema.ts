@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod/v3';
 
 import { FieldsType } from '~/app/(private)/collections/components/schema';
 
@@ -39,10 +39,10 @@ export const jsonToZodSchema = (fields: FieldsType) => {
                 fieldSchema = z.array(z.union([z.number(), z.string().transform(parseFloat)]));
                 break;
             case 'object':
-                fieldSchema = z.record(z.union([z.string(), z.number()])); // TODO: value type can be different.
+                fieldSchema = z.record(z.string(), z.union([z.string(), z.number()])); // TODO: value type can be different.
                 break;
             case 'object[]':
-                fieldSchema = z.array(z.record(z.union([z.string(), z.number()]))); // TODO: value type can be different.
+                fieldSchema = z.array(z.record(z.string(), z.union([z.string(), z.number()]))); // TODO: value type can be different.
                 break;
             case 'geopoint':
                 fieldSchema = z.array(z.string().transform(parseFloat)).length(2);
