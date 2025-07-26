@@ -1,7 +1,6 @@
-import Image from 'next/image';
-
-import { Button } from '~/components/ui/button';
 import { signIn } from '~/lib/auth';
+
+import Button from './button';
 
 export const KeycloakSignInButton = async ({ callbackUrl }: { callbackUrl?: string }) => {
     const keycloakId = process.env.AUTH_KEYCLOAK_ID;
@@ -13,15 +12,8 @@ export const KeycloakSignInButton = async ({ callbackUrl }: { callbackUrl?: stri
                 await signIn('keycloak', { redirectTo: callbackUrl ?? '/' });
             }}
         >
-            <Button type="submit">
-                <Image
-                    src="https://authjs.dev/img/providers/keycloak.svg"
-                    alt="Okta"
-                    width={20}
-                    height={20}
-                    className="mr-2"
-                />
-                Signin with Keycloak
+            <Button src="https://authjs.dev/img/providers/keycloak.svg" alt="Keycloak">
+                Sign in with Keycloak
             </Button>
         </form>
     ) : null;
@@ -37,9 +29,8 @@ export const OktaSignInButton = async ({ callbackUrl }: { callbackUrl?: string }
                 await signIn('okta', { redirectTo: callbackUrl ?? '/' });
             }}
         >
-            <Button type="submit">
-                <Image src="https://authjs.dev/img/providers/okta.svg" alt="Okta" width={20} height={20} className="mr-2" />
-                Signin with Okta
+            <Button src="https://authjs.dev/img/providers/okta.svg" alt="Okta">
+                Sign in with Okta
             </Button>
         </form>
     ) : null;
