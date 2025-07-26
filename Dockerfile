@@ -1,5 +1,5 @@
 # syntax=docker.io/docker/dockerfile:1
-FROM oven/bun:1.2.4-alpine AS base
+FROM oven/bun:1.2.19-alpine AS base
 # 1. Install dependencies only when needed
 FROM base AS deps
 # Install libc6-compat for compatibility
@@ -13,14 +13,6 @@ FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-
-# Define a build arg for the env file path
-ARG ENV_FILE=.env.production
-# Copy the specified env file to .env.production
-COPY ${ENV_FILE} .env.production
-
-# Note: We've removed the COPY line for .env.production here
-# The environment file will be mounted as a volume at runtime
 
 RUN bun run build
 # 3. Production image, copy all the files and run the app

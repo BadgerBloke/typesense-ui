@@ -16,11 +16,6 @@ export const TYPESENSE = {
     },
 };
 
-export const CLIENT = {
-    host: String(process.env.NEXT_PUBLIC_HOST_URL),
-    domain: String(process.env.CLIENT_DOMAIN),
-};
-
 export const COOKIES = {
     authorization: 'Authorization',
     refresh: 'Refresh',
