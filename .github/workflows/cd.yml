@@ -25,6 +25,11 @@ jobs:
                   username: ${{ secrets.DOCKERHUB_USERNAME }}
                   password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
+            - name: setup Bun
+              uses: oven-sh/setup-bun@v1
+              with:
+                  bun-version: latest
+
             - name: Build and push multi-arch image
               uses: docker/build-push-action@v4
               with:
