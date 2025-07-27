@@ -98,6 +98,8 @@ Whichever authentication providers' environment variables are set only those wil
 
 You can check the `.env-example` file for the environment variables.
 
+[!login](./public/images/login.png)
+
 ---
 
 ## 🌐 Production Deployment
@@ -123,17 +125,26 @@ docker build -t typesense-ui .
 - Dashboard
   [!dashboard](./public/images/dashboard.png)
 
+- Create New Collection
+  [!create collection](./public/images/add-collection.png)
+
+- Collections List
+  [!collections](./public/images/collections.png)
+
 - Documents List
   [!documents](./public/images/documents.png)
 
 - Index Document
   [!add document](./public/images/add-document.png)
 
-- Create New Collection
-  [!create collection](./public/images/add-collection.png)
+- Delete Documents
+  [!delete documents](./public/images/delete-documents.png)
 
-- Settings
-  [!settings - page](./public/images/settings.png)
+- Synonyms List
+  [!synonyms](./public/images/synonyms.png)
+
+- Curation List
+  [!curation](./public/images/curation.png)
 
 - Crete API Key
-  [!create api key](./public/images/create-api-key.png)
+  [!create api key](./public/images/add-api-key.png)

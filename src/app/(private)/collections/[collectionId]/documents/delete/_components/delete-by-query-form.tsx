@@ -27,7 +27,7 @@ const DeleteByQueryForm = () => {
 
     return (
         <form id={form.id} onSubmit={form.onSubmit} noValidate action={formAction} className="flex flex-col w-full gap-4">
-            <FormInput field={fields.filter_by} label="Document id" placeholder="Enter a document id" />
+            <FormInput field={fields.filter_by} label="Deletion query" placeholder="field>=1" />
             <Typography variant="muted">
                 Read the{' '}
                 <a

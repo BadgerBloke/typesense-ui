@@ -25,7 +25,7 @@ const DeleteByIDForm = () => {
     });
     return (
         <form id={form.id} onSubmit={form.onSubmit} noValidate action={formAction} className="flex flex-col w-full gap-4">
-            <FormInput field={fields.id} label="Document id" placeholder="Enter a document id" />
+            <FormInput field={fields.id} label="Document id" placeholder="111" />
             <SubmitButton>Delete</SubmitButton>
         </form>
     );
