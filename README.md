@@ -1,10 +1,8 @@
-# Typesense UI (Alpha) [Typesense v26.0 Compatible](https://typesense.org/docs/26.0/api/)
+# Typesense UI (Beta) [Typesense v26.0 Compatible](https://typesense.org/docs/26.0/api/)
 
 An OpenSource user interface for Typesense self-hosted instance.
 
-## All the available features are compatible with Typesense version 26.0
-
-## Welcome to the typesense-ui wiki
+> All the available features are compatible with Typesense version 26.0
 
 ## Start Locally
 
@@ -63,21 +61,52 @@ here as well._
 #### Step 3: Install NextJS dependencies
 
 ```bash
-pnpm i
+bun i
 ```
 
-_In case you are not using `pnpm` then delete `pnpm-lock.yaml` and run the
+_In case you are not using `bun` then delete `bun.lockb` and run the
 dependencies installation command accordingly._
 
 #### Step 4: Start the App
 
 ```bash
-pnpm dev
+bun dev
 ```
 
-_Run the command according to your package manager if not using `pnpm`_
+_Run the command according to your package manager if not using `bun`_
 
 #### Step 5: Visit [http://localhost:3000](http://localhost:3000)
+
+---
+
+## Authentication
+
+Currently, there is two authentication providers supported.
+
+- Keycloak
+- Okta
+
+If you want any other authentication provider to be supported, then you can raise a feature request [here](https://github.com/BadgerBloke/typesense-ui/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=)
+
+Whichever authentication providers' environment variables are set only those will appear on the login page.
+
+You can check the `.env-example` file for the environment variables.
+
+---
+
+## Production Deployment
+
+Download the latest release code from [here](https://github.com/BadgerBloke/typesense-ui/releases/latest) and then extract the files.
+
+Set the proper environment variables either in `.env` or make it available in
+the environment by exporting the variables. Now, you can build the docker image
+using following command and then use the same.
+
+> The point is that for self-hosting this NextJS app, you can use this Dockerfile to build the image.
+
+```bash
+docker build -t typesense-ui .
+```
 
 ---
 
