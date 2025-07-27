@@ -4,7 +4,7 @@ An OpenSource user interface for Typesense self-hosted instance.
 
 > All the available features are compatible with Typesense version 26.0
 
-## Start Locally
+## 🧑🏻‍💻 Start Locally
 
 ### Start Typesense Server
 
@@ -79,7 +79,7 @@ _Run the command according to your package manager if not using `bun`_
 
 ---
 
-## Authentication
+## 🔐 Authentication
 
 Currently, there is two authentication providers supported.
 
@@ -94,7 +94,7 @@ You can check the `.env-example` file for the environment variables.
 
 ---
 
-## Production Deployment
+## 🌐 Production Deployment
 
 Download the latest release code from [here](https://github.com/BadgerBloke/typesense-ui/releases/latest) and then extract the files.
 
