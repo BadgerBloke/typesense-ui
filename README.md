@@ -134,9 +134,6 @@ docker build -t typesense-ui .
 - Documents List
   ![documents](./public/images/documents.png)
 
-- Index Document
-  ![add document](./public/images/add-document.png)
-
 - Delete Documents
   ![delete documents](./public/images/delete-documents.png)
 
