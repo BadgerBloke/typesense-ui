@@ -6,11 +6,11 @@ An OpenSource user interface for Typesense self-hosted instance.
 
 Table of Contents
 
-- 🧑🏻‍💻 [Start Locally](#-start-locally)
+- 🧑🏻‍💻 [Development](#-development)
 - 🔐 [Authentication](#-authentication)
 - 🌐 [Production Deployment](#-production-deployment)
 
-## 🧑🏻‍💻 Start Locally
+## 🧑🏻‍💻 Development
 
 ### Start Typesense Server
 
