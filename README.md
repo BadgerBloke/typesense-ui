@@ -98,7 +98,7 @@ Whichever authentication providers' environment variables are set only those wil
 
 You can check the `.env-example` file for the environment variables.
 
-[!login](./public/images/login.png)
+[!login](https://github.com/BadgerBloke/typesense-ui/blob/trunk/public/images/login.png)
 
 ---
 
@@ -123,28 +123,28 @@ docker build -t typesense-ui .
 > ### Example pages
 
 - Dashboard
-  [!dashboard](./public/images/dashboard.png)
+  [!dashboard](https://github.com/BadgerBloke/typesense-ui/blob/trunk/public/images/dashboard.png)
 
 - Create New Collection
-  [!create collection](./public/images/add-collection.png)
+  [!create collection](https://github.com/BadgerBloke/typesense-ui/blob/trunk/public/images/add-collection.png)
 
 - Collections List
-  [!collections](./public/images/collections.png)
+  [!collections](https://github.com/BadgerBloke/typesense-ui/blob/trunk/public/images/collections.png)
 
 - Documents List
-  [!documents](./public/images/documents.png)
+  [!documents](https://github.com/BadgerBloke/typesense-ui/blob/trunk/public/images/documents.png)
 
 - Index Document
-  [!add document](./public/images/add-document.png)
+  [!add document](https://github.com/BadgerBloke/typesense-ui/blob/trunk/public/images/add-document.png)
 
 - Delete Documents
-  [!delete documents](./public/images/delete-documents.png)
+  [!delete documents](https://github.com/BadgerBloke/typesense-ui/blob/trunk/public/images/delete-documents.png)
 
 - Synonyms List
-  [!synonyms](./public/images/synonyms.png)
+  [!synonyms](https://github.com/BadgerBloke/typesense-ui/blob/trunk/public/images/synonyms.png)
 
 - Curation List
-  [!curation](./public/images/curation.png)
+  [!curation](https://github.com/BadgerBloke/typesense-ui/blob/trunk/public/images/curation.png)
 
 - Crete API Key
-  [!create api key](./public/images/add-api-key.png)
+  [!create api key](https://github.com/BadgerBloke/typesense-ui/blob/trunk/public/images/add-api-key.png)
