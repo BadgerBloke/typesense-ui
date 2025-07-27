@@ -4,6 +4,12 @@ An OpenSource user interface for Typesense self-hosted instance.
 
 > All the available features are compatible with Typesense version 26.0
 
+Table of Contents
+
+- [🧑🏻‍💻 Start Locally](#-start-locally)
+- [🔐 Authentication](#-authentication)
+- [🌐 Production Deployment](#-production-deployment)
+
 ## 🧑🏻‍💻 Start Locally
 
 ### Start Typesense Server
